@@ -52,7 +52,8 @@ author:
   github    : "chipdelmal" # "user_name" the last part of your profile url, e.g. https://github.com/user_name
   npm       : # "user_name" the last part of your profile url, e.g. https://www.npmjs.com/~user_name
   researchgate: "Hector-Sanchez-Castellanos"
-
+  googlescholar: "OeOYQqEAAAAJ"
+  
 ## => GitHub Repository (if the site is hosted by GitHub)
 ##############################
 repository: Chipdelmal/Chipdelmal.github.io

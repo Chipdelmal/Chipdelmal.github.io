@@ -99,6 +99,13 @@
         </a>
       </li>
     {%- endif -%}
+    {%- if _author.googlescholar-%}
+    <li title="{{ _locale_string_follow | replace: '[NAME]', 'googlescholar' }}">
+      <a class="button button--circle npm" itemprop="sameAs" href="https://scholar.google.com/citations?hl=en&user={{ _author.googlescholar }}" target="_blank">
+        <div class="icon">{%- include svg/icon/social/googlescholar.svg -%}</div>
+      </a>
+    </li>
+  {%- endif -%}
 
     {%- if _author.github -%}
       <li title="{{ _locale_string_follow | replace: '[NAME]', 'Github' }}">
@@ -117,12 +124,13 @@
     {%- endif -%}
 
     {%- if _author.researchgate-%}
-    <li title="{{ _locale_string_follow | replace: '[NAME]', 'researchgate' }}">
-      <a class="button button--circle rg-button" itemprop="sameAs" href="https://www.researchgate.net/profile/{{ _author.researchgate }}" target="_blank">
-        <div class="icon">{%- include svg/icon/social/rg.svg -%}</div>
-      </a>
-    </li>
-  {%- endif -%}
+      <li title="{{ _locale_string_follow | replace: '[NAME]', 'researchgate' }}">
+        <a class="button button--circle rg-button" itemprop="sameAs" href="https://www.researchgate.net/profile/{{ _author.researchgate }}" target="_blank">
+          <div class="icon">{%- include svg/icon/social/rg.svg -%}</div>
+        </a>
+      </li>
+    {%- endif -%}
+
 
   </ul>
 </div>
