@@ -26,7 +26,19 @@ header:
 
   - titles:
       # @start locale config
-      en      : &EN       About
+      en      : &EN       Research
+      # @end locale config
+    url: /research.html
+
+  - titles:
+      # @start locale config
+      en      : &EN       ArtSci
+      # @end locale config
+    url: /artsci.html
+
+  - titles:
+      # @start locale config
+      en      : &EN       About Me
       en-GB   : *EN
       en-US   : *EN
       en-CA   : *EN

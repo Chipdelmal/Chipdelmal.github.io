@@ -1,16 +1,16 @@
 ---
-title: ML Pop Art
+title: Artstyle Transfer "Pop Art"
 tags: ML ArtSci Mathematica
-header:
-  theme: dark
-  background: '#333'
 article_header:
-  type: cover
-  image:
+  type: overlay
+  theme: dark
+  background_image:
+    gradient: 'linear-gradient(135deg, rgba(0, 0, 0 , .4), rgba(139, 34, 139, .4))'
     src: /media/pp_fender.jpg
+cover: /media/pp_fender.jpg
 ---
 
-Doing Pop Art with Machine Learning artstyle transfer.
+Testing out stuff
 
 <!--more-->
 
