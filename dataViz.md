@@ -1,8 +1,8 @@
 ---
 layout: articles
-title: ArtSci
+title: DataViz
 articles:
-  data_source: site.artsci
+  data_source: site.dataViz
   type: grid
   size: sm
 ---

@@ -78,8 +78,8 @@
 
     {%- if _author.zhihu -%}
       <li title="{{ _locale_string_follow | replace: '[NAME]', 'Zhihu' }}">
-        <a class="button button--circle zhihu-button" itemprop="sameAs" href="https://www.zhihu.com/people/{{ _author.zhihu }}" target="_blank">
-          <div class="icon">{%- include svg/icon/social/zhihu.svg -%}</div>
+        <a class="button button--circle zhihu-button" itemprop="sameAs" href="https://www.researchgate.net/profile/{{ _author.zhihu }}" target="_blank">
+          <div class="icon">{%- include svg/icon/social/researchgate.svg -%}</div>
         </a>
       </li>
     {%- endif -%}
@@ -115,6 +115,14 @@
         </a>
       </li>
     {%- endif -%}
+
+    {%- if _author.researchgate-%}
+    <li title="{{ _locale_string_follow | replace: '[NAME]', 'researchgate' }}">
+      <a class="button button--circle rg-button" itemprop="sameAs" href="https://www.researchgate.net/profile/{{ _author.researchgate }}" target="_blank">
+        <div class="icon">{%- include svg/icon/social/rg.svg -%}</div>
+      </a>
+    </li>
+  {%- endif -%}
 
   </ul>
 </div>

@@ -51,7 +51,7 @@ author:
   linkedin  : # "user_name" the last part of your profile url, e.g. https://www.linkedin.com/in/user_name
   github    : "chipdelmal" # "user_name" the last part of your profile url, e.g. https://github.com/user_name
   npm       : # "user_name" the last part of your profile url, e.g. https://www.npmjs.com/~user_name
-
+  researchgate: "Hector-Sanchez-Castellanos"
 
 ## => GitHub Repository (if the site is hosted by GitHub)
 ##############################
@@ -242,10 +242,30 @@ defaults:
       show_subscribe: true
       pageview: true
       lightbox: true
+  - scope:
+      path: ""
+      type: dataViz
+    values:
+      layout: article
+      sharing: true
+      license: true
+      category: post
+      aside:
+        toc: true
+      show_edit_on_github: true
+      show_subscribe: true
+      pageview: true
+      lightbox: true
+
 
 collections:
   research:
     output: true
+  artsci:
+    output: true
+  dataViz:
+    output: true
+
 
 ## => Plugins
 ##############################

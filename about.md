@@ -31,3 +31,9 @@ For a list of my scientific publications please take a look at my [ResearchGate 
 
 
 <p style="text-align:center;"><img src="https://avatars.githubusercontent.com/u/684756?s=400&u=7571d63b136c7774145b065d829e96698aeae05f&v=4" alt="Logo"></p>
+
+<br><br>
+
+<p style="text-align:center;">
+    <a href="https://github-readme-stats.vercel.app/api?username=chipdelmal"><img src="https://github-readme-stats.vercel.app/api/top-langs/?username=chipdelmal&hide=mathematica,html,Jupyter Notebook&layout=compact"></a>
+</p>
