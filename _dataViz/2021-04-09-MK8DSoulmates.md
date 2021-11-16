@@ -6,8 +6,8 @@ article_header:
   theme: dark
   background_image:
     gradient: 'linear-gradient(135deg, rgba(0, 0, 0 , .4), rgba(139, 34, 139, .4))'
-    src: /media/sm_CH.png
-cover: /media/sm_CH.png
+    src: /media/sm/sm_CH.png
+cover: /media/sm/sm_CH.png
 ---
 
 
@@ -19,7 +19,7 @@ I've been playing MK8D with friends for a while now and we decided to have a bit
 
 The first step was to ask everyone to vote in a tiered list. To have the 48 tracks organized in a neat way, we decided to have 8 tiers with 6 tracks each. My own voting ballot looks like this:
 
-<img src="/media/sm_chipdelmal.png" style="width:100%;">
+<img src="/media/sm/sm_chipdelmal.png" style="width:100%;">
 
 ## [Votes Compilation](https://github.com/Chipdelmal/mk8dPalooza/blob/main/votes.py) and [Preprocessing](https://github.com/Chipdelmal/mk8dPalooza/blob/main/preProcess.py)
 
@@ -81,7 +81,7 @@ because these were the votes I assigned to "Mario Kart Stadium", "Water Park", "
 
 With these vectors and distance metric, calculating the distance matrix was straightforward (by iterating through the pair-wise distances of each players' tuples). In addition to this, I created a row-normalized similarity matrix (scaled from 10 to 100) so that it was easier to see who were each person's highest and lowest matches.
 
-<img src="/media/sm_SM.png" style="width:100%;"><img src="/media/sm_RM.png" style="width:100%;">
+<img src="/media/sm/sm_SM.png" style="width:100%;"><img src="/media/sm/sm_RM.png" style="width:100%;">
 
 With these in hand, it's somewhat apparent that there's some clusters that could be calculated more formally.
 
@@ -89,31 +89,31 @@ With these in hand, it's somewhat apparent that there's some clusters that could
 
 As previously mentioned, we were curious to know how we would cluster based on our track preferences. One good way to do this is to generate the dataset's dendrogram, for which we used scipy's linkage and dendrogram functions with the ward distance:
 
-<img src="/media/sm_DN.png" style="width:100%;">
+<img src="/media/sm/sm_DN.png" style="width:100%;">
 
 This is a pretty interesting result, as it neatly lays out what we suspected intuitively from our preferences (as we usually chat amongst ourselves when we're playing, so we have a good idea of which tracks everyone tends to favor). 
 
 Another way to visualize these kind of "linkage" or "flow" dependencies is through a chord diagram:
 
-<img src="/media/sm_CH.png" style="width:100%;">
+<img src="/media/sm/sm_CH.png" style="width:100%;">
 
 Although, in this case, it's a bit more difficult to see the relations between people. It is, nevertheless, possible to see to which persons everyone is more connected to (wider lines).
 ## [Waffle Plots](https://github.com/Chipdelmal/mk8dPalooza/blob/main/waffles.py)
 
 After looking at those results, it was natural to try and make some inferences about the players' archetypes. To do this, a frequency inspection was setup. I wanted to do something new in parallel to doing the traditional bar charts or treemaps, so I generated waffle plots for each one of the tracks.
 
-<img src="/media/sm_LBL_WF_43_Dragon%20Driftway.png" style="width:100%;"><img src="/media/sm_LBL_WF_66_Big%20Blue.png" style="width:100%;">
+<img src="/media/sm/sm_LBL_WF_43_Dragon%20Driftway.png" style="width:100%;"><img src="/media/sm/sm_LBL_WF_66_Big%20Blue.png" style="width:100%;">
 
 This took a bit of fiddling around because I wanted the sizes of the plots to be constants, and the labels to be in the same position for the whole deck, so I created a "padding" number of votes with the maximum frequency (most voted track). These plots were pretty useful as every morning, a track would be revealed to all the participants through one of these waffle plots (from lowest to highest ranked). The full waffles panels looks like this:
 
-<img src="/media/sm_mk8d.png" style="width:100%;">
+<img src="/media/sm/sm_mk8d.png" style="width:100%;">
 
 ## [Interactive Plots](https://github.com/Chipdelmal/mk8dPalooza/blob/main/treemap.py)
 
 Finally, I went ahead and coded plotly versions of a barchart and treemap to make some interactive visualizations (click the images for the full-fledged version).
 
-<a href="/media/sm_barchart.html"><img src="/media/sm_BC.png" style="width:100%;"></a>
-<a href="/media/sm_treemap.html"><img src="/media/sm_TM.png" style="width:100%;"></a>
+<a href="/media/sm/sm_barchart.html"><img src="/media/sm/sm_BC.png" style="width:100%;"></a>
+<a href="/media/sm/sm_treemap.html"><img src="/media/sm/sm_TM.png" style="width:100%;"></a>
 
 # Results
 
