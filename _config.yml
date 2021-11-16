@@ -209,11 +209,11 @@ defaults:
     values:
       layout: article
       sharing: true
-      license: true
+      license: false
       aside:
         toc: true
       show_edit_on_github: true
-      show_subscribe: true
+      show_subscribe: false
       pageview: true
   - scope:
       path: ""
@@ -221,12 +221,12 @@ defaults:
     values:
       layout: article
       sharing: true
-      license: true
+      license: false
       category: post
       aside:
         toc: true
       show_edit_on_github: true
-      show_subscribe: true
+      show_subscribe: false
       pageview: true
       lightbox: true
   - scope:
@@ -235,12 +235,12 @@ defaults:
     values:
       layout: article
       sharing: true
-      license: true
+      license: false
       category: post
       aside:
         toc: true
       show_edit_on_github: true
-      show_subscribe: true
+      show_subscribe: false
       pageview: true
       lightbox: true
   - scope:
@@ -248,13 +248,13 @@ defaults:
       type: dataViz
     values:
       layout: article
-      sharing: true
+      sharing: false
       license: true
       category: post
       aside:
         toc: true
       show_edit_on_github: true
-      show_subscribe: true
+      show_subscribe: false
       pageview: true
       lightbox: true
 
