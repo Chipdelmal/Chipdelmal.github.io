@@ -1,6 +1,6 @@
 ---
 layout: articles
-title: Art & Science
+title: Art ∩ Sci
 articles:
   data_source: site.artsci
   type: grid

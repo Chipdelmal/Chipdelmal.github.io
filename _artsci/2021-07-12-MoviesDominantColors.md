@@ -5,17 +5,18 @@ article_header:
   type: overlay
   theme: dark
   background_image:
-    gradient: 'linear-gradient(135deg, rgba(0, 0, 0 , .4), rgba(139, 34, 139, .4))'
+    gradient: 'linear-gradient(135deg, rgba(0, 0, 0 , .4), rgba(0, 0, 0, .4))'
     src: /media/dc/dc_Nausicaa.png
 cover: /media/dc/dc_Nausicaa.jpg
 ---
 
 
-
-After seeing some posts online on the clustering of dominant colors in movies presented in a very appealing way, I decided to improve upon my original [movies fingerprint algorithm](https://chipdelmal.github.io/blog/posts/colorfingerprint).
+After coming across some posts online on the clustering of dominant colors in movies presented in a very appealing way, I decided to improve upon my original [movies fingerprint algorithm](https://chipdelmal.github.io/blog/posts/colorfingerprint).
 
 
 <!--more-->
+
+# Description
 
 The first thing I realized whilst looking at other persons' implementations was that they tended to focus on one color on each of the sampled movie frames, which simplified the presentation of the results. The second thing, that they presented the results in a more appealing way than I originally did.
 
