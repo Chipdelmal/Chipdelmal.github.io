@@ -1,8 +1,8 @@
 ---
 layout: articles
-title: ArtSci
+title: Art & Science
 articles:
   data_source: site.artsci
   type: grid
-  size: sm
+  size: md
 ---

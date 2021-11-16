@@ -6,24 +6,26 @@ article_header:
   theme: dark
   background_image:
     gradient: 'linear-gradient(135deg, rgba(0, 0, 0 , .4), rgba(139, 34, 139, .4))'
-    src: /media/pp_fender.jpg
-cover: /media/pp_fender.jpg
+    src: /media/pp/pp_fender.jpg
+cover: /media/pp/pp_fender.jpg
 ---
 
-Testing out stuff
+
 
 <!--more-->
 
+# Intro
+
 Some time ago I ran across a [paper](https://arxiv.org/pdf/1508.06576.pdf) describing the machine-learning application of transferring the art-style from a painting into another image. [Mathematica v12](https://www.wolfram.com/language/12/machine-learning-for-images/style-transfer-for-creative-art.html?product=mathematica) includes a built-in command to do this in a single line of code, so I started using it to explore ideas until I had something I liked, which ended up being a "Pop-Art" Machine Learning application for photos.
-
-
 
 # Development
 
 The idea was to take a photo, and then apply different artstyles or textures borrowed from other images onto it, so that we could then take slices from it and arrange them side by side. As an example, we start with this image:
 
-<img src="https://chipdelmal.github.io/blog/uploads/pp_fenderIn.jpg" style="width:100%;">
+<img src="/media/pp/pp_fenderIn.jpg" style="width:100%;">
 
+
+## Step 1: Load and Rescale
 
 Which is loaded by the following code:
 
@@ -47,7 +49,9 @@ styles = ImageResize[#, imagesSize] & /@ stylesRaw;
 
 {% endhighlight %}
 
-<img src="https://chipdelmal.github.io/blog/uploads/pp_styles.jpg" style="width:100%;">
+<img src="/media/pp/pp_styles.jpg" style="width:100%;">
+
+## Step 2: Artstyle Transfer
 
 Then, we apply the art-style transfer process (takes a **really** long time):
 
@@ -69,7 +73,9 @@ Table[
 ,{i, 1, Length[styles]}];
 {% endhighlight %}
 
-<img src="https://chipdelmal.github.io/blog/uploads/pp_grid.jpg" style="width:100%;">
+<img src="/media/pp/pp_grid.jpg" style="width:100%;">
+
+## Step 3: Assemble the pieces
 
 Finally, we put it back together by taking random slices from each of the style-transferred results:
 
@@ -90,13 +96,11 @@ Export["./art/vertical.jpg", merged // ImageAdjust // Sharpen[#, sharpen] &, Ima
 
 And we have our assembled image:
 
-<img src="https://chipdelmal.github.io/blog/uploads/pp_fender.jpg" style="width:100%;">
+<img src="/media/pp/pp_fender.jpg" style="width:100%;">
 
-# Further Thoughts
+# Code Repo
 
 As it stands, the process is extremely inefficient in terms of computation. We don't really need to process the whole image if we are gonna take only one slice at the end. It would also work faster if it was coded in Python with [available packages](https://pypi.org/project/neural-style/).
-
-# Documentation and Code
 
 * Repository: [Github repo](https://github.com/Chipdelmal/styleTransferPopArt)
 * Dependencies:[Mathematica v12](https://www.wolfram.com/language/12/machine-learning-for-images/style-transfer-for-creative-art.html?product=mathematica)

@@ -34,5 +34,5 @@ For a list of my scientific publications please take a look at my [ResearchGate 
 
 <p style="text-align:center;">
   <a href="https://github.com/Chipdelmal/"><img src="https://github-readme-stats.vercel.app/api?username=chipdelmal&count_private=true&show_icons=true&hide=contribs,prs" /></a>
-  <a href="https://github-readme-stats.vercel.app/api?username=chipdelmal"><img src="https://github-readme-stats.vercel.app/api/top-langs/?username=chipdelmal&hide=mathematica,html,Jupyter Notebook&layout=compact"></a>
+  <a href="https://github-readme-stats.vercel.app/api?username=chipdelmal"><img src="https://github-readme-stats.vercel.app/api/top-langs/?username=chipdelmal&hide=mathematica,html,Jupyter Notebook,JavaScript&layout=compact"></a>
 </p>

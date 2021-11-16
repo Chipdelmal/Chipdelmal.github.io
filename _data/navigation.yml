@@ -8,7 +8,7 @@ header:
 
   - titles:
       # @start locale config
-      en      : &EN       DataViz/Analysis
+      en      : &EN       DataSci
       # @end locale config
     url: /dataViz.html
 
