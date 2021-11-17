@@ -12,7 +12,6 @@ cover: /media/px/px_testOut.png
 
 I've been wanting to record a cover of the song "No Suprises" by Radiohead for a while but with some special twist on the video. One of the ideas is to have the video recorded as one shot with a heavily pixelated filter to make it look a bit eerie. Couldn't quite find anything that did the filter in the needed way, so I coded something to have it done.
 
-
 <!--more-->
 
 <img src="/media/px/px_testOut.png" style="width:100%;">
