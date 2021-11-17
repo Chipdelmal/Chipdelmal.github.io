@@ -14,7 +14,7 @@ header:
 
   - titles:
       # @start locale config
-      en      : &EN       Research
+      en      : &EN       Science
       # @end locale config
     url: /research.html
 

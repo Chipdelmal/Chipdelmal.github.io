@@ -1,6 +1,6 @@
 ---
 layout: articles
-title: 'DataSci: Analysis ∪ Visualization'
+title: 'Data Science: Analysis ∪ Visualization'
 articles:
   data_source: site.dataViz
   type: grid

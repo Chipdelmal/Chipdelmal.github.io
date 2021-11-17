@@ -1,6 +1,6 @@
 ---
 layout: articles
-title: Research
+title: Science
 articles:
   data_source: site.research
   show_excerpt: true

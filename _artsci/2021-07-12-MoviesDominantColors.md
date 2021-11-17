@@ -1,13 +1,13 @@
 ---
-title: Dominant Colors (take 2)
+title: "Movies' Dominant Colors"
 tags: clustering artsci color movie video-processing image-processing
 article_header:
   type: overlay
   theme: dark
   background_image:
     gradient: 'linear-gradient(135deg, rgba(0, 0, 0 , .4), rgba(0, 0, 0, .4))'
-    src: /media/dc/dc_Nausicaa.png
-cover: /media/dc/dc_Nausicaa.jpg
+    src: /media/dc/1992_Aladdin.png
+cover: /media/dc/1992_Aladdin.jpg
 ---
 
 

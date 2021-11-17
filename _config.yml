@@ -249,7 +249,7 @@ defaults:
     values:
       layout: article
       sharing: false
-      license: true
+      license: false
       category: post
       aside:
         toc: true
