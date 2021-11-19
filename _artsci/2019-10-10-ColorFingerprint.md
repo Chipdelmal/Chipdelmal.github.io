@@ -1,6 +1,6 @@
 ---
 title: 'Movie Color Fingerprint'
-tags: clustering artsci color movie video-processing image-processing
+tags: clustering artsci color movie video-processing image-processing ffmpeg
 article_header:
   type: overlay
   theme: dark
@@ -10,17 +10,20 @@ article_header:
 cover: /media/cf/back.png
 ---
 
-
-This was the original application of the dominant color detection described in my ["Color Palette Extractor" blog post](https://chipdelmal.github.io/blog/posts/colorpalette). These scripts take a video (a movie, ideally), and extract the dominant colors every *n* frames of the movie, to create a "fingerprint" of the colors used throughout the movie.
-
-
 <!--more-->
 
-<img src="https://chipdelmal.github.io/blog/uploads/cf_nausicaa.jpg" style="width:100%;">
+# Intro
+
+This was the original application of the dominant color detection described in my ["Color Palette Extractor" blog post](./2019-10-27-ColorPalette.html). These scripts take a video (a movie, ideally), and extract the dominant colors every *n* frames of the movie, to create a "fingerprint" of the colors used throughout the movie.
+
+
+<img src="/media/cf/cf_nausicaa.jpg" style="width:100%;">
 
 # Development
 
-The first step was to pre-process the movie to lower the resolution to a more manageable size (mainly to speeup the processing time of the clustering). Even though resizing could potentially have effects on the colors due to compression, we aren't downsizing the video too much. Here's a [snippet of the code](https://github.com/Chipdelmal/moviesColorFingerprint/blob/master/rescaleMovie.py) that does this downsampling by using [ffmpeg](https://www.ffmpeg.org/):
+## Step 1: Re-scaling
+
+The first step was to pre-process the movie to lower the resolution to a more manageable size (mainly to speedup the processing time of the clustering). Even though resizing could potentially have effects on the colors due to compression, we aren't downsizing the video too much. Here's a [snippet of the code](https://github.com/Chipdelmal/moviesColorFingerprint/blob/master/rescaleMovie.py) that does this down-sampling by using [ffmpeg](https://www.ffmpeg.org/):
 
 {% highlight python %}
 # File: rescaleMovie.py
@@ -36,6 +39,8 @@ os.system(
         + OUT_PATH + FILE_NAME
     )
 {% endhighlight %}
+
+## Step 2: Exporting frames
 
 Now, to do the clustering to identify the dominant color of the images, there's two approaches we can take:
 1. Calculate the dominant colors "on-the-fly" by loading the video and going through the frames in memory (more efficient)
@@ -67,9 +72,11 @@ os.system(
     )
 {% endhighlight %}
 
-Which gives us all our files in a folder for further processing in this and other applications (such as ["Color Palette Extractor"](https://chipdelmal.github.io/blog/posts/colorpalette)):
+Which gives us all our files in a folder for further processing in this and other applications (such as ["Color Palette Extractor"](./2019-10-27-ColorPalette.html)):
 
 <img src="https://chipdelmal.github.io/blog/uploads/cf_frames.jpg" style="width:100%;">
+
+## Step 3: Dominant colors
 
 With our images ready, we go on to calculate the clusters of dominant colors with [fingerprint.py](https://github.com/Chipdelmal/moviesColorFingerprint/blob/master/fingerprint.py):
 
@@ -111,7 +118,9 @@ def calculateDominantColors(filepaths, domColNum, maxIter=100):
   return clusters
 {% endhighlight %}
 
-Here, we are iterating through the images in the folder by loading them, converting from BGR to RGB ([opencv](https://pypi.org/project/opencv-python/) loads them in BGR format), reshaping the array to remove one of the dimensions of the image (converting a 2D array of RGB entries, into a 1D vector of RGB rows). Finally, we do the clustering of the colors to obtain the dominant color palette (this process is described in more detail in my other blog post ["Color Palette Extractor"](https://chipdelmal.github.io/blog/posts/colorpalette)), and add the result to a vector that will contain all of the palettes of the frames.
+## Step 4: Assembling
+
+Here, we are iterating through the images in the folder by loading them, converting from BGR to RGB ([opencv](https://pypi.org/project/opencv-python/) loads them in BGR format), reshaping the array to remove one of the dimensions of the image (converting a 2D array of RGB entries, into a 1D vector of RGB rows). Finally, we do the clustering of the colors to obtain the dominant color palette (this process is described in more detail in my other blog post ["Color Palette Extractor"](./2019-10-27-ColorPalette.html)), and add the result to a vector that will contain all of the palettes of the frames.
 
 <img src="https://chipdelmal.github.io/blog/uploads/cf_spirited.jpg" style="width:100%;">
 
@@ -119,7 +128,7 @@ Here, we are iterating through the images in the folder by loading them, convert
 
 I'd like to automate this process even further in the near future by creating a wrapper that takes care of all the steps in the process, so stay tuned!
 
-# Documentation and Code
+# Code repo
 
 * **Repository:** [Github repo](https://github.com/Chipdelmal/moviesColorFingerprint)
 * **Dependencies:** [opencv-python](https://pypi.org/project/opencv-python/), [ffmpeg-python](https://pypi.org/project/ffmpeg-python/), [Pillow](https://pillow.readthedocs.io/en/stable/), [numpy](https://numpy.org/), [scikit-learn](https://scikit-learn.org/stable/), [matplotlib](https://matplotlib.org/), [ffmpeg](https://www.ffmpeg.org/)
