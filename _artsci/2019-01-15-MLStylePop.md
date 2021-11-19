@@ -1,6 +1,6 @@
 ---
 title: Style Transfer "Pop Art"
-tags: ML ArtSci Mathematica
+tags: machine-learning artsci mathematica pop-art
 article_header:
   type: overlay
   theme: dark
@@ -11,12 +11,13 @@ cover: /media/pp/pp_fender.jpg
 ---
 
 
-
 <!--more-->
 
 # Intro
 
 Some time ago I ran across a [paper](https://arxiv.org/pdf/1508.06576.pdf) describing the machine-learning application of transferring the art-style from a painting into another image. [Mathematica v12](https://www.wolfram.com/language/12/machine-learning-for-images/style-transfer-for-creative-art.html?product=mathematica) includes a built-in command to do this in a single line of code, so I started using it to explore ideas until I had something I liked, which ended up being a "Pop-Art" Machine Learning application for photos.
+
+<img src="/media/pp/pp_semi.jpg" style="width:100%;">
 
 # Development
 
@@ -103,4 +104,5 @@ And we have our assembled image:
 As it stands, the process is extremely inefficient in terms of computation. We don't really need to process the whole image if we are gonna take only one slice at the end. It would also work faster if it was coded in Python with [available packages](https://pypi.org/project/neural-style/).
 
 * Repository: [Github repo](https://github.com/Chipdelmal/styleTransferPopArt)
-* Dependencies:[Mathematica v12](https://www.wolfram.com/language/12/machine-learning-for-images/style-transfer-for-creative-art.html?product=mathematica)
+* Dependencies: [Mathematica v12](https://www.wolfram.com/language/12/machine-learning-for-images/style-transfer-for-creative-art.html?product=mathematica)
+

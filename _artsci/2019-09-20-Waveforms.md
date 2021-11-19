@@ -1,25 +1,27 @@
 ---
 title: 'Waveforms'
-tags: clustering artsci color movie video-processing image-processing
+tags: waveform audio signal python matplotlib pydub artsci
 article_header:
   type: overlay
   theme: dark
   background_image:
     gradient: 'linear-gradient(135deg, rgba(0, 0, 0 , .4), rgba(0, 0, 0, .4))'
-    src: /media/wv/wv_speedLight.jpg
-cover: /media/wv/wv_speedLight.jpg
+    src: /media/wv/thumb.png
+cover: /media/wv/thumb.png
 ---
 
+<!--more-->
+
+# Intro
 
 I like doing visualizations of different types of data, so I started thinking of doing something simple with the audio information of songs. With this in mind, I started playing around with a couple of packages in python and decided on plotting waveforms in a visually appealing way.
-
-
-<!--more-->
 
 
 <img src="/media/wv/wv_lucky.jpg" style="width:100%;">
 
 # Development
+
+## Step 1: Loading into pydub
 
 First step was to load audio into Python using the [pydub](https://pypi.org/project/pydub/) library in our [main script](https://github.com/Chipdelmal/WaveArt/blob/master/main.py):
 
@@ -29,6 +31,8 @@ First step was to load audio into Python using the [pydub](https://pypi.org/proj
 sound = AudioSegment.from_file(file=file)
 mix = aux.getMixedChannels(sound.normalize())
 {% endhighlight %}
+
+## Step 2: Audio metadata
 
 One thing to note in [`getFileAndSongNames`](https://github.com/Chipdelmal/WaveArt/blob/master/aux.py) is that we are loading the song name as it is stored in the file's metadata, not necessarily on the filename. After doing this, we [mix together](https://github.com/Chipdelmal/WaveArt/blob/master/aux.py) the two channels (**L** and **R**) of the song into the same array:
 
@@ -47,6 +51,8 @@ def getMixedChannels(sound):
     return mix
 {% endhighlight %}
 
+## Step 3: Color-styling
+
 Although we could theoretically plot the wave as it is, we want it to look nice, so we define a function that creates a [matplotlib](https://matplotlib.org/) colormap that changes linearly from one color, into white, and then into another color. These colors are sampled randomly from a pool defined by the user in the [style file](https://github.com/Chipdelmal/WaveArt/blob/master/style.py):
 
 {% highlight python %}
@@ -59,6 +65,8 @@ def defineColorMap(colorsPool):
     cm = LinearSegmentedColormap.from_list("dummy", colorMap, N=256)
     return cm
 {% endhighlight %}
+
+## Step 4: Scatterplot
 
 Finally, we do a [scatterplot](https://github.com/Chipdelmal/WaveArt/blob/master/plot.py) of all the values of the array that represents the waveform and we tweak style parameters to make it more visually appealing:
 
@@ -91,10 +99,8 @@ With these steps in place, we put it all together in a [script](https://github.c
 
 <img src="/media/wv/wv_afterWar.jpg" style="width:100%;">
 
-# Further Thoughts
-I'm still not sure about what to do with the exported waveform images, but hopefully something will come to mind later on.
 
-# Documentation and Code
+# Code repo
 
 * **Repository:** [Github repo](https://github.com/Chipdelmal/WaveArt)
 * **Dependencies:** [pydub](https://pypi.org/project/pydub/), [matplotlib](https://matplotlib.org/)

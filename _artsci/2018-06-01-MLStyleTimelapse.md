@@ -1,6 +1,6 @@
 ---
 title: Artstyle Timelapse
-tags: artsci timelapse machine-learning mathematica video
+tags: artsci timelapse machine-learning mathematica video gif
 article_header:
   type: overlay
   theme: dark
@@ -11,9 +11,11 @@ cover: /media/tl/tl_vanGogh.jpg
 ---
 
 
-Some time ago I watched the movie ["Loving Vincent"](https://www.youtube.com/watch?v=CGzKnyhYDQI) and was dazzled by the amount of work,m and the quality of the results. Around 65,000 oil-painted frames for an animated movie painted in Van Gogh's style to create a visually stunning movie. After some thinking and playing around with [Mathematica v12](https://www.wolfram.com/language/12/machine-learning-for-images/style-transfer-for-creative-art.html?product=mathematica)'s art-style transfer I wanted to try to automate a copycat of the idea.
-
 <!--more-->
+
+# Intro
+
+Some time ago I watched the movie ["Loving Vincent"](https://www.youtube.com/watch?v=CGzKnyhYDQI) and was dazzled by the amount of work,m and the quality of the results. Around 65,000 oil-painted frames for an animated movie painted in Van Gogh's style to create a visually stunning movie. After some thinking and playing around with [Mathematica v12](https://www.wolfram.com/language/12/machine-learning-for-images/style-transfer-for-creative-art.html?product=mathematica)'s art-style transfer I wanted to try to automate a copycat of the idea.
 
 <center>
   <iframe width="560" height="315" src="https://www.youtube.com/embed/CGzKnyhYDQI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -22,11 +24,15 @@ Some time ago I watched the movie ["Loving Vincent"](https://www.youtube.com/wat
 
 # Development
 
-The idea is similar to the one described in the [Machine-Learning Pop Art](https://chipdelmal.github.io/blog/posts/mlstylepop) post. The only difference here, is that we apply the same style-transfer to the individual frames of a video. To do this, we begin with a video clip, and we save the frames to images:
+## Step 1: Scrape frames
+
+The idea is similar to the one described in the [Machine-Learning Pop Art](./2019-01-15-MLStylePop.html) post. The only difference here, is that we apply the same style-transfer to the individual frames of a video. To do this, we begin with a video clip, and we save the frames to images:
 
 {% highlight bash %}
 ffmpeg -i videoClip.mp4 frame%04d.png -hide_banner
 {% endhighlight %}
+
+## Step 2: Apply styling
 
 Once the frames are exported, we define a function to do the processing of the frames:
 
@@ -49,6 +55,8 @@ frames = ParallelMap[ApplyStyle[#, 500, net] &, images];
 
 And then export the results to disk:
 
+## Step 3: Export to disk
+
 {% highlight mathematica %}
 Export["./Output/PreTrained/Style" <> ToString[STYLE] <> "/" <> StringPadLeft[#[[1]], 4, "0"] <> ".png", #[[2]]] & /@ Transpose[{ToString /@ Range[1, Length[frames]], frames}];
 {% endhighlight %}
@@ -57,6 +65,8 @@ This will output a series of image files to our disk:
 
 
 <img src="/media/tl/tl_frames.jpg" style="width:100%;">
+
+## Step 4: Re-assemble video
 
 So, to put them back together in a *GIF*, we run the following [FFmpeg](https://www.ffmpeg.org/) commands (a great explanation of why to use these commands can be found [here](https://engineering.giphy.com/how-to-make-gifs-with-ffmpeg/)):
 
@@ -72,14 +82,12 @@ And we have a simple approximation of the process that we can run in the compute
 
 # Further Thoughts
 
-Several things to point out here. Even though the process works, it's a bit contrived and extremelly inefficient in terms of computation and time. Jumping from  [FFmpeg](https://www.ffmpeg.org/) to [Mathematica v12](https://www.wolfram.com/language/12/machine-learning-for-images/style-transfer-for-creative-art.html?product=mathematica) is hardly the best approach to do things. Even though, part of the process could be done by calling _bash_ scripts from [Mathematica v12](https://www.wolfram.com/language/12/machine-learning-for-images/style-transfer-for-creative-art.html?product=mathematica), a better alternative would be to use python with the [artistic-videos
+Several things to point out here. Even though the process works, it's a bit contrived and extremely inefficient in terms of computation and time. Jumping from  [FFmpeg](https://www.ffmpeg.org/) to [Mathematica v12](https://www.wolfram.com/language/12/machine-learning-for-images/style-transfer-for-creative-art.html?product=mathematica) is hardly the best approach to do things. Even though, part of the process could be done by calling _bash_ scripts from [Mathematica v12](https://www.wolfram.com/language/12/machine-learning-for-images/style-transfer-for-creative-art.html?product=mathematica), a better alternative would be to use python with the [artistic-videos
 ](https://youtu.be/vQk_Sfl7kSc) implementation (their [arXiv paper is also definitely worth reading](https://arxiv.org/pdf/1604.08610.pdf)) which fixes one of the main problems with the approach I took: temporal dependency. In the naïve implementation I provided neglects the temporal dependency between frames, so artifacts appear in some regions of the frames (specially in the sky), as can be seen in the Munch style-transfer:
 
 <img src="/media/tl/tl_munch.gif" style="width:100%;">
 
-Their code fixes that, with advanced math and a lot of computations. Their code is nicely documented, and easy to use, so I'd encourage anyone interested in these subjects to have a look at it.
-
-# Documentation and Code
+# Code Repo
 
 * Repository: [Github repo](https://github.com/Chipdelmal/ArtStyleTimeLapseTransfer)
 * Dependencies: [Mathematica v12](https://www.wolfram.com/language/12/machine-learning-for-images/style-transfer-for-creative-art.html?product=mathematica), [FFmpeg](https://www.ffmpeg.org/)
