@@ -30,7 +30,7 @@ show_title: false
 
 
 
-<p style="text-align:center;"><img style="width:50%" src="https://avatars.githubusercontent.com/u/684756?s=400&u=7571d63b136c7774145b065d829e96698aeae05f&v=4" alt="Logo"><!--<br><img  style="width:75%" src="https://ghchart.rshah.org/Chipdelmal" alt="2016rshah's Github chart">--></p>
+<p style="text-align:center;"><img style="width:35%" src="https://avatars.githubusercontent.com/u/684756?s=400&u=7571d63b136c7774145b065d829e96698aeae05f&v=4" alt="Logo"><!--<br><img  style="width:75%" src="https://ghchart.rshah.org/Chipdelmal" alt="2016rshah's Github chart">--></p>
 
 <!--<p style="text-align:center;">
   <a href="https://github.com/Chipdelmal/"><img src="https://github-readme-stats.vercel.app/api?username=chipdelmal&count_private=true&show_icons=true&hide=contribs,prs" /></a>

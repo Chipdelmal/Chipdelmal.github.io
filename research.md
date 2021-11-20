@@ -6,5 +6,5 @@ articles:
   show_excerpt: true
   show_readmore: true
   show_info: true
-  reverse: false
+  reverse: true
 ---
