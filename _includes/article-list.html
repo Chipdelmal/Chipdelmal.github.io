@@ -5,7 +5,15 @@
 {%- include snippets/get-locale-string.html key='READMORE' -%}
 {%- assign _locale_readmore = __return -%}
 
-{%- assign _sorted_list = include.articles -%}
+{%- assign _sorted_list = include.articles-%}
+
+<!--
+{%- assign _concatA = include.concat_a-%}
+{% if include.concat_b.size > 0 %}
+  {% assign _sorted_list = arts | concat: concat_b %}
+{% endif %}
+-->
+
 {%- if include.group_by == 'year' -%}
   {%- assign _sorted_list = _sorted_list | sort: 'date' -%}
 {%- endif -%}
