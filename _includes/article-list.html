@@ -81,15 +81,6 @@
 
 
     {%- elsif include.type == 'brief' -%}
-      {%- assign _tags = '' -%}
-      {%- for _tag in _article.tags -%}
-        {%- assign _tag_encode = _tag | strip | url_encode -%}
-        {%- if forloop.last -%}
-          {%- assign _tags = _tags | append: _tag_encode -%}
-        {%- else -%}
-          {%- assign _tags = _tags | append: _tag_encode | append: ',' -%}
-        {%- endif -%}
-      {%- endfor -%}
       {%- if include.group_by == 'year' -%}
         {%- assign _currentdate = _article.date | date: '%Y' -%}
         {%- if _currentdate != _date -%}
@@ -105,6 +96,16 @@
             <span class="item__meta">{{ _article.date | date: __return }}</span>
           {%- endif -%}
           <a itemprop="headline" class="item__header" href="{{ _article_url }}">{{ _article.title }}</a></div>
+          {%- assign _tags = '' -%}
+          {%- for _tag in _article.tags -%}
+            {%- assign _tag_encode = _tag | strip | url_encode -%}
+            {%- if forloop.last -%}
+              {%- assign _tags = _tags | append: _tag_encode -%}
+            {%- else -%}
+              {%- assign _tags = _tags | append: _tag_encode | append: ',' -%}
+            {%- endif -%}
+            <a class="button button--primary button--rounded button--xs" href="">{{_tag}}</a>&nbsp;
+          {%- endfor -%}
       </li>
 
     {%- elsif include.type == 'grid' -%}

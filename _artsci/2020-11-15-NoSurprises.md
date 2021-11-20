@@ -26,9 +26,8 @@ Now, the only remaining trick to pull off was to match the speed of the video to
 
 Finally, I overlaid the pixelated video onto the original one to make the video "smoother":
 
-<div style="text-align:center">
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/tfTf2wWyotU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+<div>{%- include extensions/youtube.html id='tfTf2wWyotU' -%}</div>
+
 
 As a last note, recording the voice on this song was extremely difficult to me because of the reduced speed as compared to the original (had to hold the notes steady for way longer). It took a lot of attempts to get it right.
 
