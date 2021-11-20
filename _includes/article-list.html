@@ -112,7 +112,7 @@
             {%- else -%}
               {%- assign _tags = _tags | append: _tag_encode | append: ',' -%}
             {%- endif -%}
-            <a class="button button--primary button--rounded button--xs" href="">{{_tag}}</a>&nbsp;
+            <a class="button button--primary button--rounded button--xs">{{_tag}}</a>&nbsp;
           {%- endfor -%}
       </li>
 
