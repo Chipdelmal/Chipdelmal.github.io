@@ -21,9 +21,9 @@ Some time ago I watched the movie ["Loving Vincent"](https://www.youtube.com/wat
 
 <div>{%- include extensions/youtube.html id='CGzKnyhYDQI' -%}</div>
 
-# Development
+# CodeDev
 
-## Step 1: Scrape frames
+## Scrape frames
 
 The idea is similar to the one described in the [Machine-Learning Pop Art](./2019-01-15-MLStylePop.html) post. The only difference here, is that we apply the same style-transfer to the individual frames of a video. To do this, we begin with a video clip, and we save the frames to images:
 
@@ -31,7 +31,7 @@ The idea is similar to the one described in the [Machine-Learning Pop Art](./201
 ffmpeg -i videoClip.mp4 frame%04d.png -hide_banner
 {% endhighlight %}
 
-## Step 2: Apply styling
+## Apply styling
 
 Once the frames are exported, we define a function to do the processing of the frames:
 
@@ -54,7 +54,7 @@ frames = ParallelMap[ApplyStyle[#, 500, net] &, images];
 
 And then export the results to disk:
 
-## Step 3: Export to disk
+## Export to disk
 
 {% highlight mathematica %}
 Export["./Output/PreTrained/Style" <> ToString[STYLE] <> "/" <> StringPadLeft[#[[1]], 4, "0"] <> ".png", #[[2]]] & /@ Transpose[{ToString /@ Range[1, Length[frames]], frames}];
@@ -65,7 +65,7 @@ This will output a series of image files to our disk:
 
 <img src="/media/tl/tl_frames.jpg" style="width:100%;">
 
-## Step 4: Re-assemble video
+## Re-assemble video
 
 So, to put them back together in a *GIF*, we run the following [FFmpeg](https://www.ffmpeg.org/) commands (a great explanation of why to use these commands can be found [here](https://engineering.giphy.com/how-to-make-gifs-with-ffmpeg/)):
 

@@ -19,8 +19,7 @@ I like doing visualizations of different types of data, so I started thinking of
 
 <img src="/media/wv/wv_lucky.jpg" style="width:100%;">
 
-# Development
-
+# CodeDev
 ## Step 1: Loading into pydub
 
 First step was to load audio into Python using the [pydub](https://pypi.org/project/pydub/) library in our [main script](https://github.com/Chipdelmal/WaveArt/blob/master/main.py):
@@ -32,7 +31,7 @@ sound = AudioSegment.from_file(file=file)
 mix = aux.getMixedChannels(sound.normalize())
 {% endhighlight %}
 
-## Step 2: Audio metadata
+## Audio metadata
 
 One thing to note in [`getFileAndSongNames`](https://github.com/Chipdelmal/WaveArt/blob/master/aux.py) is that we are loading the song name as it is stored in the file's metadata, not necessarily on the filename. After doing this, we [mix together](https://github.com/Chipdelmal/WaveArt/blob/master/aux.py) the two channels (**L** and **R**) of the song into the same array:
 
@@ -51,7 +50,7 @@ def getMixedChannels(sound):
     return mix
 {% endhighlight %}
 
-## Step 3: Color-styling
+## Color-styling
 
 Although we could theoretically plot the wave as it is, we want it to look nice, so we define a function that creates a [matplotlib](https://matplotlib.org/) colormap that changes linearly from one color, into white, and then into another color. These colors are sampled randomly from a pool defined by the user in the [style file](https://github.com/Chipdelmal/WaveArt/blob/master/style.py):
 
@@ -66,7 +65,7 @@ def defineColorMap(colorsPool):
     return cm
 {% endhighlight %}
 
-## Step 4: Scatterplot
+## Scatterplot
 
 Finally, we do a [scatterplot](https://github.com/Chipdelmal/WaveArt/blob/master/plot.py) of all the values of the array that represents the waveform and we tweak style parameters to make it more visually appealing:
 

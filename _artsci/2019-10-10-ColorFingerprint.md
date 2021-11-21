@@ -19,9 +19,9 @@ This was the original application of the dominant color detection described in m
 
 <img src="/media/cf/cf_nausicaa.jpg" style="width:100%;">
 
-# Development
+# CodeDev
 
-## Step 1: Re-scaling
+## Re-scaling
 
 The first step was to pre-process the movie to lower the resolution to a more manageable size (mainly to speedup the processing time of the clustering). Even though resizing could potentially have effects on the colors due to compression, we aren't downsizing the video too much. Here's a [snippet of the code](https://github.com/Chipdelmal/moviesColorFingerprint/blob/master/rescaleMovie.py) that does this down-sampling by using [ffmpeg](https://www.ffmpeg.org/):
 
@@ -40,7 +40,7 @@ os.system(
     )
 {% endhighlight %}
 
-## Step 2: Exporting frames
+## Exporting frames
 
 Now, to do the clustering to identify the dominant color of the images, there's two approaches we can take:
 1. Calculate the dominant colors "on-the-fly" by loading the video and going through the frames in memory (more efficient)
@@ -76,7 +76,7 @@ Which gives us all our files in a folder for further processing in this and othe
 
 <img src="https://chipdelmal.github.io/blog/uploads/cf_frames.jpg" style="width:100%;">
 
-## Step 3: Dominant colors
+## Dominant colors
 
 With our images ready, we go on to calculate the clusters of dominant colors with [fingerprint.py](https://github.com/Chipdelmal/moviesColorFingerprint/blob/master/fingerprint.py):
 
@@ -118,7 +118,7 @@ def calculateDominantColors(filepaths, domColNum, maxIter=100):
   return clusters
 {% endhighlight %}
 
-## Step 4: Assembling
+## Assembling
 
 Here, we are iterating through the images in the folder by loading them, converting from BGR to RGB ([opencv](https://pypi.org/project/opencv-python/) loads them in BGR format), reshaping the array to remove one of the dimensions of the image (converting a 2D array of RGB entries, into a 1D vector of RGB rows). Finally, we do the clustering of the colors to obtain the dominant color palette (this process is described in more detail in my other blog post ["Color Palette Extractor"](./2019-10-27-ColorPalette.html)), and add the result to a vector that will contain all of the palettes of the frames.
 

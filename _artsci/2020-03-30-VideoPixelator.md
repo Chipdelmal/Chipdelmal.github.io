@@ -19,7 +19,7 @@ I've been wanting to record a cover of the song "No Suprises" by Radiohead for a
 
 <img src="/media/px/px_testOut.png" style="width:100%;">
 
-# Development
+# CodeDev
 
 The main idea behind the algorithm is to divide the image into blocks, calculate the mean color value within each block, and then apply that color to all the pixels in that region.
 
@@ -27,7 +27,7 @@ For this demo, we'll use a clip from the movie "Coco":
 
 <img src="/media/px/px_ov.gif" style="width:100%;">
 
-## Step 1: Extract frames
+## Extract frames
 
 First, we split the video into *PNG* frames upon which we will run our algorithm:
 
@@ -37,7 +37,7 @@ ffmpeg -i ./videoIn/coco.mp4 -vf fps=24 ./imageIn/out%04d.png
 
 Once the video is split, we start coding our [python script](https://github.com/Chipdelmal/videoPixelator/blob/master/pixelateImageBatch.py). We start by loading our libraries:
 
-## Step 2: Load libraries
+## Load libraries
 
 {% highlight python %}
 import os
@@ -55,7 +55,7 @@ Setup our I/O paths along with the grid-size (in pixels):
 )
 {% endhighlight %}
 
-## Step 3: Cycle images
+## Cycle images
 
 Then, we setup our iteration cycle, which loads all the *PNG* images in the desired folder and applies the filter to each one and exports the resulting image:
 
@@ -71,7 +71,7 @@ for path in images:
     cv2.imwrite(PATH_OUT+name+'.png', img)
 {% endhighlight %}
 
-## Step 4: Pixelate frames
+## Pixelate frames
 
 The main function in this script is the **pixelateImage** contained in the [functions.py](https://github.com/Chipdelmal/videoPixelator/blob/master/functions.py) file. This function ['blurs' the blocks with the mean value of the region](https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_filtering/py_filtering.html) and overlays a grid on the resulting image:
 
@@ -109,7 +109,7 @@ def pixelateImage(
     return img
 {% endhighlight %}
 
-## Step 5: Re-assemble video
+## Re-assemble video
 
 Once we've applied the filter to the images, we re-assemble the frames into a video:
 
