@@ -30,7 +30,9 @@ show_title: false
 
 
 
-<p style="text-align:center;"><img style="width:35%" src="https://avatars.githubusercontent.com/u/684756?s=400&u=7571d63b136c7774145b065d829e96698aeae05f&v=4" alt="Logo"><!--<br><img  style="width:75%" src="https://ghchart.rshah.org/Chipdelmal" alt="2016rshah's Github chart">--></p>
+<p style="text-align:center;"><img style="width:35%" src="https://avatars.githubusercontent.com/u/684756?s=400&u=7571d63b136c7774145b065d829e96698aeae05f&v=4" alt="Logo">
+
+<!--<br><img  style="width:75%" src="https://ghchart.rshah.org/Chipdelmal" alt="2016rshah's Github chart">--></p>
 
 <!--<p style="text-align:center;">
   <a href="https://github.com/Chipdelmal/"><img src="https://github-readme-stats.vercel.app/api?username=chipdelmal&count_private=true&show_icons=true&hide=contribs,prs" /></a>
@@ -43,5 +45,5 @@ I'm a Computer Scientist PhD/Mechatronics Engineer BSc working in modeling proce
 For a list of my scientific publications please take a look at my [ResearchGate profile](https://www.researchgate.net/profile/Hector-Sanchez-Castellanos).
 
 <p style="text-align:center;">
-<a href='https://github.com/Chipdelmal'><img style="width: 100%" src="http://ghchart.rshah.org/c77dff/Chipdelmal"/></a>
+<a href='https://github.com/Chipdelmal'><img style="width: 100%" src="http://ghchart.rshah.org/3a0ca3/Chipdelmal"/></a>
 </p>

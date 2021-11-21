@@ -1,6 +1,6 @@
 ---
 title: Style Transfer "Pop Art"
-tags: machine-learning artsci mathematica pop-art
+tags: machine-learning artsci mathematica pop-art mathematica artstyle-transfer
 article_header:
   type: overlay
   theme: dark

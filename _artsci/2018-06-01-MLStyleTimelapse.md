@@ -1,6 +1,6 @@
 ---
 title: Artstyle Timelapse
-tags: artsci timelapse machine-learning mathematica video gif
+tags: artsci timelapse machine-learning mathematica video gif artstyle-transfer ffmpeg
 article_header:
   type: overlay
   theme: dark

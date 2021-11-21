@@ -1,6 +1,6 @@
 ---
 title: 'Last.fm Clocks'
-tags: lastfm music
+tags: lastfm music datasci python
 article_header:
   type: overlay
   theme: dark
