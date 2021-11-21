@@ -17,10 +17,9 @@ cover: /media/tl/tl_vanGogh.jpg
 
 Some time ago I watched the movie ["Loving Vincent"](https://www.youtube.com/watch?v=CGzKnyhYDQI) and was dazzled by the amount of work,m and the quality of the results. Around 65,000 oil-painted frames for an animated movie painted in Van Gogh's style to create a visually stunning movie. After some thinking and playing around with [Mathematica v12](https://www.wolfram.com/language/12/machine-learning-for-images/style-transfer-for-creative-art.html?product=mathematica)'s art-style transfer I wanted to try to automate a copycat of the idea.
 
-<center>
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/CGzKnyhYDQI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</center>
 
+
+<div>{%- include extensions/youtube.html id='CGzKnyhYDQI' -%}</div>
 
 # Development
 

@@ -91,13 +91,48 @@ The fully-documented code is available in the [Github repo](https://github.com/C
 
 <img src="/media/cp/cp_tonight.jpg" style="width:100%;">
 
-# Further Thoughts
 
-One final thing I did with this code, was to take the [batch routine](https://github.com/Chipdelmal/colorPaletteExtractor/blob/master/mainBatch.py) and use it to get the color palette of the frames of movies, and then to re-assemble them into grids for their use as fancy wallpapers.
-
-<img src="/media/cp/Nausicaa.jpg" style="width:100%;">
-
-# Documentation and Code
+# Code repo
 
 * Repository: [Github repo](https://github.com/Chipdelmal/colorPaletteExtractor)
 * Dependencies: [opencv-python](https://pypi.org/project/opencv-python/), [ffmpeg-python](https://pypi.org/project/ffmpeg-python/), [Pillow](https://pillow.readthedocs.io/en/stable/), [numpy](https://numpy.org/), [scikit-learn](https://scikit-learn.org/stable/), [matplotlib](https://matplotlib.org/)
+
+
+
+# Gallery
+
+One final thing I did with this code, was to take the [batch routine](https://github.com/Chipdelmal/colorPaletteExtractor/blob/master/mainBatch.py) and use it to get the color palette of the frames of movies, and then to re-assemble them into grids for their use as fancy wallpapers.
+
+
+<style>
+  .swiper-demo {height: 480px;}
+  .swiper-demo .swiper__slide {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem; color: #fff;
+  }
+</style>
+
+
+<div class="swiper my-3 swiper-demo swiper-demo--0">
+  <div class="swiper__wrapper">
+    <div class="swiper__slide"><img src="/media/cp/Totoro.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/cp/Spirited.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/cp/Spirited.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/cp/WindRises.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/cp/Nausicaa.jpg" style="width:100%;"></div>
+  </div>
+  <!-- <div class="swiper__pagination"></div> -->
+  <div class="swiper__button swiper__button--prev fas fa-chevron-left"></div>
+  <div class="swiper__button swiper__button--next fas fa-chevron-right"></div>
+  <!-- <div class="swiper-scrollbar"></div> -->
+</div>
+
+<script>
+  {%- include scripts/lib/swiper.js -%}
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    $('.swiper-demo--0').swiper(); $('.swiper-demo--1').swiper();
+    $('.swiper-demo--2').swiper(); $('.swiper-demo--3').swiper();
+    $('.swiper-demo--4').swiper({ animation: false });
+  });
+</script>

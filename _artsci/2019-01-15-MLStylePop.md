@@ -99,6 +99,42 @@ And we have our assembled image:
 
 <img src="/media/pp/pp_fender.jpg" style="width:100%;">
 
+
+# Gallery
+
+<style>
+  .swiper-demo {height: 450px;}
+  .swiper-demo .swiper__slide {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem; color: #fff;
+  }
+</style>
+
+
+<div class="swiper my-3 swiper-demo swiper-demo--0">
+  <div class="swiper__wrapper">
+    <div class="swiper__slide"><img src="/media/pp/f_verticalacoustic.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/pp/f_verticalcustom.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/pp/f_verticalsemi.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/pp/pp_fender.jpg" style="width:100%;"></div>
+  </div>
+  <!-- <div class="swiper__pagination"></div> -->
+  <div class="swiper__button swiper__button--prev fas fa-chevron-left"></div>
+  <div class="swiper__button swiper__button--next fas fa-chevron-right"></div>
+  <!-- <div class="swiper-scrollbar"></div> -->
+</div>
+
+<script>
+  {%- include scripts/lib/swiper.js -%}
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    $('.swiper-demo--0').swiper(); $('.swiper-demo--1').swiper();
+    $('.swiper-demo--2').swiper(); $('.swiper-demo--3').swiper();
+    $('.swiper-demo--4').swiper({ animation: false });
+  });
+</script>
+
+
 # Code Repo
 
 As it stands, the process is extremely inefficient in terms of computation. We don't really need to process the whole image if we are gonna take only one slice at the end. It would also work faster if it was coded in Python with [available packages](https://pypi.org/project/neural-style/).

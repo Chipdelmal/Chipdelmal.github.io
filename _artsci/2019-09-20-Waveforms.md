@@ -94,13 +94,52 @@ def plotWave(
     return (fig, ax)
 {% endhighlight %}
 
+<img src="/media/wv/wv_afterWar.jpg" style="width:100%;">
 
 With these steps in place, we put it all together in a [script](https://github.com/Chipdelmal/WaveArt/blob/master/main.py) that runs through audio files stored in a folder in batch mode with options to change the fonts and styles!
 
-<img src="/media/wv/wv_afterWar.jpg" style="width:100%;">
+
+
+# Gallery
+
+<style>
+  .swiper-demo {height: 200px;}
+  .swiper-demo .swiper__slide {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem; color: #fff;
+  }
+</style>
+
+
+<div class="swiper my-3 swiper-demo swiper-demo--0">
+  <div class="swiper__wrapper">
+    <div class="swiper__slide"><img src="/media/wv/2 + 2 = 5.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/wv/Cherub Rock.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/wv/Disintegration.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/wv/Golden Days.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/wv/I'm Gonna Find Another You.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/wv/Iris.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/wv/Melpomene.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/wv/There, There.jpg" style="width:100%;"></div>
+  </div>
+  <div class="swiper__button swiper__button--prev fas fa-chevron-left"></div>
+  <div class="swiper__button swiper__button--next fas fa-chevron-right"></div>
+</div>
+
+<script>
+  {%- include scripts/lib/swiper.js -%}
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    $('.swiper-demo--0').swiper(); $('.swiper-demo--1').swiper();
+    $('.swiper-demo--2').swiper(); $('.swiper-demo--3').swiper();
+    $('.swiper-demo--4').swiper({ animation: false });
+  });
+</script>
 
 
 # Code repo
 
 * **Repository:** [Github repo](https://github.com/Chipdelmal/WaveArt)
 * **Dependencies:** [pydub](https://pypi.org/project/pydub/), [matplotlib](https://matplotlib.org/)
+
+
