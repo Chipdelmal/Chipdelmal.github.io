@@ -1,5 +1,5 @@
 ---
-title: MK8D Soulmates
+title: "MK8D: Soulmates"
 tags: Mario-Kart DataViz Data-Analysis Gaming
 article_header:
   type: overlay
@@ -11,9 +11,11 @@ cover: /media/sm/sm_CH.png
 ---
 
 
+<!--more-->
+
 I've been playing MK8D with friends for a while now and we decided to have a bit of fun in figuring out our most beloved and most hated tracks as a group. To do so, we voted for our favorite tracks and did some data analysis to determine who were the players we share tastes with. Our so called "Mario Kart Soulmates".
 
-<!--more-->
+
 
 # Voting Process
 

@@ -15,7 +15,7 @@ cover: /media/ns/ns_thumb.png
 
 # Intro
 
-Using the [video pixelator](https://chipdelmal.github.io/blog/posts/videopixelator) I coded some time ago, I decided to take an artsy go at making a video for Radiohead's "No Surprises".
+Using the [video pixelator](./artsci/2020-03-30-VideoPixelator.html) I coded some time ago, I decided to take an artsy go at making a video for Radiohead's "No Surprises".
 
 # Description
 
