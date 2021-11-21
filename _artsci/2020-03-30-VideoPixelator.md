@@ -27,6 +27,8 @@ For this demo, we'll use a clip from the movie "Coco":
 
 <img src="/media/px/px_ov.gif" style="width:100%;">
 
+## Step 1: Extract frames
+
 First, we split the video into *PNG* frames upon which we will run our algorithm:
 
 {% highlight bash %}
@@ -34,6 +36,8 @@ ffmpeg -i ./videoIn/coco.mp4 -vf fps=24 ./imageIn/out%04d.png
 {% endhighlight %}
 
 Once the video is split, we start coding our [python script](https://github.com/Chipdelmal/videoPixelator/blob/master/pixelateImageBatch.py). We start by loading our libraries:
+
+## Step 2: Load libraries
 
 {% highlight python %}
 import os
@@ -51,6 +55,8 @@ Setup our I/O paths along with the grid-size (in pixels):
 )
 {% endhighlight %}
 
+## Step 3: Cycle images
+
 Then, we setup our iteration cycle, which loads all the *PNG* images in the desired folder and applies the filter to each one and exports the resulting image:
 
 {% highlight python %}
@@ -64,6 +70,8 @@ for path in images:
     filename = os.path.splitext(path)[0]
     cv2.imwrite(PATH_OUT+name+'.png', img)
 {% endhighlight %}
+
+## Step 4: Pixelate frames
 
 The main function in this script is the **pixelateImage** contained in the [functions.py](https://github.com/Chipdelmal/videoPixelator/blob/master/functions.py) file. This function ['blurs' the blocks with the mean value of the region](https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_filtering/py_filtering.html) and overlays a grid on the resulting image:
 
@@ -101,6 +109,8 @@ def pixelateImage(
     return img
 {% endhighlight %}
 
+## Step 5: Re-assemble video
+
 Once we've applied the filter to the images, we re-assemble the frames into a video:
 
 {% highlight bash %}
@@ -110,8 +120,7 @@ ffmpeg -r 24 -i ./imageOut/out%04d.png -c:v libx264 -vf fps=24 -pix_fmt yuv420p 
 <img src="/media/px/px_pv.gif" style="width:100%;">
 
 
-
-# Documentation and Code
+# Code repo
 
 * **Repository:** [Github repo](https://github.com/Chipdelmal/videoPixelator)
 * **Dependencies:**  [ffmpeg](https://www.ffmpeg.org/), [opencv-python](https://pypi.org/project/opencv-python/)
