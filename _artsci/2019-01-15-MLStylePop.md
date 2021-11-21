@@ -19,14 +19,14 @@ Some time ago I ran across a [paper](https://arxiv.org/pdf/1508.06576.pdf) descr
 
 <img src="/media/pp/pp_semi.jpg" style="width:100%;">
 
-# Development
+# CodeDev
 
 The idea was to take a photo, and then apply different artstyles or textures borrowed from other images onto it, so that we could then take slices from it and arrange them side by side. As an example, we start with this image:
 
 <img src="/media/pp/pp_fenderIn.jpg" style="width:100%;">
 
 
-## Step 1: Load and Rescale
+## Load and Rescale
 
 Which is loaded by the following code:
 
@@ -52,7 +52,7 @@ styles = ImageResize[#, imagesSize] & /@ stylesRaw;
 
 <img src="/media/pp/pp_styles.jpg" style="width:100%;">
 
-## Step 2: Artstyle Transfer
+## Artstyle Transfer
 
 Then, we apply the art-style transfer process (takes a **really** long time):
 
@@ -76,7 +76,7 @@ Table[
 
 <img src="/media/pp/pp_grid.jpg" style="width:100%;">
 
-## Step 3: Assemble the pieces
+## Assemble the pieces
 
 Finally, we put it back together by taking random slices from each of the style-transferred results:
 
