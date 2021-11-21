@@ -10,11 +10,12 @@ article_header:
 cover: /media/lv/lv_musicWC.jpg
 ---
 
+<!--more-->
+
+# Intro
 
 I've "scrobbling" my music history to [lastfm](https://www.last.fm/) since 2012 in the hopes that it'd be useful someday. In recent months I came across this [blog post](https://geoffboeing.com/2016/05/analyzing-lastfm-history/) by [Geoff Boeing](https://geoffboeing.com/), where he parses his play history and analyzes it to look for trends and do some visualizations. One idea that I particularly liked was to plot the places of origin of the bands.
 
-
-<!--more-->
 
 <img src="/media/lv/lv_musicWC.jpg" style="width:100%;">
 
