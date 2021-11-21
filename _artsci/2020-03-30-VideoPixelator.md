@@ -1,18 +1,21 @@
 ---
 title: Video Pixelator
-tags: clustering artsci color movie video-processing image-processing
+tags: artsci color video ffmpeg open-cv
 article_header:
   type: overlay
   theme: dark
   background_image:
-    gradient: 'linear-gradient(135deg, rgba(0, 0, 0 , .4), rgba(139, 34, 139, .4))'
+    gradient: 'linear-gradient(135deg, rgba(0, 0, 0 , .4), rgba(0, 0, 0, .4))'
     src: /media/px/px_testOut.png
 cover: /media/px/px_testOut.png
 ---
 
+<!--more-->
+
+# Intro
+
 I've been wanting to record a cover of the song "No Suprises" by Radiohead for a while but with some special twist on the video. One of the ideas is to have the video recorded as one shot with a heavily pixelated filter to make it look a bit eerie. Couldn't quite find anything that did the filter in the needed way, so I coded something to have it done.
 
-<!--more-->
 
 <img src="/media/px/px_testOut.png" style="width:100%;">
 
@@ -43,9 +46,9 @@ Setup our I/O paths along with the grid-size (in pixels):
 
 {% highlight python %}
 (PATH_IN, PATH_OUT, GRID_SIZE, FRM, FRAME_COL) = (
-        './imageIn/', './imageOut/',
-        12, True, [0, 0, 0]
-    )
+    './imageIn/', './imageOut/',
+    12, True, [0, 0, 0]
+)
 {% endhighlight %}
 
 Then, we setup our iteration cycle, which loads all the *PNG* images in the desired folder and applies the filter to each one and exports the resulting image:
@@ -105,7 +108,6 @@ ffmpeg -r 24 -i ./imageOut/out%04d.png -c:v libx264 -vf fps=24 -pix_fmt yuv420p 
 {% endhighlight %}
 
 <img src="/media/px/px_pv.gif" style="width:100%;">
-
 
 
 
