@@ -91,14 +91,6 @@ The fully-documented code is available in the [Github repo](https://github.com/C
 
 <img src="/media/cp/cp_tonight.jpg" style="width:100%;">
 
-
-# Code repo
-
-* Repository: [Github repo](https://github.com/Chipdelmal/colorPaletteExtractor)
-* Dependencies: [opencv-python](https://pypi.org/project/opencv-python/), [ffmpeg-python](https://pypi.org/project/ffmpeg-python/), [Pillow](https://pillow.readthedocs.io/en/stable/), [numpy](https://numpy.org/), [scikit-learn](https://scikit-learn.org/stable/), [matplotlib](https://matplotlib.org/)
-
-
-
 # Gallery
 
 One final thing I did with this code, was to take the [batch routine](https://github.com/Chipdelmal/colorPaletteExtractor/blob/master/mainBatch.py) and use it to get the color palette of the frames of movies, and then to re-assemble them into grids for their use as fancy wallpapers.
@@ -136,3 +128,11 @@ One final thing I did with this code, was to take the [batch routine](https://gi
     $('.swiper-demo--4').swiper({ animation: false });
   });
 </script>
+
+
+# Code repo
+
+* Repository: [Github repo](https://github.com/Chipdelmal/colorPaletteExtractor)
+* Dependencies: [opencv-python](https://pypi.org/project/opencv-python/), [ffmpeg-python](https://pypi.org/project/ffmpeg-python/), [Pillow](https://pillow.readthedocs.io/en/stable/), [numpy](https://numpy.org/), [scikit-learn](https://scikit-learn.org/stable/), [matplotlib](https://matplotlib.org/)
+
+
