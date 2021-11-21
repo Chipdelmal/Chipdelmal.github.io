@@ -1,6 +1,6 @@
 ---
 title: 'Movie Color Fingerprint'
-tags: clustering artsci color movie video image ffmpeg matplotlib
+tags: clustering artsci color matplotlib video image ffmpeg scikit-learn
 article_header:
   type: overlay
   theme: dark
