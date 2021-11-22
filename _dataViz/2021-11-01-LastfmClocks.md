@@ -24,7 +24,7 @@ Going back to my [last.fm data](/artsci/2019-12-10-LastfmViz.html), I wanted to 
 
 We can get started with the data already cleaned as described in my [previous post](/artsci/2019-12-10-LastfmViz.html) in which the CSV looks like this:
 
-<center><img style="width: 75%" src="/media/clocks/data.png"/></center>
+<center><img style="width: 100%" src="/media/clocks/data.png"/></center>
 
 
 ```python

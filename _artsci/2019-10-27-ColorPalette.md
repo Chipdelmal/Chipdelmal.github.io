@@ -1,6 +1,6 @@
 ---
 title: 'Color Palette Extraction'
-tags: clustering artsci color movie video-processing image-processing ffmpeg open-cv
+tags: clustering artsci color movie video image ffmpeg open-cv
 article_header:
   type: overlay
   theme: dark
