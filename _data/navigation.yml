@@ -14,9 +14,15 @@ header:
 
   - titles:
       # @start locale config
-      en      : &EN       Science
+      en      : &EN       Sci
       # @end locale config
     url: /research.html
+
+  - titles:
+      # @start locale config
+      en      : &EN       Pubs
+      # @end locale config
+    url: /publications.html
 
   - titles:
       # @start locale config
