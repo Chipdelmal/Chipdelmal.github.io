@@ -33,14 +33,14 @@ ox.config(log_console=False, use_cache=True)
 
 ## Setup style and coords
 
-First, let's select a cool location and title for our map. In this case, I selected the locations for "Duomo di Firenze". We do this by getting the latitude, longitude coordinates from Google Maps. 
+First, let's select a cool location and title for our map. We do this by getting the latitude, longitude coordinates from Google Maps. 
 
 
 ```python
 (lat, lon) = (43.77325343869306, 11.256711217026762)
 dst = 10000
 (label, fName) = (
-    "Santa Maria del Fiore\nFirenze, IT",
+    " Brandenburger Tor\nBerlin, DE",
     "Firenze"
 )
 ```
@@ -212,12 +212,12 @@ print(" "*80, end='\r')
 
 <div class="swiper my-3 swiper-demo swiper-demo--0">
   <div class="swiper__wrapper">
-    <div class="swiper__slide"><img src="/media/map/MAP_BellasArtes.png" style="width:100%;"></div>
-    <div class="swiper__slide"><img src="/media/map/MAP_Quebec.png" style="width:100%;"></div>
-    <div class="swiper__slide"><img src="/media/map/MAP_EmpireState.png" style="width:100%;"></div>
-    <div class="swiper__slide"><img src="/media/map/MAP_PlazaMayor.png" style="width:100%;"></div>
-    <div class="swiper__slide"><img src="/media/map/MAP_Brandenburg.png" style="width:100%;"></div>
-    <div class="swiper__slide"><img src="/media/map/MAP_Klon.png" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/map/MAP_BellasArtes.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/map/MAP_Quebec.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/map/MAP_EmpireState.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/map/MAP_PlazaMayor.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/map/MAP_Brandenburg.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/map/MAP_Budapest.png" style="width:100%;"></div>
   </div>
   <!-- <div class="swiper__pagination"></div> -->
   <div class="swiper__button swiper__button--prev fas fa-chevron-left"></div>
