@@ -1,5 +1,5 @@
 ---
-title: 'Human Movement in Africa'
+title: 'Human Mobility in Africa'
 tags: clustering artsci color movie video-processing image-processing
 article_header:
   type: overlay
