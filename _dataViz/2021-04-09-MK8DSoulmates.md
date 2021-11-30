@@ -83,7 +83,9 @@ because these were the votes I assigned to "Mario Kart Stadium", "Water Park", "
 
 With these vectors and distance metric, calculating the distance matrix was straightforward (by iterating through the pair-wise distances of each players' tuples). In addition to this, I created a row-normalized similarity matrix (scaled from 10 to 100) so that it was easier to see who were each person's highest and lowest matches.
 
-<img src="/media/sm/sm_SM.png" style="width:100%;"><img src="/media/sm/sm_RM.png" style="width:100%;">
+<center>
+    <img src="/media/sm/sm_SM.png" style="width:70%;"><img src="/media/sm/sm_RM.png" style="width:70%;">
+</center>
 
 With these in hand, it's somewhat apparent that there's some clusters that could be calculated more formally.
 

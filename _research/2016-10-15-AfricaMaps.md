@@ -1,6 +1,6 @@
 ---
 title: 'Human Mobility in Africa'
-tags: clustering artsci color movie video-processing image-processing
+tags: math artsci network graph modelling science mathematica
 article_header:
   type: overlay
   theme: dark
@@ -9,3 +9,36 @@ article_header:
     src: /media/maps/collage.png
 cover: /media/maps/collage.jpg
 ---
+
+<!--more-->
+
+![](/media/maps/collage.jpg)
+
+# Gallery
+
+<div class="swiper my-3 swiper-demo swiper-demo--0">
+  <div class="swiper__wrapper">
+    <div class="swiper__slide"><img src="/media/maps/Tanzania.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/maps/BurkinaFaso.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/maps/Mali.jpg" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/maps/Zambia.jpg" style="width:100%;"></div>
+  </div>
+  <!-- <div class="swiper__pagination"></div> -->
+  <div class="swiper__button swiper__button--prev fas fa-chevron-left"></div>
+  <div class="swiper__button swiper__button--next fas fa-chevron-right"></div>
+  <!-- <div class="swiper-scrollbar"></div> -->
+</div>
+
+<script>
+  {%- include scripts/lib/swiper.js -%}
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    $('.swiper-demo--0').swiper(); $('.swiper-demo--1').swiper();
+    $('.swiper-demo--2').swiper(); $('.swiper-demo--3').swiper();
+    $('.swiper-demo--4').swiper({ animation: false });
+  });
+</script>
+
+# Publication
+
+* Scientific Reports 2016 [Mathematical models of human mobility of relevance to malaria transmission in Africa](https://www.researchgate.net/publication/325171555_Mathematical_models_of_human_mobility_of_relevance_to_malaria_transmission_in_Africa)
