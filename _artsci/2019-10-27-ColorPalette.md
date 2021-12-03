@@ -17,7 +17,9 @@ cover: /media/cp/cp_yakul.jpg
 Browsing around online, I came across a movie still which had the dominant colors lined up at the bottom of the frame and started to think of a way to automate it using clustering techniques. After some research and brainstorming, I figured it wouldn't be difficult to do using [scikit-learn](https://scikit-learn.org/stable/) with [Pillow](https://pillow.readthedocs.io/en/stable/), and came up with a couple of ideas to use it to generate fancy desktop backgrounds.
 
 
-<img src="/media/cp/Princess.jpg" style="width:100%;">
+<img src="/media/cp/cp_spirited.jpg" style="width:100%;">
+
+<!-- <img src="/media/cp/Princess.jpg" style="width:100%;"> -->
 
 # CodeDev
 
@@ -25,7 +27,7 @@ Browsing around online, I came across a movie still which had the dominant color
 
 The first thing was to load images to Python. I decided to use [opencv-python](https://pypi.org/project/opencv-python/) due to its extensive documentation and support. One important thing was to notice that, by default, the image was not imported in RGB format, so it has to be converted (which can be done easily with opencv itself).
 
-<img src="/media/cp/cp_spirited.jpg" style="width:100%;">
+
 
 
 {% highlight python %}

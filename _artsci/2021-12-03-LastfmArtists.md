@@ -18,7 +18,7 @@ Coming soon!
 
 In latest years, Spotify has released features for users to get a summary of the artists they have listened the most to. I don't use Spotify too much, but I do keep track of my music-listening habits through last.fm (as I've described in my previous posts: [Last.fm Visualization](/artsci/2019-12-10-LastfmViz.html) and  [Last.fm Clocks](/artsci/2021-11-01-LastfmClocks.html)). Not wanting to be left behind, I put something together to show my playcounts in the form of wordclouds.
 
-# Dev
+# CodeDev
 
 ## Downloading and cleaning
 

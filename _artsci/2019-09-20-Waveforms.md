@@ -20,7 +20,7 @@ I like doing visualizations of different types of data, so I started thinking of
 <img src="/media/wv/wv_lucky.jpg" style="width:100%;">
 
 # CodeDev
-## Step 1: Loading into pydub
+## Loading into pydub
 
 First step was to load audio into Python using the [pydub](https://pypi.org/project/pydub/) library in our [main script](https://github.com/Chipdelmal/WaveArt/blob/master/main.py):
 

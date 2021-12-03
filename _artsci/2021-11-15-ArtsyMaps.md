@@ -16,7 +16,7 @@ cover: /media/map/2021-11-24_15-31.png
 
 I've used [OSMnx](https://github.com/gboeing/osmnx) for some projects at work in the past, and it came to my attention that it could be used to create some nice-looking maps with some work. Browsing around, found [one](https://towardsdatascience.com/making-artistic-maps-with-python-9d37f5ea8af0) or [two](https://towardsdatascience.com/creating-beautiful-maps-with-python-6e1aae54c55c) interesting-looking takes on it, so I decided to have a go at it.
 
-# Dev
+# CodeDev
 
 ## Load libraries
 
