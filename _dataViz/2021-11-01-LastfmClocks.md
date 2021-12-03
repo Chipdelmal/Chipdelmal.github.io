@@ -27,6 +27,9 @@ We can get started with the data already cleaned as described in my [previous po
 <center><img style="width: 100%" src="/media/clocks/data.png"/></center>
 
 
+We load the data and delete repeated entries (as some rows seem to be duplicated by the [scrobbler](https://www.last.fm/about/trackmymusic) from time to time):
+
+
 ```python
 (yLo, yHi) = ((2019, 1), (2020, 1))
 (WIDTH, HEIGHT, RESOLUTION) = (3840, 2160, 500)
@@ -41,7 +44,6 @@ data = pd.read_csv(
 data = data.drop_duplicates()
 ```
 
-We load the data and delete repeated entries (as some rows seem to be duplicated by the [scrobbler](https://www.last.fm/about/trackmymusic) from time to time).
 
 
 ## Filtering dates

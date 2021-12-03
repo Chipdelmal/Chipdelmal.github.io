@@ -20,7 +20,7 @@ In latest years, Spotify has released features for users to get a summary of the
 
 # Dev
 
-## Downloading and cleaning data
+## Downloading and cleaning
 
 To download a CSV file of my "scrobbles" I've been using [website](https://benjaminbenben.com/lastfm-to-csv/), which takes in a username and retreives the scrobbles summary in tableform. As I've described before, I've already coded a [script]() that cleans the CSV dataset, and another [script]() that parses the artists' data from [MusicBrainz](https://musicbrainz.org/); so, the first step is running these two pieces of code upon the CSV file.
 
@@ -30,6 +30,7 @@ Now, the first step is to do the counting.
 
 ```python
 data = pd.read_csv(stp.DATA_PATH + stp.USR + '_cln.csv', parse_dates=[3])
+data = data.drop_duplicates()
 artists = sorted(data.get('Artist').unique())
 artistCount = data.groupby('Artist').size().sort_values(ascending=False)
 ```
@@ -80,7 +81,6 @@ Doing a solid black background was not very appealing, so I loaded a custom text
 With this in place, we can plot our wordcloud in our canvas:
 
 ```python
-plt.figure(figsize=(20, 20*(HEIGHT / WIDTH)), facecolor='k')
 plt.imshow(wordcloud, interpolation='bilinear')
 
 ```
