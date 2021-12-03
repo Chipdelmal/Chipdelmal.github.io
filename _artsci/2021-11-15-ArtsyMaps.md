@@ -40,7 +40,7 @@ First, let's select a cool location and title for our map. We do this by getting
 (lat, lon) = (43.77325343869306, 11.256711217026762)
 dst = 10000
 (label, fName) = (
-    " Brandenburger Tor\nBerlin, DE",
+    "Santa Maria dil Fiore\nFirenze, IT",
     "Firenze"
 )
 ```
