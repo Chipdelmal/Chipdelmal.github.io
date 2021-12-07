@@ -6,7 +6,7 @@ article_header:
   theme: dark
   background_image:
     gradient: 'linear-gradient(135deg, rgba(0, 0, 0 , .4), rgba(0, 0, 0, .4))'
-    src: /media/artists/ART_WDC-2021_2022.jpg
+    src: /media/artists/ART_WDC-2021_2022Lo.jpg
 cover: /media/artists/ART_WDC-2021_2022Lo.jpg
 ---
 
@@ -22,7 +22,7 @@ In latest years, Spotify has released features for users to get a summary of the
 
 ## Downloading and cleaning
 
-To download a CSV file of my "scrobbles" I've been using [website](https://benjaminbenben.com/lastfm-to-csv/), which takes in a username and retreives the scrobbles summary in tableform. As I've described before, I've already coded a [script]() that cleans the CSV dataset, and another [script]() that parses the artists' data from [MusicBrainz](https://musicbrainz.org/); so, the first step is running these two pieces of code upon the CSV file.
+To download a CSV file of my "scrobbles" I've been using [website](https://benjaminbenben.com/lastfm-to-csv/), which takes in a username and retreives the scrobbles summary in tableform. As I've described before, I've already coded a [script](https://github.com/Chipdelmal/LastfmViz/blob/master/Lastfm_clean.py) that cleans the CSV dataset, and another [script](https://github.com/Chipdelmal/LastfmViz/blob/master/MusicBrainz_download.py) that parses the artists' data from [MusicBrainz](https://musicbrainz.org/); so, the first step is running these two pieces of code upon the CSV file.
 
 ## Counting artists' playcounts
 
@@ -35,21 +35,28 @@ artists = sorted(data.get('Artist').unique())
 artistCount = data.groupby('Artist').size().sort_values(ascending=False)
 ```
 
-## Creating cmap
-
-I wanted to have control over the color mapping, so I used a custom function that I've used for other projects. This function takes a list of hex colors and returns a cmap object that interpolates between them:
-
 ```python
-
+artistCount = artistCount.append(
+    pd.Series([10*max(artistCount.values)], index=[str(yLo[0])])
+)
 ```
 
-With this function in place, the color palette used was:
+## Creating cmap
+
+I wanted to have control over the color mapping, so I used a custom function that I've used for other projects. This function takes a list of hex colors and returns a `cmap` object that interpolates between them, so I used the following palette:
 
 ```python
-
+cList = [
+    '#ffffff', '#ffffff', '#ffffff', '#0466c8', 
+    '#ffffff', '#ffffff', '#ffffff', '#ff0a54',
+    '#ffffff', '#ffffff', '#ffffff', '#8338ec', 
+    '#ffffff', '#ffffff', '#ffffff'
+]
+cmap = aux.colorPaletteFromHexList(cList)
 ```
 
 It is worth noting that the white color is repeated to make the transitions between colors "sharper".
+
 ## Generating wordcloud
 
 
@@ -59,7 +66,7 @@ wordcloudDef = WordCloud(
         width=WIDTH, height=HEIGHT, max_words=2000,
         relative_scaling=.5, min_font_size=5, font_path=stp.FONT,
         background_color='rgba(0, 0, 0, 1)', mode='RGBA',
-        colormap='BuPu' # stp.cMap
+        colormap=cmap
     )
 wordcloud = wordcloudDef.generate_from_frequencies(artistCount)
 ```
@@ -69,20 +76,21 @@ wordcloud = wordcloudDef.generate_from_frequencies(artistCount)
 We now create our figure object:
 
 ```python
-
+fig = plt.figure(figsize=(20, 20*(HEIGHT/WIDTH)), facecolor='w')
+ax = fig.add_subplot(111)
 ```
 
 Doing a solid black background was not very appealing, so I loaded a custom texture for background:
 
 ```python
-
+img = cv2.imread("/home/chipdelmal/Documents/LastfmViz/img/raw.jpg")
+ax.imshow(img[:,:,::-1], extent=[0, 1, 0, 1], transform=ax.transAxes, zorder=-10)
 ```
 
 With this in place, we can plot our wordcloud in our canvas:
 
 ```python
 plt.imshow(wordcloud, interpolation='bilinear')
-
 ```
 
 Now, for the final touches and export:
