@@ -6,7 +6,7 @@ article_header:
   theme: dark
   background_image:
     gradient: 'linear-gradient(135deg, rgba(0, 0, 0 , .4), rgba(0, 0, 0, .4))'
-    src: /media/map/MAP_Belvedere.png
+    src: /media/map/MAP_Belvedere_banner.png
 cover: /media/map/2021-11-24_15-31.png
 ---
 
@@ -46,7 +46,7 @@ dst = 10000
 ```
 
 
-<center><img src="/media/map/MAP_firenze.png" style="width:50%;"></center><br>
+<center><img src="/media/map/MAP_firenze.jpg" style="width:50%;"></center><br>
 
 ```python
 (bgColor, bdColor) = ('#100F0F22', '#ffffff11')
