@@ -216,8 +216,6 @@ print(" "*80, end='\r')
     <div class="swiper__slide"><img src="/media/map/MAP_Quebec.jpg" style="width:100%;"></div>
     <div class="swiper__slide"><img src="/media/map/MAP_EmpireState.jpg" style="width:100%;"></div>
     <div class="swiper__slide"><img src="/media/map/MAP_PlazaMayor.jpg" style="width:100%;"></div>
-    <div class="swiper__slide"><img src="/media/map/MAP_Brandenburg.jpg" style="width:100%;"></div>
-    <div class="swiper__slide"><img src="/media/map/MAP_Budapest.png" style="width:100%;"></div>
   </div>
   <!-- <div class="swiper__pagination"></div> -->
   <div class="swiper__button swiper__button--prev fas fa-chevron-left"></div>
