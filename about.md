@@ -45,7 +45,7 @@ I'm a Computer Scientist PhD/Mechatronics Engineer BSc working in modeling proce
 For a list of my scientific publications please take a look at my [ResearchGate profile](https://www.researchgate.net/profile/Hector-Sanchez-Castellanos) or [Google Scholar site](https://scholar.google.com/citations?hl=en&user=OeOYQqEAAAAJ).
 
 <p style="text-align:center;">
-<a href='https://github.com/Chipdelmal'><img style="width: 100%" src="http://ghchart.rshah.org/3a0ca3/Chipdelmal"/></a>
+<a href='https://github.com/Chipdelmal'><img style="width: 100%" src="http://ghchart.rshah.org/7161ef/Chipdelmal"/></a>
 </p>
 
 
