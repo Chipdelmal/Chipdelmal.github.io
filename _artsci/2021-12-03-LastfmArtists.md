@@ -10,8 +10,6 @@ article_header:
 cover: /media/artists/ART_WDC-2021_2022Lo.jpg
 ---
 
-Coming soon!
-
 <!--more-->
 
 # Intro
@@ -22,18 +20,44 @@ In latest years, Spotify has released features for users to get a summary of the
 
 ## Downloading and cleaning
 
-To download a CSV file of my "scrobbles" I've been using [website](https://benjaminbenben.com/lastfm-to-csv/), which takes in a username and retreives the scrobbles summary in tableform. As I've described before, I've already coded a [script](https://github.com/Chipdelmal/LastfmViz/blob/master/Lastfm_clean.py) that cleans the CSV dataset, and another [script](https://github.com/Chipdelmal/LastfmViz/blob/master/MusicBrainz_download.py) that parses the artists' data from [MusicBrainz](https://musicbrainz.org/); so, the first step is running these two pieces of code upon the CSV file.
+To download a CSV file of my "scrobbles" I've been using [website](https://benjaminbenben.com/lastfm-to-csv/), which takes in a username and retreives the scrobbles summary in tableform. As I've described before, I've already coded a [script](https://github.com/Chipdelmal/LastfmViz/blob/master/Lastfm_clean.py) that cleans the CSV dataset, and another [script](https://github.com/Chipdelmal/LastfmViz/blob/master/MusicBrainz_download.py) that parses the artists' data from [MusicBrainz](https://musicbrainz.org/); so, the first step is running these two pieces of code on the CSV file.
 
-## Counting artists' playcounts
+## Constants and dataset
 
-Now, the first step is to do the counting.
+```python
+(yLo, yHi) = ((2012, 1), (2013, 1))
+DATE = True
+```
 
 ```python
 data = pd.read_csv(stp.DATA_PATH + stp.USR + '_cln.csv', parse_dates=[3])
 data = data.drop_duplicates()
+```
+
+## Filtering dates
+
+I wanted to plot each year independently, so I filtered the `datetime` intervals with a mask in the dataframe:
+
+```python
+msk = [(
+    (i.date() >= datetime.date(yLo[0], yLo[1], 1)) and 
+    (i.date() < datetime.date(yHi[0], yHi[1], 1))
+  ) if (type(i) is not float) else (False) for i in data['Date']
+]
+data = data.loc[msk]
+```
+
+
+## Counting artists' playcounts
+
+We need to count the playcounts of all the artists in the filtered time-range. To do this, we can simply count the number of appearances of the artists' names in the "Artist" column of the dataframe:
+
+```python
 artists = sorted(data.get('Artist').unique())
 artistCount = data.groupby('Artist').size().sort_values(ascending=False)
 ```
+
+To add the year, I did some tests overlying the year on top of the wordcloud but didn't quite like it, so I decided to include it as part of the wordcloud instead by adding it to the dataframe with a scaling factor of ten times the top artist:
 
 ```python
 artistCount = artistCount.append(
@@ -59,7 +83,7 @@ It is worth noting that the white color is repeated to make the transitions betw
 
 ## Generating wordcloud
 
-
+I used the [Wordcloud](https://amueller.github.io/word_cloud/) package with the [Prompt Thin font](https://www.fontpalace.com/font-details/prompt-thin/). To generate the wordcloud object, we use:
 
 ```python
 wordcloudDef = WordCloud(
@@ -150,5 +174,5 @@ plt.savefig(
 
 # Code repo
 
-* **Repository:** [Github repo](https://github.com/Chipdelmal/LastfmViz)
+* **Repository:** [Github repo](https://github.com/Chipdelmal/LastfmViz/blob/master/artistFreq.py)
 * **Dependencies:** [pandas](https://pandas.pydata.org/),  [musicbrainzngs](https://github.com/alastair/python-musicbrainzngs), [geopy](https://geopy.readthedocs.io/), [basemap](https://matplotlib.org/basemap/), [matplotlib](https://matplotlib.org/), [wordcloud](https://github.com/amueller/word_cloud), [opencv-python](https://pypi.org/project/opencv-python/)
