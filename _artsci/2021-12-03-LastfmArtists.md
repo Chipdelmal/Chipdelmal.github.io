@@ -22,12 +22,9 @@ In latest years, Spotify has released features for users to get a summary of the
 
 To download a CSV file of my "scrobbles" I've been using [website](https://benjaminbenben.com/lastfm-to-csv/), which takes in a username and retreives the scrobbles summary in tableform. As I've described before, I've already coded a [script](https://github.com/Chipdelmal/LastfmViz/blob/master/Lastfm_clean.py) that cleans the CSV dataset, and another [script](https://github.com/Chipdelmal/LastfmViz/blob/master/MusicBrainz_download.py) that parses the artists' data from [MusicBrainz](https://musicbrainz.org/); so, the first step is running these two pieces of code on the CSV file.
 
-## Constants and dataset
+## Reading Dataset
 
-```python
-(yLo, yHi) = ((2012, 1), (2013, 1))
-DATE = True
-```
+We will load the dataset in a pretty standard way, with the dates being parsed from the appropriate column in the CSV file, and we will make sure there are no duplicate rows in it (something that sometimes happens with last.fm):
 
 ```python
 data = pd.read_csv(stp.DATA_PATH + stp.USR + '_cln.csv', parse_dates=[3])
