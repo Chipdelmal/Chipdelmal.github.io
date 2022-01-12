@@ -14,7 +14,7 @@ cover: /media/dc/1992_Aladdin.jpg
 
 # Intro
 
-After coming across some posts online on the clustering of dominant colors in movies presented in a very appealing way, I decided to improve upon my original [movies fingerprint algorithm](./artsci/2019-10-10-ColorFingerprint.html) and [color palette extractor](./artsci/2019-10-27-ColorPalette.html).
+After coming across some posts online on the clustering of dominant colors in movies presented in a very appealing way, I decided to improve upon my original [movies fingerprint algorithm](./2019-10-10-ColorFingerprint.html) and [color palette extractor](./2019-10-27-ColorPalette.html).
 
 
 # CodeDev
