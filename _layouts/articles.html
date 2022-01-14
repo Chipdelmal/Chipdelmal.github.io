@@ -35,7 +35,7 @@ layout: page
 
   <div class="layout--articles">
     {%- if _type == 'grid' -%}
-    <p style='font-size: 17.5px; text-align: center;'>Click on the titles to read the full posts!</p><br>
+    <p style='font-size: 17.5px; text-align: center;'>Click on the titles to read the full posts!</p><br><br>
       {%- if page.articles.size == 'sm' -%}
         {%- include article-list.html articles=_articles type='grid' reverse=true size='sm' -%}
       {%- else -%}
