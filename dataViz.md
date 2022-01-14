@@ -3,6 +3,8 @@ layout: articles
 title: 'Data Analysis ∪ Visualization'
 articles:
   data_source: site.dataViz
-  type: grid
-  size: md
+  show_excerpt: true
+  show_readmore: true
+  show_info: true
+  reverse: true
 ---
