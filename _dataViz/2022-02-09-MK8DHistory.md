@@ -109,7 +109,7 @@ The code for this section is available at this [link](https://github.com/Chipdel
 
 With our links file ready, we move towards downloading the data from each run. This involves opening every one of the links we just stored in our CSV file to get: `Runner's Name, Run Time, Run's Date, Submission Date`.
 
-<center><img width="60%" src="/media/mklh/entry.png"></center>
+<a href="https://www.speedrun.com/mk8dx/run/yd0e160z"><center><img width="60%" src="/media/mklh/entry.png"></center><a>
 
 Unfortunately not all of the data from each run is formatted the same, so it takes a bit of cleaning to get the actual name of the runner (which I'm omitting 'cause they are not particularly interesting):
 
