@@ -1,5 +1,5 @@
 ---
-title: "MK8D's Leaderboard History"
+title: "MK8D's Leaderboard Timeline"
 tags: datasci dataviz mk8d speedrun gaming
 article_header:
   type: overlay
