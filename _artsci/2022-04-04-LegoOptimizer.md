@@ -12,6 +12,8 @@ cover: /media/lego/sami_Lego.png
 
 <br>
 
+<!--more-->
+
 Some time ago I was talking to a friend who had visited a Lego store where he got the kit to make his own portrait (as depicted [here](https://www.lego.com/en-us/product/mosaic-maker-40179)). The idea looked pretty cool and we started wondering if there'd be a better way to do it. A couple of things immediately popped-out to us: it's only five shades of color, and it uses 1-by-1 size blocks. This started the idea of coding an algorithm that could generate these kind of images with more colors and that included longer blocks. 
 
 <center><img src="/media/lego/2022-04-02_10-43.png" style="width:25%;"><img src="/media/lego/2022-04-02_10-43_1.png" style="width:25%;"></center>
@@ -19,7 +21,6 @@ Some time ago I was talking to a friend who had visited a Lego store where he go
 Initially, we thought it'd be a somewhat run-of-the-mill optimization problem, but it took some image processing, run-length encoding, solving a multiple-knapsack problem, and some image decoding to get the whole task done!
 
 
-<!--more-->
 
 
 # General Questions and Overview of the Solution
@@ -188,6 +189,8 @@ So that, after we repeat this for the whole image, we could go through each row 
 * __Goal:__ *To plot the blocks in their respective locations in the image.*
 
 The final step in the pipeline is to re-create the original image with the blocks outlined on top of it. 
+
+# Use Example
 
 # Code Repo
 
