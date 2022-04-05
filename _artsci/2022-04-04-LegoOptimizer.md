@@ -70,6 +70,8 @@ imgDwn.save(pthDWN)
 ## [Data Reshaping](https://github.com/Chipdelmal/LegoOptimizer/blob/main/preprocess.py)
 
 * __Goal:__ *To transform the image data from an image format into some shape that we can feed into the optimization algorithm (run-length encoding).*
+* __Input:__ *PNG image.*
+* __Output:__ *Run-Length encoding dictionary with color mappings.*
 
 With our image resized and in quantized colors, we now need to reshape it so that we end up with 1D color vectors representing the gaps to fill with our pool of blocks.
 
@@ -112,6 +114,8 @@ pDict = {
 ## [Optimization](https://github.com/Chipdelmal/LegoOptimizer/blob/main/optimizer.py)
 
 * __Goal:__ *To solve the block-assignment problem (multiple-knapsack)*
+* __Input:__ *Run-Length encoding dictionary with color mappings.*
+* __Output:__ *Serialized optimization output.*
 
 We are now ready for the most complicated section of the application, the NP Knapsack Problem. Specifically, problem we are facing here is the [Multiple-Knapsack Problem](https://en.wikipedia.org/wiki/Knapsack_problem#Multiple_knapsack_problem). The reason why I decided to use the Knapsack version over the [Multiple-Subset Sum Problem](https://en.wikipedia.org/wiki/Multiple_subset_sum) is that it allows us to set a "value" parameter for each one of the blocks, which will be handy if we want the algorithm to give preference to larger blocks, for example.
 
@@ -151,6 +155,8 @@ Once we get the solution for all the colors (which might take a while), we seria
 ## [Data Decoding](https://github.com/Chipdelmal/LegoOptimizer/blob/main/decoder.py)
 
 * __Goal:__ *To re-shape the data from the optimization results into structures that can be handled in a visualization algorithm.*
+* __Input:__ *Serialized optimization output.*
+* __Output:__ *Decoded image blocks mappings.*
 
 Solving the problem is good and all, but it still leaves us with the question: where should we place our blocks?
 
@@ -187,10 +193,40 @@ So that, after we repeat this for the whole image, we could go through each row 
 ## [Image Reconstruction](https://github.com/Chipdelmal/LegoOptimizer/blob/main/reconstruct.py)
 
 * __Goal:__ *To plot the blocks in their respective locations in the image.*
+* __Input:__ *Decoded image blocks mappings.*
+* __Output:__ *Image with highlighted blocks.*
 
 The final step in the pipeline is to re-create the original image with the blocks outlined on top of it. 
 
 # Use Example
+
+
+
+<!-- # Gallery
+
+<style>
+    .swiper-demo {height: 300px;}
+    .swiper-demo .swiper__slide {
+        display: flex; align-items: center; justify-content: center;
+        font-size: 3rem; color: #fff;
+    }
+</style>
+
+
+<div class="swiper my-3 swiper-demo swiper-demo--0">
+    <div class="swiper__wrapper"> 
+        <div class="swiper__slide"><img src="/media/pixart/FNL-Pilxten_41-reconPalette.png" style="width:50%;"></div>
+        <div class="swiper__slide"><img src="/media/pixart/FNL-LeMasteros_89-mechsPalette.png" style="width:50%;"></div>
+        <div class="swiper__slide"><img src="/media/pixart/FNL-Pilxten_41-cruiserPalette.png" style="width:50%;"></div>
+        <div class="swiper__slide"><img src="/media/pixart/FNL-Pear_36-fightersPalette.png" style="width:50%;"></div>
+        <div class="swiper__slide"><img src="/media/pixart/FNL-LeMasteros_89-rocketsPalette.png" style="width:50%;"></div>
+        <div class="swiper__slide"><img src="/media/pixart/FNL-MistGB_4-tankPalette.png" style="width:50%;"></div>
+        <div class="swiper__slide"><img src="/media/pixart/FNL-SGBM1D_4-sami2.png" style="width:50%;"></div>
+    </div>
+    <div class="swiper__button swiper__button--prev fas fa-chevron-left"></div>
+    <div class="swiper__button swiper__button--next fas fa-chevron-right"></div>
+</div> -->
+
 
 # Code Repo
 
