@@ -14,11 +14,11 @@ cover: /media/lego/banner.png
 
 <!--more-->
 
-Some time ago I was talking to a friend who had visited a Lego store where he got the kit to make his own portrait (as depicted [here](https://www.lego.com/en-us/product/mosaic-maker-40179)). The idea looked pretty cool and we started wondering if there'd be a better way to do it. A couple of things immediately popped-out to us: it's only five shades of color, and it uses 1-by-1 size blocks. This started the idea of coding an algorithm that could generate these kind of images with more colors and that included longer blocks. 
+Some time ago I was talking to a friend who had visited a Lego store where he got the kit to make his own portrait (as depicted [here](https://www.lego.com/en-us/product/mosaic-maker-40179)). The idea looked pretty cool and we started wondering if there'd be a better way to do it. A couple of things immediately popped-out to us: it's only five shades of color, and it uses 1-by-1 size blocks; as shown in the following image:
 
 <center><img src="/media/lego/2022-04-02_10-43.png" style="width:25%;"><img src="/media/lego/2022-04-02_10-43_1.png" style="width:25%;"></center>
 
-Initially, we thought it'd be a somewhat run-of-the-mill optimization problem, but it took some image processing, run-length encoding, solving a multiple-knapsack problem, and some image decoding to get the whole task done!
+This started the idea of coding an algorithm that could generate these kind of images with more colors and that included longer blocks. Initially, we thought it'd be a somewhat run-of-the-mill optimization problem, but it took some image processing, run-length encoding, solving a multiple-knapsack problem, and some image decoding to get the whole task done!
 
 
 
