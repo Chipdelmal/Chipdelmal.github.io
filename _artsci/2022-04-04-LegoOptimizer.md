@@ -20,10 +20,10 @@ Some time ago I was talking to a friend who had visited a Lego store where he go
 
 This started the idea of coding an algorithm that could generate these kind of images with more colors and that included longer blocks. Initially, we thought it'd be a somewhat run-of-the-mill optimization problem, but it took some image processing, run-length encoding, solving a multiple-knapsack problem, and some image decoding to get the whole task done!
 
+<center><img src="/media/lego/sami_FNL.png" style="width:50%;"></center>
 
 
-
-# General Questions and Overview of the Solution
+# Overview
 
 Given a pixel-based image and a pool of colored blocks:
 
@@ -49,6 +49,8 @@ Some things to note when simplifying the problem-space are:
 
 As in our previous post on [PixArt-Beads](./2022-03-10-PixelArt.html), we need to rescale and quantize our source images so that we can work with them in a reasonable color space and in manageable computing times. The original [LEGO Mosaic Maker](https://www.lego.com/en-us/product/mosaic-maker-40179) uses a 50x50 layout, so our default will be the same.
 
+<center><img src="/media/lego/sami.png" style="width:20%;"></center>
+
 We will quantize our image using [PIL](https://pillow.readthedocs.io/en/stable/) (for more details have a look at the [PixArt-Beads](./2022-03-10-PixelArt.html) post):
 
 ```python
@@ -65,7 +67,7 @@ imgDwn = imgQnt.resize(SIZE, resample=Image.BILINEAR)
 imgDwn.save(pthDWN)
 ```
 
-<center><img src="/media/lego/sami.png" style="width:20%;"><img src="/media/lego/sami_DWN.png" style="width:20%;"></center>
+<center><img src="/media/lego/sami_DWN.png" style="width:20%;"></center>
 
 ## [Data Reshaping](https://github.com/Chipdelmal/LegoOptimizer/blob/main/preprocess.py)
 
@@ -110,6 +112,8 @@ pDict = {
   'runLengthVectors': pVectors, 'runLengthLengths': pLengths
 }
 ```
+
+There is an extra step that is taken in some instances where the image contains large vectors (images which have many elements of the same color), so that the problems are solvable in reasonable computational times. This process involves splitting the vectors into smaller fractions and will be explained in a future post.
 
 ## [Optimization](https://github.com/Chipdelmal/LegoOptimizer/blob/main/optimizer.py)
 
@@ -193,14 +197,23 @@ So that, after we repeat this for the whole image, we could go through each row 
 ## [Image Reconstruction](https://github.com/Chipdelmal/LegoOptimizer/blob/main/reconstruct.py)
 
 * __Goal:__ *To plot the blocks in their respective locations in the image.*
-* __Input:__ *Decoded image blocks mappings.*
+* __Input:__ *Decoded image blocks mappings & original image.*
 * __Output:__ *Image with highlighted blocks.*
 
-The final step in the pipeline is to re-create the original image with the blocks outlined on top of it. 
-
-# Use Example
+With the hard part done, we are ready to re-create the original image with the blocks outlined on top of it. 
 
 
+
+## [Bill of Materials](https://github.com/Chipdelmal/LegoOptimizer/blob/main/bom.py)
+
+* __Goal:__ *To get a count of the blocks needed for our project.*
+* __Input:__ *Decoded image blocks mappings, and image with highlighted blocks*
+* __Output:__ *Final panel with portrait and bill of materials.*
+
+Finally, we need to compute the number of blocks and shapes of each color that will be needed to build our portrait.
+
+
+# Notes
 
 <!-- # Gallery
 
