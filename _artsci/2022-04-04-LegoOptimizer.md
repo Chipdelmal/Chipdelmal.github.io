@@ -233,10 +233,10 @@ for rix in range(len(decoded)):
 
 This gives image reconstruction process works both as a visualization and verification step, as any missmatches would result in scrambled images. Resulting images look as follows:
 
-<center><img src="/media/lego/sami_Lego.png" style="width:25%;"><img src="/media/lego/sami_Lego_missing2.png" style="width:25%;"></center>
+<center><img src="/media/lego/sami_Lego.png" style="width:50%;"><img src="/media/lego/sami_Lego_missing2.png" style="width:50%;"></center>
 
 
-With a case where a solution was found with available blocks is shown in the left, and one in which some blocks would be missing on the right (not enough blocks available in the pool).
+With a case where a solution was found with available blocks is shown in the left, and one in which some blocks would be missing on the right (a considerably smaller pool of blocks was provided to the algorithm).
 
 ## [Bill of Materials](https://github.com/Chipdelmal/LegoOptimizer/blob/main/bom.py)
 
