@@ -1,5 +1,5 @@
 ---
-title: "Lego Portrait Optimizer (Coming Soon)"
+title: "Lego Portrait Optimizer"
 tags: artsci image-processing pixel color lego optimization knapsack run-length
 article_header:
   type: overlay
@@ -28,7 +28,7 @@ This started the idea of coding an algorithm that could generate these kind of i
 Given a pixel-based image and a pool of colored blocks:
 
 1. Can I recreate the image with my available blocks?
-2. How should I arrange them so that I don't run out without the image being completed?
+2. How should I arrange them so that I don't run out of them without the image being completed?
 
 Some things to note when simplifying the problem-space are:
 
@@ -66,7 +66,7 @@ imgDwn = imgQnt.resize(SIZE, resample=Image.BILINEAR)
 imgDwn.save(pthDWN)
 ```
 
-<center><img src="/media/lego/sami.png" style="width:25%;"><img src="/media/lego/sami_DWN.png" style="width:25%;"></center>
+<center><img src="/media/lego/sami.png" style="width:20%;"><img src="/media/lego/sami_DWN.png" style="width:20%;"></center>
 
 ## [Data Reshaping](https://github.com/Chipdelmal/LegoOptimizer/blob/main/preprocess.py)
 
@@ -120,9 +120,10 @@ There is an extra step that is taken in some instances where the image contains 
 * __Input:__ *Run-Length encoding dictionary with color mappings.*
 * __Output:__ *Serialized optimization output.*
 
-We are now ready for the most complicated section of the application, the NP Knapsack Problem. Specifically, problem we are facing here is the [Multiple-Knapsack Problem](https://en.wikipedia.org/wiki/Knapsack_problem#Multiple_knapsack_problem). The reason why I decided to use the Knapsack version over the [Multiple-Subset Sum Problem](https://en.wikipedia.org/wiki/Multiple_subset_sum) is that it allows us to set a "value" parameter for each one of the blocks, which will be handy if we want the algorithm to give preference to larger blocks, for example.
+We are now ready for the most complicated section of the application, the NP Knapsack Problem. Specifically, problem we are facing here is the [Multiple-Knapsack Problem](https://en.wikipedia.org/wiki/Knapsack_problem#Multiple_knapsack_problem). The way our problem translates into the knapsack one is explained as follows: *We need to determine if the blocks we have at hand (items), can fit the gaps we need to fill (containers) to generate our image*. Now, up to this point the problem statement sounds a bit more like the [Multiple-Subset Sum Problem](https://en.wikipedia.org/wiki/Multiple_subset_sum) than the [Multiple-Knapsack Problem](https://en.wikipedia.org/wiki/Knapsack_problem#Multiple_knapsack_problem), but we will add the following ammend to the problem: *Some of the blocks are preferred over others (value)*. The reason why I decided to use the Knapsack version over the  is that it allows us to control the preference on using some blocks over others, which is useful if we want to use as many large blocks as possible, for example.
 
-While searching online for approaches to solve this optimization problem, I came across a solution using [Google's OR-Tools](https://developers.google.com/optimization/bin/multiple_knapsack), so I gave it a try. I'm not gonna go through the whole code because I'm by no means an expert in the tool, but in general, we to the following:
+
+While searching online for approaches to solve this optimization problem, I came across a solution using [Google's OR-Tools](https://developers.google.com/optimization/bin/multiple_knapsack), so I gave it a try. I'm not gonna go through the whole code because I'm by no means an expert in the tool, but in general, we do the following:
 
 ```python
 # Load an instance of the solver
@@ -252,6 +253,7 @@ Running this final piece of the puzzle gives us the following:
 
 # Notes
 
+I will explain a bit more about the setup and usage of the tool in a follow-up post, as this one is already a bit long. In it, we will go through how to give priority to blocks of specific langths and how to setup and run the pipeline with specific block pools and with more images.
 
 
 <!-- # Gallery
@@ -282,5 +284,5 @@ Running this final piece of the puzzle gives us the following:
 
 # Code Repo
 
-* **Repository:** [Github repo](https://github.com/Chipdelmal/LegoOptimizer)
+* **Repository (coming soon):** [Github repo](https://github.com/Chipdelmal/LegoOptimizer)
 * **Dependencies:** [opencv-python](https://pypi.org/project/opencv-python/), [Pillow](https://pillow.readthedocs.io/en/stable/), [numpy](https://numpy.org/), [OR-Tools](https://developers.google.com/optimization/install), [compress-pickle](https://pypi.org/project/compress-pickle/), [termcolor](https://pypi.org/project/termcolor2/)
