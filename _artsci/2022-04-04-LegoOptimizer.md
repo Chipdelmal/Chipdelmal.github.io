@@ -18,17 +18,21 @@ Some time ago I was talking to a friend who had visited a Lego store where he go
 
 <center><img src="/media/lego/2022-04-02_10-43.png" style="width:25%;"><img src="/media/lego/2022-04-02_10-43_1.png" style="width:25%;"></center>
 
-This started the idea of coding an algorithm that could generate these kind of images with more colors and that included longer blocks. Initially, we thought it'd be a somewhat run-of-the-mill optimization problem, but it took some image processing, run-length encoding, solving a multiple-knapsack problem, and some image decoding to get the whole task done!
+This sparked the idea of coding an algorithm that could generate these kind of images with more colors and that included longer blocks. Initially, we thought it'd be a somewhat run-of-the-mill optimization problem, but it took some image processing, run-length encoding, solving a multiple-knapsack problem, and some image decoding to get the whole task done!
 
 <center><img src="/media/lego/demo.png" style="width:100%;"></center>
 
 
 # Overview
 
-Given a pixel-based image and a pool of colored blocks:
+## Problem Statement
 
-1. Can I recreate the image with my available blocks?
-2. How should I arrange them so that I don't run out of them without the image being completed?
+Given a pixel-based image and a pool of colored blocks, can I recreate the image with my available blocks?
+
+  * If so, how should I arrange them so that I don't run out of them without the image being completed?
+  * If not, what blocks are missing for me to complete the image?
+
+## Assumptions
 
 Some things to note when simplifying the problem-space are:
 
@@ -41,7 +45,9 @@ Some things to note when simplifying the problem-space are:
 
 # Code Dev
 
-## Image Preprocessing
+The full [pipeline](https://github.com/Chipdelmal/LegoOptimizer/blob/main/main.sh) takes six steps in total: image preprocessing, [Image Preprocessing](https://github.com/Chipdelmal/LegoOptimizer/blob/main/pimage.py), [Data Reshaping](https://github.com/Chipdelmal/LegoOptimizer/blob/main/preprocess.py), [Optimization](https://github.com/Chipdelmal/LegoOptimizer/blob/main/optimizer.py), [Data Decoding](https://github.com/Chipdelmal/LegoOptimizer/blob/main/decoder.py), [Image Reconstruction](https://github.com/Chipdelmal/LegoOptimizer/blob/main/reconstruct.py), and [Bill of Materials](https://github.com/Chipdelmal/LegoOptimizer/blob/main/bom.py); all of which will be described in the following section.
+
+## [Image Preprocessing](https://github.com/Chipdelmal/LegoOptimizer/blob/main/pimage.py)
 
 * __Goal:__ *To start with a large image with many different colors and process it to a pixel one with a quantized set of colors*
 * __Input:__ *PNG image.*
@@ -251,35 +257,10 @@ Running this final piece of the puzzle gives us the following:
 <center><img src="/media/lego/sami_FNL.png" style="width:100%;"></center>
 
 
+
 # Notes
 
 I will explain a bit more about the setup and usage of the tool in a follow-up post, as this one is already a bit long. In it, we will go through how to give priority to blocks of specific langths and how to setup and run the pipeline with specific block pools and with more images.
-
-
-<!-- # Gallery
-
-<style>
-    .swiper-demo {height: 300px;}
-    .swiper-demo .swiper__slide {
-        display: flex; align-items: center; justify-content: center;
-        font-size: 3rem; color: #fff;
-    }
-</style>
-
-
-<div class="swiper my-3 swiper-demo swiper-demo--0">
-    <div class="swiper__wrapper"> 
-        <div class="swiper__slide"><img src="/media/pixart/FNL-Pilxten_41-reconPalette.png" style="width:50%;"></div>
-        <div class="swiper__slide"><img src="/media/pixart/FNL-LeMasteros_89-mechsPalette.png" style="width:50%;"></div>
-        <div class="swiper__slide"><img src="/media/pixart/FNL-Pilxten_41-cruiserPalette.png" style="width:50%;"></div>
-        <div class="swiper__slide"><img src="/media/pixart/FNL-Pear_36-fightersPalette.png" style="width:50%;"></div>
-        <div class="swiper__slide"><img src="/media/pixart/FNL-LeMasteros_89-rocketsPalette.png" style="width:50%;"></div>
-        <div class="swiper__slide"><img src="/media/pixart/FNL-MistGB_4-tankPalette.png" style="width:50%;"></div>
-        <div class="swiper__slide"><img src="/media/pixart/FNL-SGBM1D_4-sami2.png" style="width:50%;"></div>
-    </div>
-    <div class="swiper__button swiper__button--prev fas fa-chevron-left"></div>
-    <div class="swiper__button swiper__button--next fas fa-chevron-right"></div>
-</div> -->
 
 
 # Code Repo
