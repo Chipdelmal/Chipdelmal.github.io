@@ -20,7 +20,7 @@ Some time ago I was talking to a friend who had visited a Lego store where he go
 
 This started the idea of coding an algorithm that could generate these kind of images with more colors and that included longer blocks. Initially, we thought it'd be a somewhat run-of-the-mill optimization problem, but it took some image processing, run-length encoding, solving a multiple-knapsack problem, and some image decoding to get the whole task done!
 
-<center><img src="/media/lego/sami_FNL.png" style="width:50%;"></center>
+<center><img src="/media/lego/demo.png" style="width:100%;"></center>
 
 
 # Overview
@@ -200,9 +200,43 @@ So that, after we repeat this for the whole image, we could go through each row 
 * __Input:__ *Decoded image blocks mappings & original image.*
 * __Output:__ *Image with highlighted blocks.*
 
-With the hard part done, we are ready to re-create the original image with the blocks outlined on top of it. 
+With the hard optimization part done, we are ready to re-create the original image with the blocks outlined on top of it. The idea here is to iterate through each row of the optimized blocks and "build" the image back piece by piece. This has a slight caveat in that the missing blocks are returned as negative numbers, so they have to be handled properly (in this case, we switch the edge color to red):
 
 
+```python
+# Iterate through the decoded array (rix: row index)
+for rix in range(len(decoded)):
+    # Get row information (dRow: decoded row)
+    dRow = decoded[rix]
+    # Get the iterators started
+    (row, col) = (rix, 0)
+    # Load info from the block index
+    for bix in range(len(dRow)):
+        (bColor, bLensVct) = dRow[bix]
+        bColsLen = len(bLensVct)
+        for bCols in range(bColsLen):
+            # Setup the drawer to the left-top corner
+            tlCrnr = (SCALER*col+LW/2, SCALER*row+LW/2)
+            # The length of the block is defined by the array (height is constant for all)
+            (w, h) = (bLensVct[bCols]*SCALER, 1*SCALER)
+            # Handle the case for which there not enough blocks
+            rectCol = RB_COL if (w > 0) else RN_COL
+            w = abs(w)
+            blocks = (tlCrnr, (tlCrnr[0]+w-LW/2, tlCrnr[1]+h-LW/2))
+            # Draw the resulting block 
+            draw = ImageDraw.Draw(img)
+            # draw.rectangle(blocks, fill=(*bColor, int(255*BLOCKS_ALPHA)))
+            draw.rectangle(blocks, outline=rectCol, width=LW)
+            # Shift column iterator
+            col = col + abs(bLensVct[bCols])
+```
+
+This gives image reconstruction process works both as a visualization and verification step, as any missmatches would result in scrambled images. Resulting images look as follows:
+
+<center><img src="/media/lego/sami_Lego.png" style="width:25%;"></center>
+
+
+With a case where a solution was found with available blocks is shown in the left, and one in which some blocks would be missing on the right.
 
 ## [Bill of Materials](https://github.com/Chipdelmal/LegoOptimizer/blob/main/bom.py)
 
@@ -210,7 +244,10 @@ With the hard part done, we are ready to re-create the original image with the b
 * __Input:__ *Decoded image blocks mappings, and image with highlighted blocks*
 * __Output:__ *Final panel with portrait and bill of materials.*
 
-Finally, we need to compute the number of blocks and shapes of each color that will be needed to build our portrait.
+Finally, we need to compute the number of blocks and shapes of each color that will be needed to build our portrait. 
+
+
+<center><img src="/media/lego/sami_FNL.png" style="width:100%;"></center>
 
 
 # Notes
