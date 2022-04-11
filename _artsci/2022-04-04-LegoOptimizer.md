@@ -49,7 +49,6 @@ Some things to note when simplifying the problem-space are:
 
 As in our previous post on [PixArt-Beads](./2022-03-10-PixelArt.html), we need to rescale and quantize our source images so that we can work with them in a reasonable color space and in manageable computing times. The original [LEGO Mosaic Maker](https://www.lego.com/en-us/product/mosaic-maker-40179) uses a 50x50 layout, so our default will be the same.
 
-<center><img src="/media/lego/sami.png" style="width:20%;"></center>
 
 We will quantize our image using [PIL](https://pillow.readthedocs.io/en/stable/) (for more details have a look at the [PixArt-Beads](./2022-03-10-PixelArt.html) post):
 
@@ -67,7 +66,7 @@ imgDwn = imgQnt.resize(SIZE, resample=Image.BILINEAR)
 imgDwn.save(pthDWN)
 ```
 
-<center><img src="/media/lego/sami_DWN.png" style="width:20%;"></center>
+<center><img src="/media/lego/sami.png" style="width:25%;"><img src="/media/lego/sami_DWN.png" style="width:25%;"></center>
 
 ## [Data Reshaping](https://github.com/Chipdelmal/LegoOptimizer/blob/main/preprocess.py)
 
@@ -244,13 +243,16 @@ With a case where a solution was found with available blocks is shown in the lef
 * __Input:__ *Decoded image blocks mappings, and image with highlighted blocks*
 * __Output:__ *Final panel with portrait and bill of materials.*
 
-Finally, we need to compute the number of blocks and shapes of each color that will be needed to build our portrait. 
+Finally, we need to compute the number of blocks and shapes of each color that will be needed to build our portrait. I wanted to make use of the same function I coded for the [PixArt-Beads](./2022-03-10-PixelArt.html) code, so all this part of the code does is to reshape everything so that it can fit the aforementioned function with as [little modifications as possible](https://github.com/Chipdelmal/LegoOptimizer/blob/main/functions.py#L258).
 
+Running this final piece of the puzzle gives us the following:
 
 <center><img src="/media/lego/sami_FNL.png" style="width:100%;"></center>
 
 
 # Notes
+
+
 
 <!-- # Gallery
 
