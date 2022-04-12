@@ -20,7 +20,7 @@ Some time ago I was talking to a friend who had visited a Lego store where he go
 
 This sparked the idea of coding an algorithm that could generate these kind of images with more colors and that included longer blocks. Initially, we thought it'd be a somewhat run-of-the-mill optimization problem, but it took some image processing, run-length encoding, solving a multiple-knapsack problem, and some image decoding to get the whole task done!
 
-<center><img src="/media/lego/demo.png" style="width:100%;"></center>
+<center><img src="/media/lego/UPS-Pear_36-sami_FNL-Base.png" style="width:100%;"></center>
 
 
 # Overview
