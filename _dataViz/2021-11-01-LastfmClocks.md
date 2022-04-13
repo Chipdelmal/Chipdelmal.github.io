@@ -10,6 +10,9 @@ article_header:
 cover: /media/clocks/clocks.jpg
 ---
 
+<br>
+
+Comparing my active music-listening times over the years.
 
 <!--more-->
 

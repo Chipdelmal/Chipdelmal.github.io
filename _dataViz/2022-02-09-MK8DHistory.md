@@ -12,6 +12,8 @@ cover: /media/mklh/LeadRanks-48_200cc-NoItems.jpg
 
 <br>
 
+Creating rank-plots on the "Mario Kart 8 Deluxe" speedruns leaderboard.
+
 <!--more-->
 
 # Intro

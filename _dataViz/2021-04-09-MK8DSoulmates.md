@@ -10,6 +10,10 @@ article_header:
 cover: /media/sm/sm_CH.png
 ---
 
+<br>
+
+A fun data-analysis project with my friends to figure out our soulmates based on MK8D favorite tracks.
+
 
 <!--more-->
 
