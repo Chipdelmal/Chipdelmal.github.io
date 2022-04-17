@@ -118,7 +118,7 @@ pDict = {
 }
 ```
 
-There is an extra step that is taken in some instances where the image contains large vectors (images which have many elements of the same color), so that the problems are solvable in reasonable computational times. This process involves splitting the vectors into smaller fractions and will be explained in a future post.
+There is an extra step that is taken in some instances where the image contains large vectors (images which have many elements of the same color), so that the problems are solvable in reasonable computational times. This process involves splitting the vectors into smaller fractions and will be explained in a [future post](./2022-04-13-LegoOptimizerFollow.html).
 
 ## [Optimization](https://github.com/Chipdelmal/LegoOptimizer/blob/main/optimizer.py)
 
