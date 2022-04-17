@@ -12,7 +12,6 @@ cover: /media/lego/banner2.png
 
 <br>
 
-**Still being written! Sorry for the stubs and errors!**
 
 <!--more-->
 
@@ -176,6 +175,7 @@ Now, the less obvious downside to these approaches is that the algorithm might n
 
 # Final Thoughts
 
+This has been a much more complicated project than I initially expected but it was also quite exciting to get it running. Some of the data structures could be better, as most were figured out a bit on the fly, and usability needs some improvements but for now I think I'll leave it as it is for further testing and to figure out what would be best to automate the pipeline a bit further.
 
 <center><img src="../media/lego/bike_FNL.png" style="width:75%;"></center>
 
