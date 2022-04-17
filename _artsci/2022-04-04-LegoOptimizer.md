@@ -1,5 +1,5 @@
 ---
-title: "Lego Portrait Optimizer"
+title: "Lego Portrait Optimizer [Pt. 1]"
 tags: artsci image-processing pixel color lego optimization knapsack run-length
 article_header:
   type: overlay
