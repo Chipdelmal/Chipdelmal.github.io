@@ -21,6 +21,22 @@ cover: /media/chord/PRTCC_650-05.png
 
 # Code Description
 
+## Dataset
+
+ [last.fm data](/artsci/2019-12-10-LastfmViz.html)
+
+```
+John Moreland       In The Throes       Your Spell              2022-06-17 21:02:00-07:00
+Eels                Shootenanny!        Rock Hard Times         2022-06-17 20:58:00-07:00
+Page France         Come I'm a lion!    Bridge                  2022-06-17 20:44:00-07:00
+The Lumineers       Cleopatra           Gale Song               2022-06-17 20:40:00-07:00
+John Moreland       High on Tulsa Heat  Losing Sleep Tonight    2022-06-17 20:35:00-07:00
+Fort Atlantic       Fort Atlantic       My Love Is With You     2022-06-17 20:12:00-07:00
+Fort Atlantic       Fort Atlantic       There Is Love           2022-06-17 20:08:00-07:00
+Caamp               Lavender Days       Lavender Girl           2022-06-17 20:05:00-07:00
+Houndmouth          Good For You        McKenzie                2022-06-17 20:02:00-07:00
+```
+
 ## [Data Cleaning](https://github.com/Chipdelmal/LastfmViz/blob/master/cleanDataframe.py)
 
 
