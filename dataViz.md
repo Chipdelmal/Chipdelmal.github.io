@@ -7,6 +7,6 @@ articles:
   show_readmore: true
   show_info: true
   reverse: true
-  type: grid
+  type: item
   size: md
 ---
