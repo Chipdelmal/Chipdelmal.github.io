@@ -1,13 +1,13 @@
 ---
-title: "Last.fm Transitions Network"
+title: "Last.fm Network"
 tags: music networks datasci artsci python dataviz clustering
 article_header:
   type: overlay
   theme: dark
   background_image:
     gradient: 'linear-gradient(135deg, rgba(0, 0, 0 , .4), rgba(0, 0, 0, .4))'
-    src: /media/chord/PRTCC_650-05.jpg
-cover: /media/chord/PRTCC_650-05.png
+    src: /media/chord/PRTCC_650-05.png
+cover: /media/chord/NSBMC_650-05.jpg
 ---
 
 <br>
@@ -21,25 +21,33 @@ cover: /media/chord/PRTCC_650-05.png
 
 # Code Description
 
-## Dataset
+## [Dataset & Cleaning](https://github.com/Chipdelmal/LastfmViz/blob/master/cleanDataframe.py)
 
- [last.fm data](/artsci/2019-12-10-LastfmViz.html)
+We will be working with an updated version of the dataset described in a [previous post](/artsci/2019-12-10-LastfmViz.html). A small sample of the data looks as follows:
 
 ```
+Artist              Album               Song                    Datetime
+
 John Moreland       In The Throes       Your Spell              2022-06-17 21:02:00-07:00
 Eels                Shootenanny!        Rock Hard Times         2022-06-17 20:58:00-07:00
 Page France         Come I'm a lion!    Bridge                  2022-06-17 20:44:00-07:00
 The Lumineers       Cleopatra           Gale Song               2022-06-17 20:40:00-07:00
 John Moreland       High on Tulsa Heat  Losing Sleep Tonight    2022-06-17 20:35:00-07:00
+...
 Fort Atlantic       Fort Atlantic       My Love Is With You     2022-06-17 20:12:00-07:00
 Fort Atlantic       Fort Atlantic       There Is Love           2022-06-17 20:08:00-07:00
 Caamp               Lavender Days       Lavender Girl           2022-06-17 20:05:00-07:00
 Houndmouth          Good For You        McKenzie                2022-06-17 20:02:00-07:00
 ```
 
-## [Data Cleaning](https://github.com/Chipdelmal/LastfmViz/blob/master/cleanDataframe.py)
+The full initial dataset contains more than $170,000$ entries before data cleaning and represents the music I've listened to on my personal devices over the period dating from 2012 up to mid 2022. NNow, there's a slight caveat with my original that and it is that all the data prior to 2012 was registered and transfered from a previous username I had to a new one. This caused the data from before 2012 extremely messy, with dates assigned to 1970; hence, we will only be using the data from my current username.
 
 
+To clean our dataset there's another couple of things we need to take into account. The first one is that there are "artists" that are not really artists (such as podcasts, or videos), which were sometimes scrobbled to my [last.fm](https://www.last.fm/) account. To filter out these cases, we use a "ban list" that gets passed to our script and eliminates all the artist matches. It's also worth noting that I am focusing on my English-speaking music, so all Spanish-speaking bands were added to the ban list for now.
+
+Now, there are some error sources in the data. One of them is different naming of the same artist (for example, "The Smashing Pumpkins" and "Smashing Pumpkins"). In the case of my dataset it was easy enough to clean by hand by providing a mapping dictionary, although it could have also been fixed with the [musicbrainz](https://musicbrainz.org/) data that I've used in other applications.
+
+Finally, there are situations in which it seems that I left some playlists on repeat, which artificially inflated the count of some artists. To fix this, I defined a daily interval and deleted the day information of artists that were played by an amount that seemed unlikely to happen in a normal situation. I decided to use an upper bound of 100 plays in one day, which would mean that I'd have to listen to that artist for around 5h in the interval (assuming each song is around 3 minutes long), which seems high enough to be somewhat realistic (given that I work constantly listening to music); but also a good point to say "ok, maybe I just left my device on repeat". It's worth noting that there are better ways to determine this (as detecting the pattern of songs), but for our analysis the threshold is good for now.
 
 ## The Network
 
@@ -49,19 +57,19 @@ The second thing that I noticed was that the requirement for contiguous plays fo
 
 $$T(t:s)_{a\rightarrow b}=\frac{a_{t}\rightarrow b_{t+1}}{1}+\frac{a_{t}\rightarrow b_{t+2}}{2}+\frac{a_{t}\rightarrow b_{t+3}}{3}+...+\frac{a_{t}\rightarrow b_{t+s}}{s}=\sum_{w=1}^{s}\frac{a_{t}\rightarrow b_{t+w}}{w}$$
 
-where $(t:s)$ is the sliding window for the weighted transitions. This process is repeated for all the artist pairs to calculate our weighted matrix $\overline{\overline{\tau^s}}$. It is worth noting, however, that the code fills this matrix in a different way by calculating the independent artist-to-artist matrices in sliding windows of size $s$ and then doing their weighted average accordingly.
+where $(t:s)$ is the sliding window for the weighted transitions. This process is repeated for all the artist pairs to calculate our weighted matrix $\tau^s$. It is worth noting, however, that the code fills this matrix in a different way by calculating the independent artist-to-artist matrices in sliding windows of size $s$ and then doing their weighted average accordingly.
 
-$$\overline{\overline{\tau^s}}=\frac{\overline{\overline{T(t,t+1)}}}{1}+\frac{\overline{\overline{T(t,t+2)}}}{2}+\frac{\overline{\overline{T(t,t+3)}}}{3}+...+\frac{\overline{\overline{T(t,t+s)}}}{s}$$
+$$\tau^s=\frac{T(t,t+1)}{1}+\frac{T(t,t+2)}{2}+\frac{T(t,t+3)}{3}+...+\frac{T(t,t+s)}{s}$$
 
 where $(t,t+n)$ represents strict transitions of distance $n$ (the dataset is traversed a total of $n$ times, which might be inefficient, but is good enough for testing). This generalizes to:
 
-$$\overline{\overline{\tau^s}}=\sum_{s=1}^{w}\sum_{t=1}^{l}\frac{\overline{\overline{T(t,t+s)}}}{s}$$
+$$\tau^s=\sum_{s=1}^{w}\sum_{t=1}^{l}\frac{T(t,t+s)}{s}$$
 
 for all the play-entries on the dataset ($l$) across all artists. Additionally, we calculate the probability matrix by normalizing the matrix row-wise (where the rows are indexed by $i$, and $c$ is the number of artists, or columns):
 
-$$\overline{\overline{\beta^s}}=\sum_{i=1}^{c}\frac{\overline{\tau^s_{i}}}{c}$$
+$$\beta^s=\sum_{i=1}^{c}\frac{\tau^s_{i}}{c}$$
 
-And, finally, as we are interested in the transitions between artists, we set the diagonal of our matrix $\overline{\overline{\tau^s}}$ to zero (no self transitions).
+And, finally, as we are interested in the transitions between artists, we set the diagonal of our matrix $\tau^s$ to zero (no self transitions).
 
 
 ## [Chord Diagram](https://github.com/Chipdelmal/LastfmViz/blob/master/transitions.py)
@@ -84,6 +92,9 @@ After testing this idea out, I decided to use an initial arbitrary threshold of 
 
 One obvious optimization point is to calculate the windowed matrix in a more efficient manner. Traversing the array multiple times is quite inefficient. Additionally, the results could be stored for future use.
 
+Interval filtering (stats-driven)... 
+
+Musicbrainz integration...
 
 # Code Repo
 
