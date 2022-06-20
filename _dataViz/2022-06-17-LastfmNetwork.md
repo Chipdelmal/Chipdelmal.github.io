@@ -1,12 +1,12 @@
 ---
-title: "Last.fm Network"
+title: "Last.fm Network [Pt. 1]"
 tags: music networks datasci artsci python dataviz clustering
 article_header:
   type: overlay
   theme: dark
   background_image:
     gradient: 'linear-gradient(135deg, rgba(0, 0, 0 , .4), rgba(0, 0, 0, .4))'
-    src: /media/chord/PRTCC_650-05.png
+    src: /media/chord/ChordC_100-05.png
 cover: /media/chord/thumb.jpg
 ---
 
@@ -89,17 +89,24 @@ After testing this idea out, I decided to use an initial arbitrary threshold of 
 
 ## [Chord Diagram](https://github.com/Chipdelmal/LastfmViz/blob/master/transitions.py)
 
+Chord diagrams, as mentioned before, show relationships between entries in a dataset. In this case, we will use it to show the temporal transitions amongst the artists in the dataset. Now, we still have a couple of decisions to make to plot our diagram:
+* The first decision to make is the sorting of artists along the periphery of the diagram. To encode as much information as possible, I decided to use the artists' play-frequency rank for the ordering (the highest-ranking artist being at the 3 o'clock position and rotating counter-clockwise).
+* The second decision is how to map the arcs' colors. At first I was using color to differentiate the artists (with a rainbow-like palette), but then I decided to do something a bit more interesting. One thing that got discarded in my tests of the chord diagrams was the self-transition data. This means that the information on how often I listen to the same artist for long entries runs was not being shown anywhere. This is not a limitation of the chord diagram, as they can display this information, but a decision to exclude it to avoid the plot getting to busy and uninterpretable. For this reason, I decided to use the $log$ of the self-transition count for the arcs' colors.
 
+With all these variables in place, we can finally plot our diagram!
 
+![](../media/chord/ChordC_100-05.png)
 
+## Things to Notice
 
 # Future Work
 
-One obvious optimization point is to calculate the windowed matrix in a more efficient manner. Traversing the array multiple times is quite inefficient. Additionally, the results could be stored for future use.
+The next step in these analyses is to actually use the calculated network to do some [community-detection](https://en.wikipedia.org/wiki/Community_structure) and [Markov](https://en.wikipedia.org/wiki/Markov_chain) explorations.
 
-Interval filtering (stats-driven)... 
-
-Musicbrainz integration...
+In terms of optimizations and improvements, there are some things that I'd like to improve in the near future, namely:
+* To calculate the windowed matrix in a more efficient manner (traversing the array multiple times is quite inefficient).
+* To determine a more quantitative-driven approach to the time-window metric (based on statistics rather than a somewhat arbitrary threshold).
+* To integrate the Musicbrainz data for the data-cleaning part of the pipeline.
 
 # Code Repo
 
