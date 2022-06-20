@@ -40,14 +40,15 @@ Caamp               Lavender Days       Lavender Girl           2022-06-17 20:05
 Houndmouth          Good For You        McKenzie                2022-06-17 20:02:00-07:00
 ```
 
-The full initial dataset contains more than $170,000$ entries before data cleaning and represents the music I've listened to on my personal devices over the period dating from 2012 up to mid 2022. NNow, there's a slight caveat with my original that and it is that all the data prior to 2012 was registered and transfered from a previous username I had to a new one. This caused the data from before 2012 extremely messy, with dates assigned to 1970; hence, we will only be using the data from my current username.
-
+The full initial dataset contains more than $175,000$ entries before data cleaning and represents the music I've listened to on my personal devices over the period dating from 2012 up to mid 2022. NNow, there's a slight caveat with my original that and it is that all the data prior to 2012 was registered and transfered from a previous username I had to a new one. This caused the data from before 2012 extremely messy, with dates assigned to 1970; hence, we will only be using the data from my current username.
 
 To clean our dataset there's another couple of things we need to take into account. The first one is that there are "artists" that are not really artists (such as podcasts, or videos), which were sometimes scrobbled to my [last.fm](https://www.last.fm/) account. To filter out these cases, we use a "ban list" that gets passed to our script and eliminates all the artist matches. It's also worth noting that I am focusing on my English-speaking music, so all Spanish-speaking bands were added to the ban list for now.
 
 Now, there are some error sources in the data. One of them is different naming of the same artist (for example, "The Smashing Pumpkins" and "Smashing Pumpkins"). In the case of my dataset it was easy enough to clean by hand by providing a mapping dictionary, although it could have also been fixed with the [musicbrainz](https://musicbrainz.org/) data that I've used in other applications.
 
 Finally, there are situations in which it seems that I left some playlists on repeat, which artificially inflated the count of some artists. To fix this, I defined a daily interval and deleted the day information of artists that were played by an amount that seemed unlikely to happen in a normal situation. I decided to use an upper bound of 100 plays in one day, which would mean that I'd have to listen to that artist for around 5h in the interval (assuming each song is around 3 minutes long), which seems high enough to be somewhat realistic (given that I work constantly listening to music); but also a good point to say "ok, maybe I just left my device on repeat". It's worth noting that there are better ways to determine this (as detecting the pattern of songs), but for our analysis the threshold is good for now.
+
+After all the data cleaning we still have around $165,000$ entries to work with in this analysis.
 
 ## The Network
 
@@ -72,7 +73,7 @@ $$\beta^s=\sum_{i=1}^{c}\frac{\tau^s_{i}}{c}$$
 And, finally, as we are interested in the transitions between artists, we set the diagonal of our matrix $\tau^s$ to zero (no self transitions).
 
 
-## [Chord Diagram](https://github.com/Chipdelmal/LastfmViz/blob/master/transitions.py)
+## [Frequency Rank](https://github.com/Chipdelmal/LastfmViz/blob/master/transitions.py)
 
 A nice way to visualize transitions data is through a [chord diagram](https://en.wikipedia.org/wiki/Chord_diagram_(information_visualization)). In this representation, the categories are depicted in a circular axis and the connections between them are represented by arcs that connect them with their relative frequency mapped to its width. In our paticular application, the artists are mapped to the circular axis and the transitions between them are shown as the arcs.
 
@@ -80,13 +81,17 @@ The first thing on the process is to reduce the number of artists to be displaye
 
 ![](../media/chord/FrequencyLin_350-05.png)
 
-Moreover, this playcount frequency showed a [Zipf's-like](https://en.wikipedia.org/wiki/Zipf%27s_law) shape, which is a bit more apparent when using a $log$ plot on the $y$-axis:
+Moreover, this playcount frequency showed a [Zipf's-like](https://en.wikipedia.org/wiki/Zipf%27s_law) shape, which is a bit more apparent when using a $log$ scale on the $y$-axis:
 
 ![](../media/chord/FrequencyLog_350-05.png)
 
 After testing this idea out, I decided to use an initial arbitrary threshold of the top $100$ artists for the chord plot. Now, for the window size described in the [network](#the-network) description I used a value of $5$, which seems to provide a good balance of correlation information between artists (more on this will be described in the [SBM section](#nested-sbm) of this document).
 
-## [Nested SBM](https://github.com/Chipdelmal/LastfmViz/blob/master/network.py)
+## [Chord Diagram](https://github.com/Chipdelmal/LastfmViz/blob/master/transitions.py)
+
+
+
+
 
 # Future Work
 
