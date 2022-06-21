@@ -18,7 +18,7 @@ cover: /media/chord/thumb.jpg
 
 # Intro
 
-Playing around with some network packages I came across [graph-tool](https://graph-tool.skewed.de/) and its capabilities to detect [Stochastic Block Model](https://graph-tool.skewed.de/static/doc/demos/inference/inference.html#the-stochastic-block-model-sbm) structures in transitions data. I wanted to test out these ideas in a large dataset, so I decided to use my [last.fm](https://www.last.fm/) data to analyze the information on how I transition between artists in my day-to-day life. More speficially, I wanted to see if there was a pattern in how I jump from artist to artist whenever I am listening to music.
+Playing around with some network packages I came across [graph-tool](https://graph-tool.skewed.de/) and its capabilities to detect [Stochastic Block Model](https://graph-tool.skewed.de/static/doc/demos/inference/inference.html#the-stochastic-block-model-sbm) structures in transitions data. I wanted to test out these ideas in a large dataset, so I decided to use my [last.fm](https://www.last.fm/) data to analyze the information on how I transition between artists in my day-to-day life. Specifically, I wanted to see if there was a pattern in how I jump from artist to artist whenever I am listening to music.
 
 # Code Description
 
@@ -97,7 +97,7 @@ With all these variables in place, we can finally plot our diagram!
 
 ![](../media/chord/ChordC_100-05.png)
 
-## Things to Notice
+# Interpretation
 
 # Future Work
 
