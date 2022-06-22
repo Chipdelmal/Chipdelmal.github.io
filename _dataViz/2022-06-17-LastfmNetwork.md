@@ -56,7 +56,7 @@ The most important part of this work is the network. Initially, I was just calcu
 
 The second thing that I noticed was that the requirement for contiguous plays for them to count as transitions is too strict. For example, if I listen to the following artist sequence: $a,b,c,b,a,b,c$ ; only counting immediate plays as transitions, artists $a$ and $c$ would never be correlated even though they probably should (given that they appear often in an [n-gram](https://en.wikipedia.org/wiki/N-gram) fashion). To alleviate this in a simple way, I decided to define a weighted sum in which the distance between the artists defines how much that transition contributes to the network. In a more formal way, I defined the transitions between two artists $i$ and $j$ over a window sized $s$ that starts at entry $t$ in the database as follows:
 
-$$\tau^{s}_{[i\rightarrow j] @ t}=\frac{\left< i_{t}\rightarrow j_{t+1} \right>}{1}+\frac{\left< i_{t}\rightarrow j_{t+2}\right>}{2}+...+\frac{\left< i_{t}\rightarrow j_{t+(s-1)}\right>}{s-1}+\frac{\left< i_{t}\rightarrow j_{t+s}\right>}{s}$$
+$$\tau^{s}_{(i\rightarrow j) @ t}=\frac{\left< i_{t}\rightarrow j_{t+1} \right>}{1}+\frac{\left< i_{t}\rightarrow j_{t+2}\right>}{2}+...+\frac{\left< i_{t}\rightarrow j_{t+(s-1)}\right>}{s-1}+\frac{\left< i_{t}\rightarrow j_{t+s}\right>}{s}$$
 
 where I'm using $\left< i_{t}\rightarrow j_{t+1} \right>$ to denote the presence or absence of a transition between $i$ and $j$ at a distance $t$. To generalize this idea for all the $i\rightarrow j$ transitions over the dataset we iterate the previous idea over all the entries in the records ($l$):
 
