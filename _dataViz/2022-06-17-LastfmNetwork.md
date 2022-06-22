@@ -54,19 +54,18 @@ After all the data cleaning we still have around 165,000 entries to work with in
 
 The most important part of this work is the network. Initially, I was just calculating transitions between artists as: _"if I listen to artist $a$ followed by artist $b$, it should count as a transition"_. The first thing I noticed, though, was that this would also count transitions that ocurred over timespans that would be too large. For example, if I listened to artist $a$, then went away and started listening to artist $z$ 8 hours later, it should probably be assumed that there was no correlation between me listening to artist $a$ and then wanting to listen to artist $z$ after such a long period had elapsed. To avoid this, I defined a timedelta between transitions for them to be valid, so from this point on, all the transitions that will be discussed asume that if the play-events happen in a timespan longer than one hour, they are discarded.
 
-The second thing that I noticed was that the requirement for contiguous plays for them to count as transitions is too strict. For example, if I listen to the following artist sequence: $a,b,c,b,a,b,c$ ; only counting immediate plays as transitions, artists $a$ and $c$ would never be correlated even though they probably should (given that they appear often in an [n-gram](https://en.wikipedia.org/wiki/N-gram) fashion). To alleviate this in a simple way, I decided to define a weighted sum in which the distance between the artists defines how much that transition contributes to the network. In a more formal way, I defined the transitions between two artists $a$ and $b$ over a window sized $s$ that starts at entry $t$ in the database as follows:
+The second thing that I noticed was that the requirement for contiguous plays for them to count as transitions is too strict. For example, if I listen to the following artist sequence: $a,b,c,b,a,b,c$ ; only counting immediate plays as transitions, artists $a$ and $c$ would never be correlated even though they probably should (given that they appear often in an [n-gram](https://en.wikipedia.org/wiki/N-gram) fashion). To alleviate this in a simple way, I decided to define a weighted sum in which the distance between the artists defines how much that transition contributes to the network. In a more formal way, I defined the transitions between two artists $i$ and $j$ over a window sized $s$ that starts at entry $t$ in the database as follows:
 
-$$T(t:s)_{a\rightarrow b}=\frac{a_{t}\rightarrow b_{t+1}}{1}+\frac{a_{t}\rightarrow b_{t+2}}{2}+\frac{a_{t}\rightarrow b_{t+3}}{3}+...+\frac{a_{t}\rightarrow b_{t+s}}{s}=\sum_{w=1}^{s}\frac{a_{t}\rightarrow b_{t+w}}{w}$$
+$$\tau^{s}_{[i\rightarrow j] @ t}=\frac{\left< i_{t}\rightarrow j_{t+1} \right>}{1}+\frac{\left< i_{t}\rightarrow j_{t+2}\right>}{2}+...+\frac{\left< i_{t}\rightarrow j_{t+(s-1)}\right>}{s-1}+\frac{\left< i_{t}\rightarrow j_{t+s}\right>}{s}$$
 
-where $(t:s)$ is the sliding window for the weighted transitions. This process is repeated for all the artist pairs to calculate our weighted matrix $\tau^s$. It is worth noting, however, that the code fills this matrix in a different way by calculating the independent artist-to-artist matrices in sliding windows of size $s$ and then doing their weighted average accordingly:
+where I'm using $\left< i_{t}\rightarrow j_{t+1} \right>$ to denote the presence or absence of a transition between $i$ and $j$ at a distance $t$. To generalize this idea for all the $i\rightarrow j$ transitions over the dataset we iterate the previous idea over all the entries in the records ($l$):
 
-$$\tau^s=\frac{T(t,t+1)}{1}+\frac{T(t,t+2)}{2}+\frac{T(t,t+3)}{3}+...+\frac{T(t,t+s)}{s}$$
+$$\tau_{[i,j]}^{s} = \sum_{t=0}^{l-s}\sum_{w=0}^{s}\frac{\left< i_{t} \rightarrow j_{t+w}\right>}{w}$$
 
-where $(t,t+n)$ represents strict transitions of distance $n$ (the dataset is traversed a total of $n$ times, which might be inefficient, but is good enough for testing). This generalizes to:
 
-$$\tau^s=\sum_{w=1}^{s}\sum_{t=1}^{l}\frac{T(t,t+w)}{w}$$
+This process is then repeated for all the artist pairs to calculate our full weighted squared matrix $\tau^s$. It is worth noting, however, that the [code implementation](https://github.com/Chipdelmal/LastfmViz/blob/master/aux.py#244) fills this matrix in a different way, by calculating the independent artist-to-artist matrices in sliding windows of size $s$ and then doing their weighted average accordingly (which is more computationally efficient but more difficult to describe mathematically).
 
-for all the play-entries on the dataset ($l$) across all artists. Additionally, we calculate the probability matrix by normalizing the matrix row-wise (where the rows are indexed by $i$, and $c$ is the number of artists, or columns):
+Once we have our transitions matrix $\tau^s$, we calculate the probability matrix by normalizing the matrix row-wise (where the rows are indexed by $i$, and $c$ is the number of artists, or columns):
 
 $$\beta^s=\sum_{i=1}^{c}\frac{\tau^s_{i}}{c}$$
 
