@@ -12,7 +12,7 @@ cover: /media/chord/thumb.jpg
 
 <br>
 
-Turning my last.fm music scrobbles into a transitions network to detect patterns.
+Turning my last.fm scrobbles into a transitions network to detect patterns in my music-listening habits.
 
 <!--more-->
 
