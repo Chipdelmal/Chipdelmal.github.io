@@ -121,13 +121,12 @@ With all these variables in place, we can finally plot our diagram!
 
 # Future Work
 
-The next step in these analyses is to actually use the calculated network to do some [community-detection](https://en.wikipedia.org/wiki/Community_structure) and [Markov](https://en.wikipedia.org/wiki/Markov_chain) explorations.
-
 In terms of optimizations and improvements, there are some things that I'd like to improve in the near future, namely:
 * To calculate the windowed matrix in a more efficient manner (traversing the array multiple times is quite inefficient).
 * To determine a more quantitative-driven approach to the time-window metric (based on statistics rather than a somewhat arbitrary threshold).
 * To integrate the Musicbrainz data for the data-cleaning part of the pipeline.
 
+The next step in these analyses is to actually use the calculated network to do some [community-detection](https://en.wikipedia.org/wiki/Community_structure) and [Markov](https://en.wikipedia.org/wiki/Markov_chain) explorations.
 # Code Repo
 
 * Repository: [Github Repo](https://github.com/Chipdelmal/LastfmViz)
