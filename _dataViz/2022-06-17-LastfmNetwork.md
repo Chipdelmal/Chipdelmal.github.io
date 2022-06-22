@@ -95,7 +95,27 @@ Chord diagrams, as mentioned before, show relationships between entries in a dat
 
 With all these variables in place, we can finally plot our diagram!
 
-![](../media/chord/ChordC_100-05.png)
+
+<div class="swiper my-3 swiper-demo swiper-demo--0">
+  <div class="swiper__wrapper">
+    <div class="swiper__slide"><img src="/media/chord/ChordC_100-05.png" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/chord/ChordT_100-05.png" style="width:100%;"></div>
+  </div>
+  <!-- <div class="swiper__pagination"></div> -->
+  <div class="swiper__button swiper__button--prev fas fa-chevron-left"></div>
+  <div class="swiper__button swiper__button--next fas fa-chevron-right"></div>
+  <!-- <div class="swiper-scrollbar"></div> -->
+</div>
+
+<script>
+  {%- include scripts/lib/swiper.js -%}
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    $('.swiper-demo--0').swiper(); $('.swiper-demo--1').swiper();
+    $('.swiper-demo--2').swiper(); $('.swiper-demo--3').swiper();
+    $('.swiper-demo--4').swiper({ animation: false });
+  });
+</script>
 
 # Interpretation
 
