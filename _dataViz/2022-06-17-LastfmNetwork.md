@@ -65,9 +65,9 @@ $$\tau_{[i,j]}^{s} = \sum_{t=0}^{l-s}\sum_{w=0}^{s}\frac{\left< i_{t} \rightarro
 
 This process is then repeated for all the artist pairs to calculate our full weighted squared matrix $\tau^s$. It is worth noting, however, that the [code implementation](https://github.com/Chipdelmal/LastfmViz/blob/master/aux.py#244) fills this matrix in a different way, by calculating the independent artist-to-artist matrices in sliding windows of size $s$ and then doing their weighted average accordingly (which is more computationally efficient but more difficult to describe mathematically).
 
-Once we have our transitions matrix $\tau^s$, we calculate the probability matrix by normalizing the matrix row-wise (where the rows are indexed by $i$, and $c$ is the number of artists, or columns):
+Once we have our transitions matrix $\tau^s$, we calculate the probability matrix by normalizing the matrix row-wise (where the rows are indexed by $r$, and $c$ is the number of artists, or columns):
 
-$$\beta^s=\sum_{i=1}^{c}\frac{\tau^s_{i}}{c}$$
+$$\beta^s=\sum_{r=1}^{c}\frac{\tau^s_{r}}{c}$$
 
 And, finally, as we are interested in the transitions between artists, we set the diagonal of our matrix $\tau^s$ to zero (no self transitions).
 
