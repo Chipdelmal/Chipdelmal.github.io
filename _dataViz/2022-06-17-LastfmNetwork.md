@@ -80,17 +80,17 @@ The first thing on the process is to reduce the number of artists to be displaye
 
 ![](../media/chord/FrequencyLin_350-05.png)
 
-Moreover, this playcount frequency showed a [Zipf's-like](https://en.wikipedia.org/wiki/Zipf%27s_law) shape, which is a bit more apparent when using a $log$ scale on the $y$-axis, which was kind of interesting:
+Interestingly, this playcount frequency showed a [Zipf's-like](https://en.wikipedia.org/wiki/Zipf%27s_law) shape, which is a bit more apparent when using a $log$ scale on the $y$-axis:
 
 ![](../media/chord/FrequencyLog_350-05.png)
 
-After testing this idea out, I decided to use an initial arbitrary threshold of the top 100 artists for the chord plot. Now, for the window size described in the [network](#the-network) description I used a value of 5, which seems to provide a good balance of correlation information between artists (more on this will be described in a future post in which I will focus more on [Stochastic Block Model]([#nested-sbm](https://graph-tool.skewed.de/static/doc/demos/inference/inference.html#the-stochastic-block-model-sbm))-structure of the network).
+Given that there was no identifiable cluster of top artists, I decided to use the 100 highest-ranked bands. Now, for the window size described in the [network](#the-network) description I used a value of 5, which seems to provide a good balance of correlation information between artists (more on this will be described in a future post in which I will focus more on [Stochastic Block Model]([#nested-sbm](https://graph-tool.skewed.de/static/doc/demos/inference/inference.html#the-stochastic-block-model-sbm))-structure of the network).
 
 ## [Chord Diagram](https://github.com/Chipdelmal/LastfmViz/blob/master/transitions.py)
 
 Chord diagrams, as mentioned before, show relationships between entries in a dataset. In this case, we will use it to show the semi-immediate temporal transitions amongst the artists in the dataset. Now, we still have a couple of decisions to make to plot our diagram:
 * The first decision to make is the sorting of artists along the periphery of the diagram. To encode as much information as possible, I decided to use the artists' play-frequency rank for the ordering (the highest-ranking artist being at the 3 o'clock position and rotating counter-clockwise).
-* The second decision is how to map the arcs' colors. At first I was using color to differentiate the artists (with a rainbow-like palette), but then I decided to do something a bit more interesting. One thing that got discarded in my tests of the chord diagrams was the self-transition data. This means that the information on how often I listen to the same artist for long entries runs was not being shown anywhere. This is not a limitation of the chord diagram, as they can display this information, but a decision to exclude it to avoid the plot getting to busy and uninterpretable. For this reason, I decided to use the the self-transition probability for the arcs' colors.
+* The second decision is how to map the arcs' colors. At first I was using color to differentiate the artists (with a rainbow-like palette), but then I decided to do something a bit more interesting. One thing that got discarded in my tests of the chord diagrams was the self-transition data. This means that the information on how often I listen to the same artist for long entries runs was not being shown anywhere. This is not a limitation of the chord diagram, as they can display this information, but a decision to exclude it to avoid the plot getting to busy and uninterpretable. For this reason, I decided to use the the self-transition probability for the coloring.
 
 With all these variables in place, we can finally plot our diagram! We will draw both the raw transitions count chord diagram, and the transition probabilities one:
 
@@ -120,7 +120,7 @@ With all these variables in place, we can finally plot our diagram! We will draw
 
 Some things stand out from these diagrams:
 
-* There's a bunch of artists such as "Radiohead", "Nirvana", "Kashmir", and "Goo Goo Dolls"; that I tend to listen to in continuous sessions. Which does line up with my expectations, as these are artists of which I like a bunch of songs, so it's easy for me to hit "play" and forget about it for a while.
+* There's a bunch of artists such as "Radiohead", "Nirvana", "Kashmir", and "Goo Goo Dolls"; that I tend to listen to in continuous sessions (identifiable by their light shading). Which does line up with my expectations, as these are artists of which I like a bunch of songs, so it's easy for me to hit "play" and forget about it for a while.
 * On the other end of the spectrum, there's many artists like "Spoon", "Bleachers", and "Mew"; that I listen to in playlists mixed in with other artists (rarely do I listen to them in long bouts).
 * Some artists like "The Smashing Pumpkins" and "Placebo", or "The Fratellis" and "Bleachers"; tend to appear together, which can be explained by the fact that I've listened to these pairs in playlists somewhat often.
 * The transitions probabilities diagram is not as readable as the transitions frequencies one.
