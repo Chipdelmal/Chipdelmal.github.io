@@ -40,7 +40,7 @@ Caamp               Lavender Days       Lavender Girl           2022-06-17 20:05
 Houndmouth          Good For You        McKenzie                2022-06-17 20:02:00-07:00
 ```
 
-The full initial dataset contains more than 175,000 entries before data cleaning, and represents the music I've listened to on my personal devices over the period dating from before 2012 up to mid 2022. Now, there's a slight caveat with my original that and it is that all the data prior to 2012 was registered and transfered from a previous username to a new one. This caused the data from before 2012 extremely messy, with dates assigned to 1970; hence, we will only be using the data from my current username (2012 and after).
+The full initial dataset contains more than 180,000 entries before data cleaning, and represents the music I've listened to on my personal devices over the period dating from before 2012 up to mid 2022. Now, there's a slight caveat with my original that and it is that all the data prior to 2012 was registered and transfered from a previous username to a new one. This caused the data from before 2012 extremely messy, with dates assigned to 1970; hence, we will only be using the data from my current username (2012 and after).
 
 To clean the dataset there's another couple of things we need to take into account. The first one is that there are "artists" that are not really artists (such as podcasts, or videos), which were sometimes scrobbled to my [last.fm](https://www.last.fm/) account. To filter out these cases, we use a "ban list" that gets passed to our script and eliminates all the artist matches. It's also worth noting that I am focusing on my English-speaking music, so all Spanish-speaking bands were added to the ban list for now.
 
