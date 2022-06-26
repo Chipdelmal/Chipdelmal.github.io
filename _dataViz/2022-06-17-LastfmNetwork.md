@@ -22,7 +22,7 @@ Playing around with some network packages I came across [graph-tool](https://gra
 
 # Code Description
 
-## [Dataset & Cleaning](https://github.com/Chipdelmal/LastfmViz/blob/master/cleanDataframe.py)
+## [Dataset & Cleaning](https://github.com/Chipdelmal/lastfmNetwork/blob/main/GenerateDatasets.sh)
 
 We will be working with an updated version of the dataset described in a [previous post](/dataViz/2021-11-01-LastfmClocks.html). A small sample of the data looks as follows:
 
@@ -72,7 +72,7 @@ $$\beta^s=\sum_{r=1}^{c}\frac{\tau^s_{r}}{c}$$
 And, finally, as we are interested in the transitions between artists, we set the diagonal of our matrix $\tau^s$ to zero (no self transitions).
 
 
-## [Frequency Rank](https://github.com/Chipdelmal/LastfmViz/blob/master/transitions.py)
+## [Frequency Rank](https://github.com/Chipdelmal/lastfmNetwork)
 
 A nice way to visualize transitions data is through a [chord diagram](https://en.wikipedia.org/wiki/Chord_diagram_(information_visualization)). In this representation, the categories are depicted in a circular axis and the connections between them are represented by arcs that connect them with their relative frequency mapped to its width. In our paticular application, the artists are mapped to the circular axis and the transitions between them are shown as the arcs.
 
@@ -86,7 +86,7 @@ Interestingly, this playcount frequency showed a [Zipf's-like](https://en.wikipe
 
 Given that there was no identifiable cluster of top artists, I decided to use the 100 highest-ranked bands. Now, for the window size described in the [network](#the-network) description I used a value of 5, which seems to provide a good balance of correlation information between artists (more on this will be described in a future post in which I will focus more on [Stochastic Block Model]([#nested-sbm](https://graph-tool.skewed.de/static/doc/demos/inference/inference.html#the-stochastic-block-model-sbm))-structure of the network).
 
-## [Chord Diagram](https://github.com/Chipdelmal/LastfmViz/blob/master/transitions.py)
+## [Chord Diagram](https://github.com/Chipdelmal/lastfmNetwork/blob/main/Plot_Chord.py)
 
 Chord diagrams, as mentioned before, show relationships between entries in a dataset. In this case, we will use it to show the semi-immediate temporal transitions amongst the artists in the dataset. Now, we still have a couple of decisions to make to plot our diagram:
 * The first decision to make is the sorting of artists along the periphery of the diagram. To encode as much information as possible, I decided to use the artists' play-frequency rank for the ordering (the highest-ranking artist being at the 3 o'clock position and rotating counter-clockwise).
@@ -136,5 +136,5 @@ In terms of optimizations and improvements, there are some things that I'd like 
 The next step in these analyses is to actually use the calculated network to do some [community-detection](https://en.wikipedia.org/wiki/Community_structure) and [Markov](https://en.wikipedia.org/wiki/Markov_chain) explorations.
 # Code Repo
 
-* Repository: [Github Repo](https://github.com/Chipdelmal/LastfmViz)
+* Repository: [Github Repo](https://github.com/Chipdelmal/lastfmNetwork)
 * Dependencies: [graph-tool](https://graph-tool.skewed.de/), [mpl_chord_diagram](https://codeberg.org/tfardet/mpl_chord_diagram), [matplotlib](https://matplotlib.org/), [pandas](https://pandas.pydata.org/), [numpy](https://numpy.org/)
