@@ -12,17 +12,17 @@ cover: /media/strips/cover.png
 
 <br>
 
-**Coming Soon**
-
 <!--more-->
 
-**Brief recap:** _I've been using Last.fm to keep track of the music I listen to for over ten years. This has provided me with the oportunity to inspect, analyze and visualize my data in search for patterns and interesting trends. Some of the previous work includes: [artists wordclods](./2021-12-03-LastfmArtists.html), [map-masked artist wordclouds](./2019-12-10-LastfmViz.html), [polar-plot playcounts over time of day](../dataViz/2021-11-01-LastfmClocks.html), and [artists' transitions networks](../dataViz/2022-06-17-LastfmNetwork.html)_.
+**Brief recap:** I've been using Last.fm to keep track of the music I listen to for over ten years. This has provided me with the oportunity to inspect, analyze and visualize my data in search for patterns and interesting trends. Some of the previous work includes: [artists wordclods](./2021-12-03-LastfmArtists.html), [map-masked artist wordclouds](./2019-12-10-LastfmViz.html), [polar-plot playcounts over time of day](../dataViz/2021-11-01-LastfmClocks.html), and [artists' transitions networks](../dataViz/2022-06-17-LastfmNetwork.html).
 
-After playing a bit more with my last.fm dataset, I realized I hadn't really found any good way to show artists' playcounts over time. All of the other visualizations I had done before are static snapshots of agregated playcounts, so I became interested in figuring out a way to show the temporal information of the data. This, however, required some thinking and time to develop, as it required compressing a lot of temporal information into a single panel.
+<hr>
 
-# Code Dev
+After playing a bit more with my last.fm dataset, I realized I hadn't really found any good way to show artists' playcounts over time. All of the other visualizations I had done before are static snapshots of agregated playcounts, so I became interested in figuring out a way to show the temporal information of the data. This, however, required some thinking and time to develop, as it required compressing a lot of temporal information into a single panel. 
 
-## Dataset Summary
+Initially, I was thinking of doing some simple scatterplots with dots to mark the times at which artists had been played over time. This wasn't too bad but the dots overlapped heavily and were not very appealing. After a couple of tests, I figured doing a thin line on every play, with low opacity could do the trick. This turned out to be a good idea, as it made the information more visible and appealing, so I pursued that avenue for the panel.
+
+# Dataset Summary
 
 The dataset has been described in some [previous posts](../dataViz/2022-06-17-LastfmNetwork.html), so I'll just summarize the general data acquisition process and some of the improvements that have been done since. The original data looks as follows, where each row represents a song played at some point in time:
 
@@ -37,7 +37,7 @@ Caamp,Boys (Side B),Send the Fisherman,07 Jul 2022 21:59
 
 Where each datapoint is stored in the order: `Artist, Album, Song Name, Datetime`; and the full dataset comprises of XXXXX datapoints.
 
-### Last.fm Cleaning Pipeline
+## Last.fm Cleaning Pipeline
 
 Now, there's some things to take care of on the full dataset like: filtering artists, standardizing datetimes, changing the names of artists for consistency, and removing duplicate entries (something that used to happen sometimes in the past with [last.fm](https://www.last.fm/)):
 
@@ -50,7 +50,7 @@ Courteeners,Falcon,The Opener,2022-07-13 10:22:00-07:00
 The Smiths,Essentials,Panic,2022-07-13 10:20:00-07:00
 ```
 
-### Musicbrainz Artist Info Download
+## Musicbrainz Artist Info Download
 
 Although the information compiled on the last step would be enough for this application, I am downloading the artists' data as follows:
 
@@ -66,7 +66,7 @@ Ramones,US,New York,d6ed7887-a401-47a8-893c-34b967444d26,punk rock,pop punk,rock
 
 Where each row is an artist found in the data, and it's information is stored as: `Artist Name, Country Code, Region, Musicbrainz ID, Genre 1, Genre 2, Genre 3, Latitude, Longitude, Geo-info...`
 
-### Amend Dataframe Names
+## Amend Dataframe Names
 
 Finally, one of the things I wanted to fix from the previous version was to amend the artists names in the dataset with the ones downloaded from Musicbrainz. To do this, I used the [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) between the names of all the entries of the dataset, and the names present in the Musicbrainz parsed info as seen of this snippet of code:
 
@@ -79,25 +79,21 @@ for art in arts:
 DTA_CLN = aux.replace(DTA_CLN, replacements, ('Artist', 'Artist'))
 ```
 
-## Preliminary Ideas
 
-Initially, I was thinking of doing some simple scatterplots with dots to mark the times at which artists had been played over time. This wasn't too bad but the dots overlapped heavily and were not very appealing (unfortunately, I didn't save any of these as a reference). After a couple of tests, I figured doing a thin line on every play, with low opacity could do the trick. This turned out to be a good idea, as it made the information more visible and appealing, so I pursued that avenue for the final panel.
+# CodeDev
 
+The code for this project was not too complicated, although it did involve heavy tweaking of the parameters to get the looks right (specially the labels, line thicknesses and colors).
 
-## Development
+## Time Info
 
-The code for this project was not too complicated, although it did...
-
-### Time Info
-
-* **Time Range** To set the ranges of the plot, both the minimum and maximum dates were obtained from the dataset:
+To set the ranges of the plot, both the minimum and maximum dates were obtained from the dataset:
 
 ```python
 (to, tf) = (min(DTA_CLN['Date']), max(DTA_CLN['Date']))
 daysTotal = (tf-to).days+1
 ```
 
-* **Time Intervals** One of the things that had to be slightly changed was to that instead of using the `datetime` object of each entry in the dataset, it had to be converted to a `timedelta` one with an increment size of a day. This wasn't too difficult, and was added into the dataframe as follows:
+Additionally, one of the things that had to be slightly changed was to that instead of using the `datetime` object of each entry in the dataset, it had to be converted to a `timedelta` one with an increment size of a day. This wasn't too difficult, and was added into the dataframe as follows:
 
 ```python
 dteCpy = DTA_CLN['Date'].copy()
@@ -105,7 +101,7 @@ DTA_CLN['Interval'] = pd.to_datetime(dteCpy, errors='coerce', utc=True)
 DTA_CLN['Interval'] = DTA_CLN['Interval'].dt.tz_localize(None).dt.to_period('D')
 ```
 
-### Counts Array
+## Counts Array
 
 The original dataset is in a `dataframe` format, but as we will iterate through all artists and all intervals of time, it's worth transforming everything into an `array`. We initialize our data structure in with a `artistsNumber x daysRange` size filled with zeroes as follows:
 
@@ -114,7 +110,7 @@ artists = list(A_TOP['Artist'])
 countsArray = np.zeros([len(artists), daysTotal], dtype=np.uint16)
 ```
 
-With this in place, we can fill up our array by iterating by artist (row) and day (column):
+Where the artists list is sorted by frequency rank, so that they end up ordered in our visualization. With this in place, we can fill up our array by iterating by artist (row) and day (column):
 
 ```python
 for (ix, art) in enumerate(artists):
@@ -136,7 +132,7 @@ for (ix, art) in enumerate(artists):
 
 This part was a bit confusing but, just to re-iterate: we simply took our dataframe intervals information and converted it to an array where each row is an artist, and each column represents the plays frequency at a given point in time (in days, relative to the min date of the dataset).
 
-### Strip Plot
+## Strip Plot
 
 Before actually plotting the counts, I decided to use a "wheel" of color maps so that the artists were distinguishable from one another. To do this, I created four `cmap` objects as follows:
 
@@ -164,7 +160,7 @@ for (r, art) in enumerate(artists):
 It is worth noting that we are inverting the row-column order (artists are columns in the plot, and rows are days) as it looks better in a wide display.
 
 
-### Labels and Axes
+## Labels and Axes
 
 Now, for the more complicated part, labeling turned out to be somewhat of a pain to setup the artists names and years at the appropriate locations, with scaling that was proportional to the number of artists on display. I won't go into much detail about these settings, but a function that was particularly useful for this application was `np.interp`, as shown:
 
@@ -181,13 +177,15 @@ yearFontSize =  np.interp(
 )
 ```
 
-In terms of the axes and backgrounds...
+Finally, I decided to do a dark plot for this one, as it highlighted the colors better, removed all axes, and added some auxiliary lines on the sides to mark the beginnings and ends of the years.
 
 # Gallery
 
-Some notes on the dataset... 
+With the plots in place, we can take some notes on the results:
 
-The dark bands in...
+* Most of the data are fairly continuous temporally, except a period of about a couple of months in 2021 (which stands out as a black horizontal block across all artists). The explanation behind this data gap is that [UC Berkeley got hacked](https://portswigger.net/daily-swig/uc-berkeley-confirms-data-breach-becomes-latest-victim-of-accellion-cyber-attack), so I had to change all my passwords, one of them being my [Last.fm](last.fm/) one. Unfortunately, I forgot to update the login info in my computer, which I was using to listen to music all the time due to pandemic lockdowns.
+* There's some artist like Radiohead, Camera Obscura, or The Smashing Pumpkins that are rarely the highest played at any point in time, but are fairly constant throughouth; whereas some others like The Fratellis, Caamp, and John Moreland, are really concentrated at some points of the timeline.
+* On a more personal level, this chart has given me the oportunity to backtrack on times at which I was going through changes or when I used to hang out with friends who would introduce me to new music; as it is easier to pinpoint those stages in my life according to the music I was listening to at those periods. 
 
 <style>
     .swiper-demo {height: 600px;}
@@ -196,18 +194,16 @@ The dark bands in...
         font-size: 3rem; color: #fff;
     }
 </style>
-
-
 <div class="swiper my-3 swiper-demo swiper-demo--0">
     <div class="swiper__wrapper"> 
       <div class="swiper__slide"><img src="/media/strips/Scatter_0100.png" style="width:100%;"></div>
       <div class="swiper__slide"><img src="/media/strips/Scatter_0150.png" style="width:100%;"></div>
       <div class="swiper__slide"><img src="/media/strips/Scatter_0300.png" style="width:100%;"></div>
+      <div class="swiper__slide"><img src="/media/strips/Scatter_0600.png" style="width:100%;"></div>
     </div>
     <div class="swiper__button swiper__button--prev fas fa-chevron-left"></div>
     <div class="swiper__button swiper__button--next fas fa-chevron-right"></div>
 </div>
-
 <script>
     {%- include scripts/lib/swiper.js -%}
     var SOURCES = window.TEXT_VARIABLES.sources;
