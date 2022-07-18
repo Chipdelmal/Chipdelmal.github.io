@@ -35,7 +35,7 @@ Tennis,Cape Dory,Seafarer,07 Jul 2022 22:16
 Caamp,Boys (Side B),Send the Fisherman,07 Jul 2022 21:59
 ```
 
-Where each datapoint is stored in the order: `Artist, Album, Song Name, Datetime`; and the full dataset comprises of XXXXX datapoints.
+Where each datapoint is stored in the order: `Artist, Album, Song Name, Datetime`; and the full dataset comprises of 180,000 datapoints.
 
 ## Last.fm Cleaning Pipeline
 
@@ -49,6 +49,8 @@ Pulp,Different Class,Common People,2022-07-13 10:28:00-07:00
 Courteeners,Falcon,The Opener,2022-07-13 10:22:00-07:00
 The Smiths,Essentials,Panic,2022-07-13 10:20:00-07:00
 ```
+
+After this step, I ended up with around 165,000 data entries.
 
 ## Musicbrainz Artist Info Download
 
