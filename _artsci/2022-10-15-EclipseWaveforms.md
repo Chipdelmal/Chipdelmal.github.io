@@ -175,5 +175,4 @@ for playlist in playlists[:]:
 # Code repo
 
 * **Repository:** [Github repo](https://github.com/Chipdelmal/WaveArt)
-* **Dependencies:** [pydub](https://pypi.org/project/pydub/), [matplotlib](https://matplotlib.org/)
-
+* **Dependencies:** [pydub](https://pypi.org/project/pydub/), [matplotlib](https://matplotlib.org/), [numpy](https://numpy.org/)
