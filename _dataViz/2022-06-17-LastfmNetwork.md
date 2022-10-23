@@ -1,5 +1,5 @@
 ---
-title: "Last.fm Network [Pt. 1]"
+title: "Last.fm Network"
 tags: music networks datasci artsci python dataviz clustering
 article_header:
   type: overlay
