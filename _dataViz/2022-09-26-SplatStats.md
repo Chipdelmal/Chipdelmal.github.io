@@ -114,7 +114,7 @@ Finally, the class also contains a battles records attribute, in which all the b
 
 # Use Example
 
-But enough code-structure talk, let's go through a demo (for people interested in more details of the code, please have a look at the [documentation](https://chipdelmal.github.io/SplatStats/) for further details and examples).
+But enough code-structure talk, let's go through a demo (for people interested in more details of the program, please have a look at the [documentation](https://chipdelmal.github.io/SplatStats/) for further details and examples).
 
 
 I've been storing and tracking my data through the past month or so. Whenever I finish a 2h session I simply run the following command on the [s3s scripts](https://github.com/frozenpandaman/s3s) folder:
@@ -202,7 +202,7 @@ plt.savefig(
 <center><img width="100%" src="../media/splatstats/KD_Histogram.png"></center>
 
 
-This graph shows us how many kills we get on average in a match (top) against the number of times we die in it (bottom).
+This graph shows us how many kills we get on average in a match (top) against the number of times we die in it (bottom). In my specific case it can be seen that, on average, I tend to get more kills than deaths in any given match with some extreme outliers around the 35 kills mark; whilst the mode of the times I die during a match hangs around the 4 region.
 
 Now, we can also analyze several stats broken down by match type and stage:
 
@@ -224,6 +224,7 @@ else:
   <img width="40%" src="../media/splatstats/Turf War-paint avg_Treemap.png">
 </center>
 
+Which can be pretty useful when breaking down on which stages we perform the best. In my case I tend to lose a lot in "Scorch Gorge" during Rainmaker matches, which I can totally understand as I struggle badly in that stage.
 
 These stats can be any of the following (and others can easily be extended) for any of the match-types (including the aggregate of all):
 
@@ -233,7 +234,7 @@ These stats can be any of the following (and others can easily be extended) for 
 'kassists avg', 'kills prm', 'deaths prm', 'assists prm', 'special prm',  'paint prm', 'kassists prm'
 ```
 
-And other aggregations such as weapon-type are possible. Have a look at the [docs](https://chipdelmal.github.io/SplatStats/build/html/plots.html) for more examples!
+Other aggregations such as weapon-type are possible. Have a look at the [docs](https://chipdelmal.github.io/SplatStats/build/html/plots.html) for more examples!
 
 
 Finally, for my two favorites: the iris plot and the matches history one. These two show the kill to death ratio as a bar (or line) which is blue if the player got more kills than deaths, and magenta otherwise. Rectangles on the back represent the painted surface. In the iris plot matches are temporally distributed clock-wise and the kills/deaths are radially shown with a symlog scale by default:
@@ -250,6 +251,7 @@ Finally, for my two favorites: the iris plot and the matches history one. These 
 
 <center><img width="50%" src="../media/splatstats/KD_Iris.png"></center>
 
+The number at the center is the result of the following calculation: $$(kills * 0.5 assists)/deaths$$; which in my dataset is around 2.5, which makes sense as I usually play under the "slayer" style.
 
 The matches history plot contains even more information, with the match-type, weapon used, if it was a KO, splatfest, win or loss; all in the same display! Have a look at the [full explanation](https://chipdelmal.github.io/SplatStats/build/html/plots.html#matches-history-panel) for more details!
 
@@ -273,7 +275,7 @@ gs = fig.add_gridspec(
 <center><img width="100%" src="../media/splatstats/History.png"></center>
 
 
-And have a look at the [full code](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/demos/blogDemo.py) used to create this demo!
+That's it for this example. I'll be updating the framework and extending its capabilities but for now have a look at the [full code](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/demos/blogDemo.py) used to create this demo!
 
 # Future Work
 
@@ -282,4 +284,4 @@ The next feature I've been working on is the "Team" class with which I will try 
 # Code Repo
 
 * Repository: [Github Repo](https://github.com/Chipdelmal/SplatStats)
-* Dependencies: [matplotlib](https://matplotlib.org/), [pandas](https://pandas.pydata.org/), [numpy](https://numpy.org/)
+* Dependencies: [matplotlib](https://matplotlib.org/), [pandas](https://pandas.pydata.org/), [numpy](https://numpy.org/), [dill](https://pypi.org/project/dill/), [termcolor](https://pypi.org/project/termcolor/), [colorutils](https://pypi.org/project/colorutils/), [tqdm](https://pypi.org/project/tqdm/), [scipy](https://pypi.org/project/scipy/), [DateTimeRange](https://pypi.org/project/DateTimeRange/), [pywaffle](https://pypi.org/project/pywaffle/), [squarify](https://pypi.org/project/squarify/)
