@@ -1,5 +1,5 @@
 ---
-title: "SplatStats"
+title: "SplatStats: First Steps"
 tags: datasci splatoon gaming
 article_header:
   type: overlay
