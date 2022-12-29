@@ -22,7 +22,7 @@ Coding several new plots with nicer style, and bundling the package through Dock
 In my [previous post](./2022-09-26-SplatStats.html) I laid out the general idea and code structure of a python package I'm putting together to analyze my [Splatoon 3's](https://splatoon.nintendo.com/) play data as scraped with the [s3s](https://github.com/frozenpandaman/s3s) python package. As a summary, I found out there was a community project that allowed to download matches data for personal analysis.
 
 
-<center><img width="100%" src="/media/splatstats/waffle.png"></center>
+<center><img width="25%" src="/media/splatstats/chip2.jpg"></center>
 
 
 In this post, I'll describe some of the plots updates, a small script to upload historic data to [stat.ink](https://stat.ink/), and the docker image packaging to automate the analysis of personal data!
@@ -66,6 +66,14 @@ Traditional barcharts are a bit boring sometimes, so I went on and took some ide
 Originally, the data on how many times the player ranked in a certain spot given a match statistic was shown in an old-fashioned bar chart, but after doing the polar charts for weapons stats I decided to get a bit more creative with these visualizations. To do this, I generated a four-quadrant panel where each section shows the histogram of the player relative to the whole players set (allies and enemies), and only with relation to its allies:
 
 <center><img width="45%" src="/media/splatstats/RankFull.png"><img width="45%" src="/media/splatstats/RankAllied.png"></center>
+
+
+### Waffle Plots
+
+Another representation of proportions of a whole which can be calculated on a number of statistics and broken down by different categories. In this example, we breakdown the kills by weapon:
+
+<center><img width="100%" src="/media/splatstats/waffle.png"></center>
+
 
 ## Historics Uploader
 
