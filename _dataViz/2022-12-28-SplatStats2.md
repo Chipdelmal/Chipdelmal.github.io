@@ -81,7 +81,7 @@ Finally, a simple barchart showing the frequency of awards given to the player:
 
 <center><img width="100%" src="/media/splatstats/awards.png"></center>
 
-## Historics Uploader
+## Historics stat.ink Uploader
 
 Recently, [stat.ink](https://stat.ink/) added full support to Splatoon's 3 data. Fortunately, I had all my historic JSON files and [s3s](https://github.com/frozenpandaman/s3s) has the options to upload previous battles to a personal profile. To do this, I coded this small bash script and let it run overnight:
 
