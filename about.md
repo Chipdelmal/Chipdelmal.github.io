@@ -41,7 +41,7 @@ show_title: false
 
 <div class="container">
 
-  <p style="text-align:center;"><img style="width:35%" src="https://avatars.githubusercontent.com/u/684756?s=400&u=7571d63b136c7774145b065d829e96698aeae05f&v=4" alt="Logo">
+  <p style="text-align:center;"><img style="width:30%" src="/media/profile/chipdelmal.jpg" alt="profile picture">
 
   <!--<br><img  style="width:75%" src="https://ghchart.rshah.org/Chipdelmal" alt="2016rshah's Github chart">--></p>
   <!--<p style="text-align:center;">
