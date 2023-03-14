@@ -44,12 +44,20 @@ show_title: false
 I'm a Computer Scientist PhD/Mechatronics Engineer BSc working in modeling processes related to the spread/control of mosquito-borne diseases. My main lines of research focus on simulating the spatial spread of gene-drives in mosquito populations, and modeling the effects of mosquito-control interventions in mathematical/computational frameworks. I am particularly interested in the application of CS/Engineering methodologies (network theory, optimization techniques, individual-based modeling, etcetera) to stop the spread of vector-borne diseases. In the past I've worked in animal vocalizations analysis, robotics, computer vision, electronics instrumentation and automotive industry.
 For a list of my scientific publications please take a look at my [ResearchGate profile](https://www.researchgate.net/profile/Hector-Sanchez-Castellanos) or [Google Scholar site](https://scholar.google.com/citations?hl=en&user=OeOYQqEAAAAJ).
 
-<p style="text-align:center;">
+<!-- 
+<script src="https://cdn.rawgit.com/IonicaBizau/github-calendar/gh-pages/dist/github-calendar.min.js"></script>
+<link rel="stylesheet" href="https://cdn.rawgit.com/IonicaBizau/github-calendar/gh-pages/dist/github-calendar.css"/>
+<div class="calendar">Loading...</div>
+<script>new GitHubCalendar(".calendar", "Chipdelmal");</script> -->
+
+
+<!-- <p style="text-align:center;">
 <a href='https://github.com/Chipdelmal'><img style="width: 100%" src="http://ghchart.rshah.org/7161ef/Chipdelmal"/></a>
 </p>
-
+ -->
 
 
 <!-- <a class="button button--circle rg-button" href="https://www.researchgate.net/profile/Hector-Sanchez-Castellanos" >
   <img style="width: 100%" src="includes/svg/icon/social/rg.svg"/>
 </a> -->
+
