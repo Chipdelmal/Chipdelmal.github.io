@@ -1,5 +1,5 @@
 ---
-title: "SplatStats"
+title: "SplatStats: First Steps"
 tags: datasci splatoon gaming
 article_header:
   type: overlay
@@ -12,7 +12,7 @@ cover: /media/splatstats/thumb.png
 
 <br>
 
-Coding a package to analyze "Splatoon 3" data to calculate personal statistics and create visualizations.
+Creating a python package to analyze "Splatoon 3"'s personal statistics.
 
 <!--more-->
 
