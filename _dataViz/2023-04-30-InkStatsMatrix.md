@@ -6,22 +6,19 @@ article_header:
   theme: dark
   background_image:
     gradient: 'linear-gradient(135deg, rgba(0, 0, 0 , .4), rgba(0, 0, 0, .4))'
-    src: /media/splatstats/chipBHistory.png
-cover: /media/splatstats/thumb.png
+    src: /media/statink/thumb.png
+cover: /media/statink/thumb.png
 ---
 
 <br>
 
-Analyzing [stat.ink]() weapons' usage data for Splatoon's seasons.
+Analyzing [stat.ink](https://stat.ink/) Splatoon weapons' data.
 
 <!--more-->
 
 # Intro
 
-With the release of [Splatoon 3](https://en.wikipedia.org/wiki/Splatoon_3), I was excited to get some games down when I found out a team of programmers had created the [s3s](https://github.com/frozenpandaman/s3s) package to download the statistics on your matches and use them on the [stat.ink](https://stat.ink/) website. I tried it out and downloaded my available history (last 50 matches) to [JSON files](https://en.wikipedia.org/wiki/JSON). With these files at hand, I started having a go at using them to perform analyses upon the data.
-
-
-<center><a href='https://github.com/Chipdelmal/SplatStats'><img width="50%" src="/media/splatstats/splatstats.png"></a></center>
+As mentioned in some of my previous [posts](./2022-12-28-SplatStats2.html), I've been using [stat.ink](https://stat.ink/) to upload and keep track of my [personal Splatoon 3 matches' data](https://stat.ink/@chipdelmal/spl3), what I hadn't realized is that battles' data uploaded by different players is also [available for download](https://stat.ink/downloads) in CSV files.
 
 # Data Exploration
 
