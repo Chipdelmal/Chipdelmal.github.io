@@ -1,6 +1,6 @@
 ---
 title: "Stat.Ink Weapon Matrix"
-tags: datasci splatoon gaming
+tags: datasci splatoon gaming network
 article_header:
   type: overlay
   theme: dark
@@ -12,10 +12,18 @@ cover: /media/statink/thumb.png
 
 <br>
 
+Analyzing [stat.ink](https://stat.ink/) Splatoon weapons' data.
+
+<!--more-->
+
+# Intro
+
+Splatoon's community has clear preferences on some weapons being superior to others in the competitive scene. [Stat.ink](https://stat.ink/) provides the information of battles uploaded to the site by players, so I coded some routines to parse and aggregate these data into manageable dataframes for further analysis as described in my [previous post](./dataViz/2023-03-14-StatInkData.html). In this post we go through the generation of a "dominance matrix", where we can analyze and compare weapons' performance against each other.
 
 
-# Dominance Matrix
+# Code Dev
 
+## Dominance Matrix
 
 First we get the total number of battles, who won the match (defaults to `True` if team `alpha` won), and the [weapons used by each team](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/statInkStats.py#L82):
 
@@ -70,22 +78,24 @@ match = btls.iloc[0:1]
 (weapons['alpha'], weapons['bravo'], alphaWon)
 
 
-out: 
-  (
-    A1-weapon       "Z+F Splat Charger"
-    A2-weapon     "Neo Sploosh-o-matic"
-    A3-weapon          "Splash-o-matic"
-    A4-weapon          "Splash-o-matic"
-    Name: 0, dtype: object,
+###############################################################################
+# out: 
+###############################################################################
+(
+  A1-weapon       "Z+F Splat Charger"
+  A2-weapon     "Neo Sploosh-o-matic"
+  A3-weapon          "Splash-o-matic"
+  A4-weapon          "Splash-o-matic"
+  Name: 0, dtype: object,
 
-    B1-weapon          "Splash-o-matic"
-    B2-weapon  "Forge Splattershot Pro"
-    B3-weapon                "N-ZAP 89"
-    B4-weapon     "Tri-Slosher Nouveau"
-    Name: 0, dtype: object,
+  B1-weapon          "Splash-o-matic"
+  B2-weapon  "Forge Splattershot Pro"
+  B3-weapon                "N-ZAP 89"
+  B4-weapon     "Tri-Slosher Nouveau"
+  Name: 0, dtype: object,
 
-    False
-  )
+  False
+)
 ```
 
 Ok, so we have the weapons used by both teams, and we can see that team `bravo` won. Now, let's calculate dominance matrix of the match:
@@ -93,32 +103,34 @@ Ok, so we have the weapons used by both teams, and we can see that team `bravo` 
 ```python
 splat.calculateDominanceMatrix(btls.iloc[0:1])
 
-out: 
-  (
-    [
-      "Forge Splattershot Pro",
-      "N-ZAP '89",
-      "Neo Sploosh-o-matic",
-      "Splash-o-matic",
-      "Tri-Slosher Nouveau",
-      "Z+F Splat Charger"
-    ],
-    array([
-      [0, 0, 1, 2, 0, 1],
-      [0, 0, 1, 2, 0, 1],
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 1, 2, 0, 1],
-      [0, 0, 1, 2, 0, 1],
-      [0, 0, 0, 0, 0, 0]
-    ])
-  )
+###############################################################################
+# out: 
+###############################################################################
+(
+  [
+    "Forge Splattershot Pro",
+    "N-ZAP '89",
+    "Neo Sploosh-o-matic",
+    "Splash-o-matic",
+    "Tri-Slosher Nouveau",
+    "Z+F Splat Charger"
+  ],
+  array([
+    [0, 0, 1, 2, 0, 1],
+    [0, 0, 1, 2, 0, 1],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 1, 2, 0, 1],
+    [0, 0, 1, 2, 0, 1],
+    [0, 0, 0, 0, 0, 0]
+  ])
+)
 ```
 
 Let's have a look at the "Forge Splattershot Pro". This weapon, which has an index `0` in the matrix, was part of team `bravo`, so its row should have positive entries in the columns that match the weapons used by team `alpha` (as presented in the `wNames` list). We can see that its row has a one in the second column, which corresponds to the "Neo Sploosh-o-matic", a 2 in the third column for the two "Splash-o-matics" present in the opossing team, and a 1 in the last column for the "Z+F Splat Charger". In contrast, let's have a look at a weapon the "New Sploosh-o-matic". This weapon's row (index 2) is empty but its column (same index 2) has a value of 2 in the rows of the weapons used by team `alpha` (0, 1, 3, and 4).
 
 When the dominance matrix function is fed a whole dataframe of matches, it repeats the same process for all the battles and weapons; which results in a large squared and assymetric matrix with the winning frequencies for the combinations that have appeared over the dataset.
 
-# Normalized Matrix
+## Normalized Matrix
 
 Having our frequency matrix already calculated, we can [normalize the results](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/statInkStats.py#L43) so that the entries are fractions of wins/losses between the weapons. Doing this is relatively easy, as we can take a weapon's row vector, and divide it by its column vector (as they are sorted in the same order). In an extra step, we subtract 1 to each entry so that it centers around 0, meaning that 0 would represent neither weapon "dominates" the other one, while positive numbers mean the weapon in the row dominates the one in the column, and negative numbers represent the inverse case:
 
@@ -141,36 +153,76 @@ sorting = list(np.argsort([np.sum(r>0) for r in tauX]))[::-1]
 (tauS, namS) = (tauX[sorting][:,sorting], [wNames[i] for i in sorting])
 ```
 
-# Dominance Plot
+## Dominance Plot
 
-
-We are finally ready to generate our [plot](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/statInkPlots.py#L102). Thankfully, we took enough steps in our previous processes as to make this as streamlined as possible. In essence, we are simply doing a matrix plot, capping the minimum/maximum allowed values and applying a [custom colorscale](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/colors.py#L226) in the form of:
+We are finally ready to generate our [visualization](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/statInkPlots.py#L102). Thankfully, we took enough steps in our previous processes as to make this as streamlined as possible. In essence, we are simply doing a matrix plot, capping the minimum/maximum allowed values and applying a [custom colorscale](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/colors.py#L226) in the form of:
 
 ```python
 (fig, ax) = plt.subplots(figsize=(20, 20))
 ax.matshow(sMatrix, vmin=vRange[0], vmax=vRange[1], cmap=cmap)
 ```
 
-A heuristically-good value for the values range is `(-0.75, 0.75)` for season-span datasets, with duotone colormaps that go through white at value 0 being good for contrasting the win/loss ratios.
+A heuristically-good value for the values range is `(-0.75, +0.75)` for season-span datasets, with duotone colormaps that go through white at value 0 being good for contrasting the win/loss ratios. Now, we want to add some more information to this visualization so that we have enough context to make comparisons. This information includes the total weapons' participation (wins + losses), and the number of times the W/L ratio against a weapon is above 1 (any positive numbers in our matrix's row as we re-centered it around 0):
 
 ```python
-counts = [np.sum(r>0) for r in sMatrix]
+# Getting total participation per weapon
 (mWpnWins, mWpnLoss) = (
-    np.sum(mMatrix, axis=1)/4, 
-    np.sum(mMatrix, axis=0)/4
+  np.sum(mMatrix, axis=1)/4, 
+  np.sum(mMatrix, axis=0)/4
 )
 tVect = (mWpnWins+mWpnLoss)[sSort]
+# Getting total dominance count per weapon
+domCounts = [np.sum(r>0) for r in sMatrix]
+```
+
+We will add this information in the x and y axes labels, so we generate our strings with the weapons names (`sNames`) and the data:
+
+```python
 lLabs = [
-    '{} ({})'.format(n, c) 
-    for (n, c) in zip(sNames, counts)
+  '{} ({})'.format(wn, dc) 
+  for (w, dc) in zip(sNames, domCounts)
 ]
 tLabs = [
-    '({}{}) {}'.format(c, scaler[0], n)
-    for (n, c) in zip(sNames, [int(i) for i in tVect/scaler[1]])
+  '({}) {}'.format(tm, wn)
+  for (wn, tm) in zip(sNames, [int(i) for i in tVect])
 ]
+```
 
+And simply replace the strings in their corresponding tick positions:
+
+```python
 ax.set_xticks(np.arange(0, len(sNames)))
 ax.set_yticks(np.arange(0, len(sNames)))
 ax.set_xticklabels(tLabs, rotation=90, fontsize=12.5)
 ax.set_yticklabels(lLabs, fontsize=12.5)
 ```
+
+
+<div class="swiper my-3 swiper-demo swiper-demo--0">
+  <div class="swiper__wrapper">
+    <div class="swiper__slide"><img src="/media/statink/Drizzle Season 2022 (All) - Matrix_S.png" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/statink/Chill Season 2022 (All) - Matrix_S.png" style="width:100%;"></div>
+  </div>
+  <!-- <div class="swiper__pagination"></div> -->
+  <div class="swiper__button swiper__button--prev fas fa-chevron-left"></div>
+  <div class="swiper__button swiper__button--next fas fa-chevron-right"></div>
+  <!-- <div class="swiper-scrollbar"></div> -->
+</div>
+
+<script>
+  {%- include scripts/lib/swiper.js -%}
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    $('.swiper-demo--0').swiper(); $('.swiper-demo--1').swiper();
+    $('.swiper-demo--2').swiper(); $('.swiper-demo--3').swiper();
+    $('.swiper-demo--4').swiper({ animation: false });
+  });
+</script>
+
+
+# Facts and Future Work
+
+# Code Repo
+
+* Repository: [Github Repo](https://github.com/Chipdelmal/SplatStats)
+* Dependencies: [matplotlib](https://matplotlib.org/), [pandas](https://pandas.pydata.org/), [numpy](https://numpy.org/), [dill](https://pypi.org/project/dill/), [termcolor](https://pypi.org/project/termcolor/), [colorutils](https://pypi.org/project/colorutils/), [tqdm](https://pypi.org/project/tqdm/), [scipy](https://pypi.org/project/scipy/), [DateTimeRange](https://pypi.org/project/DateTimeRange/), [pywaffle](https://pypi.org/project/pywaffle/), [squarify](https://pypi.org/project/squarify/)
