@@ -183,7 +183,7 @@ totalM = totalW + totalL
 Now, with some re-shapping, styling and our original [polar barcharts](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/plots.py#L890) function, we can compare the use frequency of the weapons in matches, along with their win/lose rates on the two current Splatoon 3 seasons:
 
 <center>
-  <img width="49%" src="/media/statink/PolarHalf%20-%20Drizzle%20Season%202022.png"><img width="49%" src="/media/statink/PolarHalf%20-%20Chill%20Season%202022.png">
+  <img width="49%" src="/media/statink/Drizzle Season 2022 (All) - Polar_S.png"><img width="49%" src="/media/statink/Chill Season 2022 (All) - Polar_S.png">
 </center>
 
 Again, I'll go into more detail in a future post where the way the dominance matrix is calculated will be detailed, along with some other filtering and analysis.
@@ -194,8 +194,8 @@ I'm currently working in some "Seasonal Summary Panels", where we'll be able to 
 
 <div class="swiper my-3 swiper-demo swiper-demo--0">
   <div class="swiper__wrapper">
-    <div class="swiper__slide"><img src="/media/statink/ChillSeason2022.png" style="width:100%;"></div>
-    <div class="swiper__slide"><img src="/media/statink/DrizzleSeason2022.png" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/statink/Chill Season 2022 (All) - Polar_S.png" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/statink/Drizzle Season 2022 (All) - Polar_S.png" style="width:100%;"></div>
   </div>
   <!-- <div class="swiper__pagination"></div> -->
   <div class="swiper__button swiper__button--prev fas fa-chevron-left"></div>
