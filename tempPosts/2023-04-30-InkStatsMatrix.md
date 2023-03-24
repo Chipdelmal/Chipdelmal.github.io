@@ -12,273 +12,165 @@ cover: /media/statink/thumb.png
 
 <br>
 
-Analyzing [stat.ink](https://stat.ink/) Splatoon weapons' data.
-
-<!--more-->
-
-# Intro
-
-As mentioned in some of my previous [posts](./2022-12-28-SplatStats2.html), I've been using [stat.ink](https://stat.ink/) to upload and keep track of my [personal Splatoon 3 matches' data](https://stat.ink/@chipdelmal/spl3), what I hadn't realized is that battles' data uploaded by different players is also [available for download](https://stat.ink/downloads) in CSV files.
-
-# Data Exploration
-
-The first thing to do was to take a deep dive into the raw JSON files. This was a somewhat hard task, as some of the structures were nested up to 8 levels deep and there was no documentation on them. Fortunately, most of the structures names were fairly intuitive for someone who has played splatoon for a while.
 
 
-```
-{
-  vsHistoryDetails
-    id
-    vsRule
-      name, id, rule
-    vsMode
-      mode, id
-    player (a)
-      isPlayer, name, nameId, vsStage, festMatch
-      paint, judgement (win/lose), knockout, duration, playedTime
-      awards
-        name, rank
-      headGear
-        name, primaryGearPower, additionalGearPowers
-      clothingGear
-        name, primaryGearPower, additionalGearPowers
-      shoesGear
-        name, primaryGearPower, additionalGearPowers
-      myTeam
-        result
-          paintRatio, score
-        players: list of players, all with their own values
-          id
-          name
-          weapon
-            name
-            specialWeapon
-              name
-            subweapon
-              name
-          gear
-          result
-            kill, death, assist, special
-      otherTeams: list of "myTeam" objects containing the info on enemy teams
-}
-```
-
-From these extremely thorough structures I set off in the adventure of making the most of it without getting lost in the forest of details and keeping the scope of the project somewhat concise. With this in mind, I decided to go for a structure that would allow for the analysis of player statistics like kills, deaths, wins, ko's; over time, stages, match-types, etc; and in a way that would allow for the filtering and reshaping of the data to do more analysis.
+# Dominance Matrix
 
 
-# Code Description
-
-
-Initially, I wanted to parse the JSON files directly into the players' objects, but then I realized that this would generate duplicate data, as it might be the case that multiple players you want to analyze are part of the same battle. This is exactly my use-case, as I play with my friends and would like to analyze the whole data from the battles we all play together. To have a middle-ground between the huge JSON files and the player objects the first step was to define a battle class so that all the data could be serialized to unique files.
-
-
-## Battle Class
-
-As this is the lowest-level class, it has to hold the most amount of raw information so that wrapper classes are able to do flexible analyses. After looking for a while at the JSON structures, I decided I wanted the following data from each battle for each player involved:
-
-```
-'main weapon', 'sub weapon', 'special weapon', 
-'kill', 'death', 'assist', 'special', 'paint', 
-'head name', 'head main', 'head sub_0', 'head sub_1', 'head sub_2', 
-'shirt name', 'shirt main', 'shirt sub_0', 'shirt sub_1', 'shirt sub_2', 
-'shoes name', 'shoes main', 'shoes sub_0', 'shoes sub_1', 'shoes sub_2', 
-'win', 'score', 'datetime', 'ko', 'stage',
-'match type', 'duration', 'splatfest', 
-'award_0', 'award_1', 'award_2'
-```
-
-More categories can be added later on if necessary, but it's a good first step towards getting some interesting information processed. To store these data from the JSONs, it is processed and stored in dataframes within the class separated by "allies" and "enemies", where the teams are relative to the player who "owns" the battle data (the one whose credentials were used to download the files). A somewhat annoying side-note is that for the tri-turf battles to be possible, the enemy teams are stored in a list of dataframes, unlike the allies one which is just a dataframe, but this is taken into account in all the methods of the class.
-
-Finally, a couple of notes: 
-
-* Some of these data are common for all the players, such as: `datetime, ko, stage, matchType, duration, festMatch`, so these are attributes of the class itself and only added to the dataframes when the data is requested by one of the member functions.
-* Battles are stored with UTC±00:00 timezone as they can contain the information of several users across different timezones (the timezone parameter is part of the player class).
-* Awards information is only stored for the "owner" of the JSON file (as this information is not available on the other participants).
-
-
-## Player Class
-
-This class is the one that does most of the interesting things in terms of data analysis. A player is instantiated with its in-game name and the path to the battle files from which the information will be extracted (user id support will be added in the future). Once this is set, the class automatically parses the player's history into a dataframe, which takes a for such as the following:
-
-![](https://github.com/Chipdelmal/SplatStats/blob/main/docs/img/playerDF.png?raw=true)
-
-
-This is one of the main structures that is used in the analyses, as it contains a ton of information about the player's performance in all the matches, so it can be used to do some quick visualizations and trends analyses. The class also auto-separates dataframes by battle type, to make quick processing of specific data easier; along with general statistics for the player both in aggregate, and by battle type (such as total/average/per minute: kills, deaths, assists, paint).
-
-
-Finally, the class also contains a battles records attribute, in which all the battles of which the player has been part of (as owner, ally, or enemy) are stored in case some different processing is needed.
-
-
-# Use Example
-
-But enough code-structure talk, let's go through a demo (for people interested in more details of the program, please have a look at the [documentation](https://chipdelmal.github.io/SplatStats/) for further details and examples).
-
-
-I've been storing and tracking my data through the past month or so. Whenever I finish a 2h session I simply run the following command on the [s3s scripts](https://github.com/frozenpandaman/s3s) folder:
-
-```bash
-python s3s.py -o
-```
-
-This downloads my most current JSON battle data (up to 50 battles) into that folder (`~/Documents/GitHub/s3s/` in this example). The [s3s codebase](https://github.com/frozenpandaman/s3s) automatically generates a different folder each time I download the data, so I can safely just run the script each time I finish a gaming session and it just stores it in the same base directory with a new nested folder so that all the historic data is preserved (it doesn't matter if there are duplicated or overlapping battles data, as that's handled by [SplatStats](https://chipdelmal.github.io/SplatStats/)).
-
-
-Now, let's jump into python to import our packages and setup our input path (where the JSON data folders are stored), and the output one (where we will be exporting the battle data files):
+First we get the total number of battles, who won the match (defaults to `True` if team `alpha` won), and the [weapons used by each team](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/statInkStats.py#L82):
 
 ```python
-from os import path
-import matplotlib.pyplot as plt
-import SplatStats as splat
+btlsNum = btls.shape[0]
+# Get weapons used by each team
+tmsWpns = getTeamsWeapons(btls)
+(alpha, bravo) = (tmsWpns['alpha'], tmsWpns['bravo'])
+# Get the winner of the match
+winAlpha = list(btls['win'])
+```
 
-(iPath, oPath) = (
-    path.expanduser('~/Documents/GitHub/s3s/'),
-    path.expanduser('~/Documents/Sync/BattlesData/')
+Next, we the [list of weapons that appear in the matches](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/statInkStats.py#L110):
+
+```python
+wNames = getWeaponsSet(btls)
+wpnsNumbr = len(wNames)
+```
+
+Now comes the fun part. The goal is to generate a squared matrix that will contain the information of how many times a given weapon (row) has beaten another weapon in a match (column). The order of the appearance of the weapons in the matrix corresponds to the sorting in the `wNames` list, which is alphabetical by default (although a list can be provided to [the function](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/statInkStats.py#L10), if so desired). With this in mind, we iterate over each match (controlled by the battle index `bix`) where we get the positions of the weapons on both teams as they appear in our `wNames` list, and who won the match. If `alpha` won, we iterate over their weapons' rows incrementing by one all of the columns that correspond to a weapon that exists in team `bravo`; conversely, if `bravo` won, we go through all of the rows of the teams' weapons and increment all the columns corresponding to weapons in `alpha` by one:
+
+```python
+# Initialize empty matrix
+domMtx = np.zeros((wpnsNumbr, wpnsNumbr))
+for bix in range(btlsNum):
+    # Get names for weapons in both teams
+    (wpnsNmA, wpnsNmB) = (list(alpha.iloc[bix]), list(bravo.iloc[bix]))
+    # Get indices for weapons in both teams
+    (wpnsIxA, wpnsIxB) = (
+        [wNames.index(w) for w in wpnsNmA], 
+        [wNames.index(w) for w in wpnsNmB]
+    )
+    # Fill the corresponding row/column combination
+    if winAlpha[bix]:
+        # Team Alpha won
+        for ixA in wpnsIxA:
+            for ixB in wpnsIxB:
+                domMtx[ixA, ixB] = domMtx[ixA, ixB]+1
+    else:
+        # Team Bravo won
+        for ixB in wpnsIxB:
+            for ixA in wpnsIxA:
+                domMtx[ixB, ixA] = domMtx[ixB, ixA]+1
+```
+
+As an example, let's inspect a single match and how it gets converted to the frequency matrix. We get the dataframe entry, inspect the match's weapons, and who won:
+
+
+```python
+match = btls.iloc[0:1]
+(weapons, alphaWon) = (splat.getTeamsWeapons(match), match['win'])
+(weapons['alpha'], weapons['bravo'], alphaWon)
+
+
+out: 
+  (
+    A1-weapon       "Z+F Splat Charger"
+    A2-weapon     "Neo Sploosh-o-matic"
+    A3-weapon          "Splash-o-matic"
+    A4-weapon          "Splash-o-matic"
+    Name: 0, dtype: object,
+
+    B1-weapon          "Splash-o-matic"
+    B2-weapon  "Forge Splattershot Pro"
+    B3-weapon                "N-ZAP 89"
+    B4-weapon     "Tri-Slosher Nouveau"
+    Name: 0, dtype: object,
+
+    False
+  )
+```
+
+Ok, so we have the weapons used by both teams, and we can see that team `bravo` won. Now, let's calculate dominance matrix of the match:
+
+```python
+splat.calculateDominanceMatrix(btls.iloc[0:1])
+
+out: 
+  (
+    [
+      "Forge Splattershot Pro",
+      "N-ZAP '89",
+      "Neo Sploosh-o-matic",
+      "Splash-o-matic",
+      "Tri-Slosher Nouveau",
+      "Z+F Splat Charger"
+    ],
+    array([
+      [0, 0, 1, 2, 0, 1],
+      [0, 0, 1, 2, 0, 1],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 1, 2, 0, 1],
+      [0, 0, 1, 2, 0, 1],
+      [0, 0, 0, 0, 0, 0]
+    ])
+  )
+```
+
+Let's have a look at the "Forge Splattershot Pro". This weapon, which has an index `0` in the matrix, was part of team `bravo`, so its row should have positive entries in the columns that match the weapons used by team `alpha` (as presented in the `wNames` list). We can see that its row has a one in the second column, which corresponds to the "Neo Sploosh-o-matic", a 2 in the third column for the two "Splash-o-matics" present in the opossing team, and a 1 in the last column for the "Z+F Splat Charger". In contrast, let's have a look at a weapon the "New Sploosh-o-matic". This weapon's row (index 2) is empty but its column (same index 2) has a value of 2 in the rows of the weapons used by team `alpha` (0, 1, 3, and 4).
+
+When the dominance matrix function is fed a whole dataframe of matches, it repeats the same process for all the battles and weapons; which results in a large squared and assymetric matrix with the winning frequencies for the combinations that have appeared over the dataset.
+
+# Normalized Matrix
+
+Having our frequency matrix already calculated, we can [normalize the results](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/statInkStats.py#L43) so that the entries are fractions of wins/losses between the weapons. Doing this is relatively easy, as we can take a weapon's row vector, and divide it by its column vector (as they are sorted in the same order). In an extra step, we subtract 1 to each entry so that it centers around 0, meaning that 0 would represent neither weapon "dominates" the other one, while positive numbers mean the weapon in the row dominates the one in the column, and negative numbers represent the inverse case:
+
+
+```python
+# Initialize matrix
+mSize = len(domMtx)
+tauW = np.zeros((mSize, mSize))
+# Iterate through rows
+for (ix, _) in enumerate(wNames):
+    winsDiff = domMtx[ix]/domMtx[:,ix]
+    tauW[ix] = winsDiff
+tauX = np.nan_to_num(tauW)-1
+```
+
+Finally, in an optional step, we can sort the matrix by the rank frequency of weapons that each entry dominates (the reason for doing this will become clearer when we plot the results):
+
+```python
+sorting = list(np.argsort([np.sum(r>0) for r in tauX]))[::-1]
+(tauS, namS) = (tauX[sorting][:,sorting], [wNames[i] for i in sorting])
+```
+
+# Dominance Plot
+
+
+We are finally ready to generate our [plot](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/statInkPlots.py#L102). Thankfully, we took enough steps in our previous processes as to make this as streamlined as possible. In essence, we are simply doing a matrix plot, capping the minimum/maximum allowed values and applying a [custom colorscale](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/colors.py#L226) in the form of:
+
+```python
+(fig, ax) = plt.subplots(figsize=(20, 20))
+ax.matshow(sMatrix, vmin=vRange[0], vmax=vRange[1], cmap=cmap)
+```
+
+A heuristically-good value for the values range is `(-0.75, 0.75)` for season-span datasets, with duotone colormaps that go through white at value 0 being good for contrasting the win/loss ratios.
+
+```python
+counts = [np.sum(r>0) for r in sMatrix]
+(mWpnWins, mWpnLoss) = (
+    np.sum(mMatrix, axis=1)/4, 
+    np.sum(mMatrix, axis=0)/4
 )
+tVect = (mWpnWins+mWpnLoss)[sSort]
+lLabs = [
+    '{} ({})'.format(n, c) 
+    for (n, c) in zip(sNames, counts)
+]
+tLabs = [
+    '({}{}) {}'.format(c, scaler[0], n)
+    for (n, c) in zip(sNames, [int(i) for i in tVect/scaler[1]])
+]
+
+ax.set_xticks(np.arange(0, len(sNames)))
+ax.set_yticks(np.arange(0, len(sNames)))
+ax.set_xticklabels(tLabs, rotation=90, fontsize=12.5)
+ax.set_yticklabels(lLabs, fontsize=12.5)
 ```
-
-Now, the following lines parse the JSON files paths, extract the battle objects from them, and return the paths of the serialized battle object files:
-
-
-```python
-hPaths = splat.getDataFilepaths(iPath)
-bPaths = splat.dumpBattlesFromJSONS(hPaths, oPath)
-```
-
-Ok, enough parsing files, let's create our player! In my case, I know my player name but in case you're not sure, or if it has strange characters just run:
-
-```python
-battles = splat.loadBattlesFromFiles(bPaths)
-splat.getPlayerCountsInBattles(battles)
-```
-
-and your username should probably on top of the list.
-
-With this in place, let's instantiate my player, and extract the battle history:
-
-```python
-name = 'čħîþ ウナギ'
-plyr = splat.Player(name, bPaths, timezone='America/Los_Angeles')
-pHistory = plyr.battlesHistory
-```
-
-And we're all set to do some cool analysis! Let's say I was interested in the "Turf War" matches I played with my Splattershot and killed more than 15 enemies whilst dying less than 5 times. We can do this easily with some standard dataframe filtering:
-
-```python
-filters = (
-    pHist['main weapon'] == 'Splattershot',
-    pHist['match type'] == 'Turf War',
-    pHist['kill'] >= 15,
-    pHist['death'] <= 5,
-)
-fullFilter = [all(i) for i in zip(*filters)]
-pHist[fullFilter]
-```
-
-Moreover, we could further filter this result to have a peek at other things such as the gear I was using at that point:
-
-```python
-pHist[fullFilter][['kill', 'head main', 'shirt main', 'shoes main']]
-```
-
-Now, let's do some plotting! There are some dedicated functions to do basic analysis. One of this is the frequency distributions of kills and deaths during matches, which can be plotted as follows:
-
-```python
-(fig, ax) = plt.subplots(figsize=(15, 5))
-(fig, ax) = splat.plotKillsAndDeathsHistogram(
-    (fig, ax), pHist, (0, 40), yRange=(-.25, .25), 
-    normalized=True
-)
-ax.set_ylabel('Death/Kill\nFraction')
-ax.set_xlabel('Frequency')
-plt.savefig(
-    path.join(oPath, f'Histogram - {plyr.name}.png'), 
-    dpi=200, bbox_inches='tight', facecolor=fig.get_facecolor()
-)
-```
-
-<center><img width="100%" src="../media/splatstats/KD_Histogram.png"></center>
-
-
-This graph shows us how many kills we get on average in a match (top) against the number of times we die in it (bottom). In my specific case it can be seen that, on average, I tend to get more kills than deaths in any given match with some extreme outliers around the 35 kills mark; whilst the mode of the times I die during a match hangs around the 4 region.
-
-Now, we can also analyze several stats broken down by match type and stage:
-
-```python
-(matchType, metric) = ("Turf War", "paint avg")
-if matchType != "All":
-    stagesStatsMatch = splat.calcStagesStatsByType(pHist)[matchType]
-else:
-    stagesDF = splat.calcStagesStats(pHist)
-(fig, ax) = plt.subplots(figsize=(5, 5))
-(fig, ax) = splat.plotTreemapByStages(
-    (fig, ax), stagesDF, metric=metric, 
-    fmt='{:.2f}', pad=0.1, alpha=.6
-)
-```
-
-<center>
-  <img width="40%" src="../media/splatstats/Rainmaker-win ratio_Treemap.png">
-  <img width="40%" src="../media/splatstats/Turf War-paint avg_Treemap.png">
-</center>
-
-Which can be pretty useful when breaking down on which stages we perform the best. In my case I tend to lose a lot in "Scorch Gorge" during Rainmaker matches, which I can totally understand as I struggle badly in that stage.
-
-These stats can be any of the following (and others can easily be extended) for any of the match-types (including the aggregate of all):
-
-```
-'total matches', 'paint', 'win', 'loss', 'win ratio', 'kill ratio',  'kassists ratio', 'kills', 'deaths', 
-'assists', 'special', 'kassists', 'kills avg', 'deaths avg', 'assists avg', 'special avg', 'paint avg', 
-'kassists avg', 'kills prm', 'deaths prm', 'assists prm', 'special prm',  'paint prm', 'kassists prm'
-```
-
-Other aggregations such as weapon-type are possible. Have a look at the [docs](https://chipdelmal.github.io/SplatStats/build/html/plots.html) for more examples!
-
-
-Finally, for my two favorites: the iris plot and the matches history one. These two show the kill to death ratio as a bar (or line) which is blue if the player got more kills than deaths, and magenta otherwise. Rectangles on the back represent the painted surface. In the iris plot matches are temporally distributed clock-wise and the kills/deaths are radially shown with a symlog scale by default:
-
-
-```python
-(fig, ax) = plt.subplots(figsize=(8, 8), subplot_kw={"projection": "polar"})
-(fig, ax) = splat.plotkillDeathIris(
-    (fig, ax), pHist,
-    innerGuides=(0, 6, 1), outerGuides=(10, 50, 10),
-    frameColor="#000000AA"
-)
-```
-
-<center><img width="50%" src="../media/splatstats/KD_Iris.png"></center>
-
-The number at the center is the result of the following calculation: $$(kills * 0.5 assists)/deaths$$; which in my dataset is around 2.5, which makes sense as I usually play under the "slayer" style.
-
-The matches history plot contains even more information, with the match-type, weapon used, if it was a KO, splatfest, win or loss; all in the same display! Have a look at the [full explanation](https://chipdelmal.github.io/SplatStats/build/html/plots.html#matches-history-panel) for more details!
-
-```python
-fig = plt.figure(figsize=(30, 5))
-gs = fig.add_gridspec(
-    2, 1,  width_ratios=(1, ), height_ratios=(.75, .05),
-    left=0.1, right=0.9, bottom=0.1, top=0.9, wspace=0.05, hspace=0
-)
-(ax_top, ax_bottom) = (fig.add_subplot(gs[0]), fig.add_subplot(gs[1], sharex=ax_top))
-(_, ax_top) = splat.plotMatchHistory(
-    (fig, ax_top), pHist, ilocRange=xRange,
-    yRange=yRange, sizeMultiplier=1
-)
-(_, ax_bottom) = splat.plotMatchTypeHistory(
-    (fig, ax_bottom), pHist, ilocRange=xRange,
-    sizeMultiplier=.9, labelsize=5.5
-)
-```
-
-<center><img width="100%" src="../media/splatstats/History.png"></center>
-
-
-That's it for this example. I'll be updating the framework and extending its capabilities but for now have a look at the [full code](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/demos/blogDemo.py) used to create this demo!
-
-# Future Work
-
-The next feature I've been working on is the "Team" class with which I will try to make the analysis of groups of people more straightforward. Once that is done I plan on improving the aesthetics of my plots and looking into integrating parts of the [s3s](https://github.com/frozenpandaman/s3s) data-scraping capabilities into pipelines that automate the data download to make the whole process more automated. Finally, I want to work a bit more on features like breaking down the team compositions that get the most wins/losses to analyze and improve my gameplay.
-
-# Code Repo
-
-* Repository: [Github Repo](https://github.com/Chipdelmal/SplatStats)
-* Dependencies: [matplotlib](https://matplotlib.org/), [pandas](https://pandas.pydata.org/), [numpy](https://numpy.org/), [dill](https://pypi.org/project/dill/), [termcolor](https://pypi.org/project/termcolor/), [colorutils](https://pypi.org/project/colorutils/), [tqdm](https://pypi.org/project/tqdm/), [scipy](https://pypi.org/project/scipy/), [DateTimeRange](https://pypi.org/project/DateTimeRange/), [pywaffle](https://pypi.org/project/pywaffle/), [squarify](https://pypi.org/project/squarify/)
