@@ -6,27 +6,28 @@ article_header:
   theme: dark
   background_image:
     gradient: 'linear-gradient(135deg, rgba(0, 0, 0 , .4), rgba(0, 0, 0, .4))'
-    src: /media/statink/thumb.png
-cover: /media/statink/thumb.png
+    src: /media/statink/matrixDrizzle.png
+cover: /media/statink/matrixChill.jpg
 ---
 
 <br>
 
-Analyzing [stat.ink](https://stat.ink/) Splatoon weapons' data.
+Comparing [stat.ink](https://stat.ink/) Splatoon weapons' performance.
 
 <!--more-->
 
 # Intro
 
-Splatoon's community has clear preferences on some weapons to others in the competitive scene (with Splash-o-matic being a favorite for team compositions). Given that
-[Stat.ink](https://stat.ink/) provides the information of battles uploaded to the site by players, and that I had already coded some routines to parse and aggregate these data into manageable dataframes for further analysis (as described in my [previous post](./dataViz/2023-03-14-StatInkData.html)); I wanted to check how weapons rank against each other in the dataset in terms if win/loss ratios. In this post I go through the generation of a "dominance matrix", where we can analyze and compare weapons' performance against each other.
+Splatoon's community has clear preferences on some weapons to others in the competitive scene (with "Splash-o-matic", for example, being a favorite in most team compositions). Given that [Stat.ink](https://stat.ink/) provides the information of battles uploaded by players, and that I had already coded some routines to parse these data into manageable dataframes for further analysis (as described in my [previous post](./dataViz/2023-03-14-StatInkData.html)); I wanted to check how weapons rank against each other in terms if win/loss ratios. In this post I go through the generation of a "dominance matrix", where we can analyze and compare weapons' performance against each other.
 
 
 # Code Dev
 
+This code assumes the battles data has already been loaded as described in the [stat.ink post](./dataViz/2023-03-14-StatInkData.html). 
+
 ## Dominance Matrix
 
-To get started, we load the battles data as described in the [stat.ink post](./dataViz/2023-03-14-StatInkData.html) and filter it as needed (in this case, we'll filter for Splatoon's seasons). With this in place, we get the total number of battles, who won the match (defaults to `True` if team `alpha` won), and the [weapons used by each team](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/statInkStats.py#L82):
+To get started we get the total number of battles, who won the match (each entry defaults to `True` if team `alpha` won), and the [weapons used by each team](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/statInkStats.py#L82):
 
 ```python
 btlsNum = btls.shape[0]
@@ -44,7 +45,7 @@ wNames = getWeaponsSet(btls)
 wpnsNumbr = len(wNames)
 ```
 
-Now comes the fun part. The goal is to generate a squared matrix that will contain the information of how many times a given weapon (row) has beaten another weapon (column) in a match. The order of the appearance of the weapons in the matrix (row-column) corresponds to the sorting in the `wNames` list, which is alphabetical by default (although a list can be provided to [the function](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/statInkStats.py#L10), if so desired). With this in mind, we iterate over each match (controlled by the battle index `bix`) where we get the positions of the weapons on both teams, and who won the match. If `alpha` won, we iterate over their weapons' rows incrementing by one all of the columns that correspond to a weapon that exists in team `bravo`; conversely, if `bravo` won, we go through all of the rows of the teams' weapons and increment all the columns corresponding to the ones in `alpha` by one:
+Now comes the fun part. The goal is to generate a squared matrix that will contain the information of how many times a given weapon (row) has beaten another weapon (column) in a match. The order of the appearance of the weapons in the matrix (row-column) corresponds to the sorting in the `wNames` list, which is alphabetical by default (although a list can be provided to [the function](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/statInkStats.py#L10), if so desired). With this in mind, we iterate over each match (controlled by the battle index `bix`) where we get the positions of the weapons on both teams, and who won the match. If `alpha` won, we iterate over their weapons' rows incrementing by one all of the columns that correspond to a weapon that exists in team `bravo`; conversely, if `bravo` won, we go through all of the rows of the teams' weapons and increment the columns corresponding to the ones in `alpha` by one:
 
 ```python
 # Initialize empty matrix
@@ -123,13 +124,14 @@ splat.calculateDominanceMatrix(btls.iloc[0:1])
     )
 ```
 
-Let's have a look at the "Forge Splattershot Pro". This weapon, which has an index `0` in the matrix, was part of team `bravo` (the winning team), so its row should have positive entries in the columns that match the weapons used by team `alpha` (as presented in the `wNames` list). We can see that its row has a one in the second column, which corresponds to the "Neo Sploosh-o-matic", a 2 in the third column for the two "Splash-o-matic"s present in the opossing team, and a 1 in the last column for the "Z+F Splat Charger". In contrast, let's have a look at a weapon the "New Sploosh-o-matic". This weapon's row (index 2) is empty but its column (same index 2) has a value of 2 in the rows of the weapons used by team `alpha` (0, 1, 3, and 4).
+Let us have a look at the "Forge Splattershot Pro". This weapon, which has an index `0` in the matrix, was part of team `bravo` (the winning team), so its row should have positive entries in the columns that match the weapons used by team `alpha` (as presented in the `wNames` list). We can see that its row has a one in the second column, which corresponds to the "Neo Sploosh-o-matic", a 2 in the third column for the two "Splash-o-matic"s present in the opossing team, and a 1 in the last column for the "Z+F Splat Charger". In contrast, let's have a look at a weapon the "New Sploosh-o-matic". This weapon's row (index 2) is empty but its column (same index 2) has a value of 2 in the rows of the weapons used by team `alpha` (0, 1, 3, and 4).
 
-When the dominance matrix function is fed a whole dataframe of matches, it repeats the same process for all the battles and weapons; which results in a large squared and assymetric matrix with the winning frequencies for the combinations that have appeared over the dataset.
+When the [dominance matrix function](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/statInkStats.py#L10) is fed a whole dataframe of matches, it repeats the same process for all the battles and weapons; which results in a large squared and assymetric matrix with the winning frequencies for the combinations that have appeared over the dataset.
+
 
 ## Normalized Matrix
 
-Having already calculated our frequency matrix, we can [normalize the results](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/statInkStats.py#L43) so that the entries are fractions of wins/losses between the weapons. Doing this is relatively easy, as we can take a weapon's row vector, and divide it by its column vector (as they are sorted in the same order). In an extra step, we subtract 1 to each entry so that it centers around 0, meaning that 0 would represent neither weapon "dominates" the other one, while positive numbers mean the weapon in the row dominates the one in the column and negative numbers represent the inverse case:
+Having already calculated our frequency matrix, we can [normalize the results](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/statInkStats.py#L43) so that the entries are fractions of wins/losses between the weapons. Doing this is relatively easy, as we can take a weapon's row vector, and divide it by its column vector (as they are sorted in the same order). In an extra step, we subtract 1 to each entry so that it centers around 0, meaning that 0 would represent neither weapon "dominates" the other one, while positive numbers mean the weapon in the row dominates the one in the column and negative numbers represent the inverse case.
 
 
 ```python
@@ -198,11 +200,13 @@ ax.set_xticklabels(tLabs, rotation=90, fontsize=12.5)
 ax.set_yticklabels(lLabs, fontsize=12.5)
 ```
 
+It should now be a bit more obvious why sorting the weapons by rank works for the visualization, as the weapons tend to decreace in dominance nicely along the diagonal if there's enough data for the numbers to stabilize:
 
 <div class="swiper my-3 swiper-demo swiper-demo--0">
   <div class="swiper__wrapper">
-    <div class="swiper__slide"><img src="/media/statink/Drizzle Season 2022 (All) - Matrix_S.png" style="width:100%;"></div>
-    <div class="swiper__slide"><img src="/media/statink/Chill Season 2022 (All) - Matrix_S.png" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/statink/matrixDrizzle.png" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/statink/matrixChill.png" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/statink/matrixFresh.png" style="width:100%;"></div>
   </div>
   <!-- <div class="swiper__pagination"></div> -->
   <div class="swiper__button swiper__button--prev fas fa-chevron-left"></div>
@@ -222,6 +226,12 @@ ax.set_yticklabels(lLabs, fontsize=12.5)
 
 
 # Facts and Future Work
+
+*  Unsurprisingly, the Sloshing Machine and Splash-o-matic dominated the first season.
+*  Splash-o-matic did show a small dip in ranking in the second season, which could be due to more players picking it up but not being that proficient with it (as the weapon itself has received no buffs or nerfs).
+*  The Aerospray RG has seen a lot of good use in the Chill season, which could correlate with the fact that a lot of players have been playing "Splat Zones" more often than the other game modes.
+*  There's a small "anomaly" with the L-3 Nozzlenose, as I'm not aware that it's considered a good weapon overall but it's quite up in the ranks. It might be the case that there's a niche of really good players winning their matches with it (as the participation number is relatively low as compared to other weapons).
+*  Fresh season is still young but we can already see some new weapons climbing the ladder, such as the .96 Gal Deco and Neo Splash-o-matic!
 
 # Code Repo
 
