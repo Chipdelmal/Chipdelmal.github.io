@@ -227,6 +227,8 @@ It should now be a bit more obvious why sorting the weapons by rank works for th
 
 # Facts and Future Work
 
+There's some efficiency updates that can take place in the matrix parsing function (vectorizing the matrix instead of iterating over the rows and columns), and in terms of quick facts:
+
 *  Unsurprisingly, the Sloshing Machine and Splash-o-matic dominated the first season.
 *  Splash-o-matic did show a small dip in ranking in the second season, which could be due to more players picking it up but not being that proficient with it (as the weapon itself has received no buffs or nerfs).
 *  The Aerospray RG has seen a lot of good use in the Chill season, which could correlate with the fact that a lot of players have been playing "Splat Zones" more often than the other game modes.
