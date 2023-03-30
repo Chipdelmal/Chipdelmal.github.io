@@ -235,8 +235,7 @@ There's some efficiency updates that can take place in the matrix parsing functi
 *  There's a small "anomaly" with the L-3 Nozzlenose, as I'm not aware that it's considered a good weapon overall but it's quite up in the ranks. It might be the case that there's a niche of really good players winning their matches with it (as the participation number is relatively low as compared to other weapons).
 *  Fresh season is still young but we can already see some new weapons climbing the ladder, such as the .96 Gal Deco and Neo Splash-o-matic!
 
-
-Finally, I'm going to be coding the [Docker image](https://hub.docker.com/r/chipdelmal/inkstats) in the near future so that all the plots can be replicated quickly by anyone.
+Currently, the code is [available but a bit messy](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/dev/statInk.py), I still need to clean it up and to code the [Docker image](https://hub.docker.com/r/chipdelmal/inkstats) so that all the plots can be replicated quickly by anyone.
 
 # Code Repo
 
