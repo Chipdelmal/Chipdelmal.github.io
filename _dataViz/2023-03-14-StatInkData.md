@@ -190,7 +190,7 @@ Again, I'll go into more detail in a future post where the way the dominance mat
 
 # Facts and Future Work
 
-I'm currently working in some "Seasonal Summary Panels", where we'll be able to get a snapshot of what the community was playing the most! For example, in these panels we can see the matches counts spikes in "Turf War" when Splatfests took place, along with the Splash-o-Matic getting a lot of use throught all match modes, whereas other weapons (such as the Aerospray RG) getting some niche uses:
+I'm currently working in some "Seasonal Summary Panels", where we'll be able to get a snapshot of what the community was playing the most!
 
 <div class="swiper my-3 swiper-demo swiper-demo--0">
   <div class="swiper__wrapper">
