@@ -90,8 +90,8 @@ which outputs:
 ```
 
 Where each entry in the arrays stores the frequency information of the interval at hand. The function `splat.getWeaponsStatsHistograms` is a wrapper that does this for all weapons in the dataframe.
-As a final step in the data-processing stage, we calculate the mean response for each statistic on every weapon:
 
+As a final step in the data-processing stage, we calculate the mean response for each statistic on every weapon (this will be useful later in our DataViz work):
 
 ```python
 wpnMeans = splat.getWeaponsStatsSummary(
@@ -101,6 +101,80 @@ wpnMeans = splat.getWeaponsStatsSummary(
 ```
 
 ### DataViz
+
+We want to put together some visualization that allows us to compare how different weapons fare against each other given a stat and, ideally, one that lets us compare them in a compact way. The first thing that comes to mind, given that we have binned frequencies, is to create a histogram. This would work for a weapon or two but could become difficult to use for more than 10 weapons or so. Another presentation I've used in the past for these kinds of problems is a matrix plot with the frequency mapped to either the color, saturation, or opacity of each one of the squares in the plot, which seemed like a good option for this application.
+
+The function's header looks as follows (the full code is [available here](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/statInkPlots.py#L224)):
+
+
+```python
+def plotWeaponsStrips(
+        weaponsHists, weaponsList, stat,
+        figAx=None,
+        weaponsSummary=None,
+        color='#1A1AAEDD', range=(0, 50),
+        cScaler=(lambda x: np.interp(x, [0, 0.125, 0.25], [0, .70, 1])),
+        binSize=1,
+        edgecolor='#00000088'
+    ):
+```
+
+Where `weaponsHists` is the output from the `getWeaponsStatsSummary` function, `weaponsList` is a subset of the weapons that will be plotted, and `stat` is one of the statistics in the dataframe. The first thing we'll do is to convert our color to `rgba` so that we can manipulate the alpha channel, and we reverse the weapons list order so that the weapons are listed from top to bottom:
+
+```python
+    wpnList = weaponsList[::-1]
+    bCol = mcolors.ColorConverter().to_rgba(color)
+```
+
+Now, we will be iterating over each of the weapons (rows) and process the frequency bins one by one (columns). In doing this, we will be evaluating our alpha-scaling function `cScaler` to use the mapping of frequency to opacity:
+
+```python
+    for (ix, wpn) in enumerate(wpnList):
+        # Filter for current weapon in the iteration
+        wpnData = weaponsHists[wpn][stat]
+        for (x, k) in enumerate(wpnData):
+            # Evaluate the alpha scaling function on the normalized frequency.
+            alpha = cScaler(k)
+            # Draw rectange at designated column with the evaluated alpha.
+            ax.add_patch(
+                Rectangle(
+                    (x, ix), binSize, 1,
+                    facecolor=(bCol[0], bCol[1], bCol[2], alpha),
+                    edgecolor=edgecolor,
+                )
+            )
+```
+
+That'd be enough for us to get the matrix plot but comparing weapons from different opacities might still be a bit difficult, so we can add an additional summary statistic (the one we calculated with `getWeaponsStatsSummary`) with lines:
+
+```python
+    if weaponsSummary:
+        for (ix, wpn) in enumerate(wpnList):
+            wpnData = weaponsSummary[wpn][stat] + binSize/2
+            ax.vlines(
+                wpnData, ix+0.25, ix+0.75,
+                colors='#000000AA',
+                lw=2.5, ls='-'
+            )
+```
+
+The default statistic used is the mean, but we could have used the median if we needed. 
+Finally, we do some slight tweaks to the axes and layout:
+
+```python
+    ax.set_ylim(0, len(wpnList))
+    ax.set_yticks(np.arange(0.5, len(wpnList), 1))
+    ax.set_yticklabels(wpnList)
+    ax.set_xlim(range[0], range[1]+binSize)
+    ax.set_xticks(np.arange(range[0]+binSize/2, range[1]+binSize/2+1/2, 5))
+    ax.set_xticklabels(np.arange(range[0], range[1]+1, 5))
+    ax.set_title('{}'.format(stat), fontdict={'fontsize': 20})
+```
+
+And we're done! This will generate the strip plot for one of the stats.
+
+https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/dev/statInk.py#L268
+
 
 
 
