@@ -6,8 +6,8 @@ article_header:
   theme: dark
   background_image:
     gradient: 'linear-gradient(135deg, rgba(0, 0, 0 , .4), rgba(0, 0, 0, .4))'
-    src: /media/statink/matrixDrizzle.png
-cover: /media/statink/matrixChill.jpg
+    src: /media/statink/strips.png
+cover: /media/statink/strips.jpg
 ---
 
 <br>
