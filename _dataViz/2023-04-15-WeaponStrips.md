@@ -1,6 +1,6 @@
 ---
-title: "Stat.Ink Weapon Strips and Season Panels"
-tags: datasci splatoon gaming network
+title: "Stat.Ink Weapon Strips"
+tags: datasci splatoon gaming dataviz
 article_header:
   type: overlay
   theme: dark
@@ -13,9 +13,17 @@ cover: /media/statink/strips.jpg
 <br>
 
 
+Comparing [stat.ink](https://stat.ink/) Splatoon 3 weapons across statistics.
+
 <!--more-->
 
 # Intro
+
+The [dominance matrix](https://chipdelmal.github.io/dataViz/2023-03-20-InkStatsMatrix.html) is a cool way to compare weapons in terms of win ratios, but there's other statistics that are crucial when choosing a main weapon, namely: kills, deaths, assists, paint, and special. Given this, I wanted to create a visualization that allowed for the quick comparison of all the weapons in the game.
+
+
+<center><img width="100%" src="/media/statink/strips.png"></center>
+
 
 
 ## Code Dev
@@ -23,9 +31,9 @@ cover: /media/statink/strips.jpg
 
 ### Pre-processing Data
 
-As it currently stands, our dataframe looks as follows:
+As it currently stands, our dataframe, as processed [in our previous posts](https://chipdelmal.github.io/dataViz/2023-03-14-StatInkData.html), looks as follows:
 
-<!-- ADD IMAGE!!!!!!!!!!!!!!!!!! -->
+<center><img width="100%" src="/media/statink/btls.png"></center>
 
 
 Where the weapons' data are stored in the battles rows. To make life easier on us, we'll extract the info from these rows and create a "stacked" version of the dataframe, in which we store the weapons' stats in rows. This is achieved through the use of this auxiliary function:
@@ -45,9 +53,9 @@ def getWeaponsDataframe(
     return dfStats
 ```
 
-Now our dataframe looks as follows:
+Now our dataframe looks like this:
 
-<!-- ADD IMAGE!!!!!!!!!!!!!!!!!! -->
+<center><img width="50%" src="/media/statink/dfStats.png"></center>
 
 This is really close to what we need to get started with our plots. We will now get the different weapons used in the dataset and add an auxiliary column `paint` which is simply the `inked` one scaled by a factor of `1/100` (it's usefulness will be more obvious when we create our plots):
 
@@ -58,7 +66,7 @@ dfStats['paint'] = dfStats['inked']/100
 
 ### Getting Binned Frequencies
 
-We need to calculate the binned frequencies of weapons stats in order to generate our plot. This means that we need to count the number of times the weapon got a given number of kills, deaths, assists, etc, in order for us to plot the frequency distribution. Fortunately, we already have [a function that does that](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/stats.py#L90), so we can call a wrapping function on top of it:
+We need to calculate the binned frequencies of weapons stats in order to generate our plot. This means that we need to count the number of times the weapon got a given number of kills, deaths, assists, etc; across the dataset in order for us to plot the frequency distribution. Fortunately, we already have [a function that does that](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/stats.py#L90), so we can call a wrapping function on top of it:
 
 ```python
 wpnHists = splat.getWeaponsStatsHistograms(
@@ -89,9 +97,9 @@ which outputs:
 }
 ```
 
-Where each entry in the arrays stores the frequency information of the interval at hand. The function `splat.getWeaponsStatsHistograms` is a wrapper that does this for all weapons in the dataframe.
+Where each entry in the arrays stores the frequency information of the interval at hand. The function [`splat.getWeaponsStatsHistograms`](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/statInkStats.py#L228) is a wrapper that does this for all weapons in the dataframe.
 
-As a final step in the data-processing stage, we calculate the mean response for each statistic on every weapon (this will be useful later in our DataViz work):
+As a final step in the data-processing stage, we calculate the mean response for each statistic on every weapon (this will be useful later in our [DataViz](./2023-04-15-WeaponStrips.html#dataviz) work):
 
 ```python
 wpnMeans = splat.getWeaponsStatsSummary(
@@ -99,6 +107,7 @@ wpnMeans = splat.getWeaponsStatsSummary(
     summaryFunction=np.mean, stats=wpnStats
 )
 ```
+
 
 ### DataViz
 
@@ -119,7 +128,8 @@ def plotWeaponsStrips(
     ):
 ```
 
-Where `weaponsHists` is the output from the `getWeaponsStatsSummary` function, `weaponsList` is a subset of the weapons that will be plotted, and `stat` is one of the statistics in the dataframe. The first thing we'll do is to convert our color to `rgba` so that we can manipulate the alpha channel, and we reverse the weapons list order so that the weapons are listed from top to bottom:
+Where `weaponsHists` is the output from the [`getWeaponsStatsSummary`](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/statInkStats.py#L242) function, `weaponsList` is a subset of the weapons that will be plotted, and `stat` is one of the statistics in the dataframe. The first thing we'll do is to convert our color to `rgba` so that we can manipulate the alpha channel, and we reverse the weapons list order so that the weapons are listed from top to bottom:
+
 
 ```python
     wpnList = weaponsList[::-1]
@@ -158,7 +168,7 @@ That'd be enough for us to get the matrix plot but comparing weapons from differ
             )
 ```
 
-The default statistic used is the mean, but we could have used the median if we needed. 
+The default statistic used is the mean, but we could have used the median if we needed.
 Finally, we do some slight tweaks to the axes and layout:
 
 ```python
@@ -173,17 +183,16 @@ Finally, we do some slight tweaks to the axes and layout:
 
 And we're done! This will generate the strip plot for one of the stats.
 
-https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/dev/statInk.py#L268
+### Final Panel
 
-
-
+Now, to put together a panel with the whole set of statistics we do a couple of tricks using subplots. We won't go through all the details of [that code](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/dev/statInk.py#L268) but, in general, we generate five vertical subplots and manipulate their ticks and labels so that only the outer ones are plotted:
 
 
 <div class="swiper my-3 swiper-demo swiper-demo--0">
   <div class="swiper__wrapper">
-    <div class="swiper__slide"><img src="/media/statink/matrixDrizzle.png" style="width:100%;"></div>
-    <div class="swiper__slide"><img src="/media/statink/matrixChill.png" style="width:100%;"></div>
-    <div class="swiper__slide"><img src="/media/statink/matrixFresh.png" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/statink/Drizzle Season 2022 (All) - Strips_S.png" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/statink/Chill Season 2022 (All) - Strips_S.png" style="width:100%;"></div>
+    <div class="swiper__slide"><img src="/media/statink/Fresh Season 2023 (All) - Strips_S.png" style="width:100%;"></div>
   </div>
   <!-- <div class="swiper__pagination"></div> -->
   <div class="swiper__button swiper__button--prev fas fa-chevron-left"></div>
@@ -202,7 +211,18 @@ https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/dev/statInk.py#L26
 </script>
 
 
-# Facts and Future Work
+# Future Work
+
+The full code to do these plots, along with the previous stat.ink posts ones, is [available here](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/dev/statInk.py). I still need to finish up the docker image and clean up some of the functions so that they are more customizable, but I'll get to it in the following weeks. I'll also add an alternate function that allows to export the stats for the weapons individually as follows:
+
+<center>
+    <img width="80%" src="/media/statink/ws_reef.png">  <img width="80%" src="/media/statink/ws_luna.png">
+    <img width="80%" src="/media/statink/ws_sshot.png"> <img width="80%" src="/media/statink/ws_ttek.png">
+</center>
+
+
+so that it's easier to compare them on a one-to-one basis and across stats.
+
 
 
 # Code Repo

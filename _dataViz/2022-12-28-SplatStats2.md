@@ -1,5 +1,5 @@
 ---
-title: "SplatStats: Improvements & Docker Bundle"
+title: "SplatStats: Docker Bundle"
 tags: datasci splatoon gaming dataviz
 article_header:
   type: overlay

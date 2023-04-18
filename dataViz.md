@@ -7,6 +7,8 @@ articles:
   show_readmore: true
   show_info: true
   reverse: true
-  type: item
+  type: grid
   size: md
 ---
+
+<!-- type: item -->
