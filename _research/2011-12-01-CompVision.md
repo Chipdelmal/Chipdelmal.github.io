@@ -80,7 +80,7 @@ An overview of how the system works can be found in the following [video](https:
 * [Humanoid Robots](https://www.researchgate.net/publication/281294678_Simulacion_Dinamica_de_una_Cadena_Cinematica_Abierta_a_partir_del_Modelo_Euler-LaGrange_y_Considerando_el_Modelo_Dinamico_de_los_Servo-motores_para_su_Aplicacion_de_Robots_Humanoides) report.
 * [Computer Vision](https://www.researchgate.net/publication/262449532_Computer_Vision_Via_Weighting_Algorithm_and_an_Artificial_Target_for_Location_with_a_Vehicle) report.
 
-<center><iframe width="560" height="315" src="https://www.youtube.com/embed/-yCt_6OfRT4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></iframe></center>
+<center><iframe width="560" height="315" src="https://www.youtube.com/embed/-yCt_6OfRT4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></center>
 
 
 
