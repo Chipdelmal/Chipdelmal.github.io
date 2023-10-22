@@ -20,14 +20,14 @@ Python package under development!
   <img src="https://github.com/Chipdelmal/ArtSciColor/raw/main/ArtSciColor/media/swatches/Art.png" height="100px" width='100%' align="middle"><br>
 </a>
 
-Please come back in a couple of weeks!
+Have a look at my [other posts](../dataViz.html) or at the project's [github Repo](https://github.com/Chipdelmal/ArtSciColor) in the meantime, and please come back in a couple of weeks!
 
 <a href="https://github.com/Chipdelmal/ArtSciColor">
   <img src="https://github.com/Chipdelmal/ArtSciColor/raw/main/ArtSciColor/media/swatches/Movies.png" height="100px" width='100%' align="middle"><br>
 </a>
 
 
-Have a look at my [other posts](../dataViz.html) or at the project's [github Repo](https://github.com/Chipdelmal/ArtSciColor) in the meantime!
+
 
 
 <!-- # Intro -->
