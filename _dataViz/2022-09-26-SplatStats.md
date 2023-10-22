@@ -7,7 +7,7 @@ article_header:
   background_image:
     gradient: 'linear-gradient(135deg, rgba(0, 0, 0 , .4), rgba(0, 0, 0, .4))'
     src: /media/splatstats/chipBHistory.png
-cover: /media/splatstats/thumb.png
+cover: /media/splatstats/iris.jpg
 ---
 
 <br>
