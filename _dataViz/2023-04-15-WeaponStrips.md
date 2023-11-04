@@ -26,10 +26,10 @@ The [dominance matrix](https://chipdelmal.github.io/dataViz/2023-03-20-InkStatsM
 
 
 
-## Code Dev
+# Code Dev
 
 
-### Pre-processing Data
+## Pre-processing Data
 
 As it currently stands, our dataframe, as processed [in our previous posts](https://chipdelmal.github.io/dataViz/2023-03-14-StatInkData.html), looks as follows:
 
@@ -64,7 +64,7 @@ weapons = sorted(list(dfStats['weapon'].unique()))
 dfStats['paint'] = dfStats['inked']/100
 ```
 
-### Getting Binned Frequencies
+## Getting Binned Frequencies
 
 We need to calculate the binned frequencies of weapons stats in order to generate our plot. This means that we need to count the number of times the weapon got a given number of kills, deaths, assists, etc; across the dataset in order for us to plot the frequency distribution. Fortunately, we already have [a function that does that](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/stats.py#L90), so we can call a wrapping function on top of it:
 
@@ -109,7 +109,7 @@ wpnMeans = splat.getWeaponsStatsSummary(
 ```
 
 
-### DataViz
+## DataViz
 
 We want to put together some visualization that allows us to compare how different weapons fare against each other given a stat and, ideally, one that lets us compare them in a compact way. The first thing that comes to mind, given that we have binned frequencies, is to create a histogram. This would work for a weapon or two but could become difficult to use for more than 10 weapons or so. Another presentation I've used in the past for these kinds of problems is a matrix plot with the frequency mapped to either the color, saturation, or opacity of each one of the squares in the plot, which seemed like a good option for this application.
 
@@ -183,7 +183,7 @@ Finally, we do some slight tweaks to the axes and layout:
 
 And we're done! This will generate the strip plot for one of the stats.
 
-### Final Panel
+## Final Panel
 
 Now, to put together a panel with the whole set of statistics we do a couple of tricks using subplots. We won't go through all the details of [that code](https://github.com/Chipdelmal/SplatStats/blob/main/SplatStats/dev/statInk.py#L268) but, in general, we generate five vertical subplots and manipulate their ticks and labels so that only the outer ones are plotted:
 
