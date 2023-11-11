@@ -10,26 +10,19 @@ article_header:
 cover: /media/artsci/thumb.png
 ---
 
-Coding a python package to extract and share color palettes from artworks!
-
-<a href="https://github.com/Chipdelmal/ArtSciColor">
-  <img src="https://github.com/Chipdelmal/ArtSciColor/raw/main/ArtSciColor/media/swatches/Movies.png" height="50" width='100%' align="middle"><br>
-</a>
+Coding a python package to extract and share color palettes from artworks.
 
 <!--more-->
 
 Some time ago I ran into [BlakeRMill's MetBrewer](https://github.com/BlakeRMills/MetBrewer) package and started thinking of combining some of my previous works on [color palettes](../../artsci/2019-10-27-ColorPalette.html) to generate swatches from artworks. This would serve as an exercise/oportunity to improve my old code, to share some hopefully nice color palettes, and to force myself to use more color palettes in my DataViz work.
 
-
-# Intro
-
-One of the main goals of this package is to automate the extraction of color palettes from works of art for their future use in data visualization applications. In this first part, I will go through the core clustering functions in the package, as well as some of the decisions that went into them in laying the foundations for the rest of the code structure.
-
-
 <a href="https://github.com/Chipdelmal/ArtSciColor">
   <img src="https://github.com/Chipdelmal/ArtSciColor/raw/main/ArtSciColor/media/swatches/Art.png" height="50px" width='100%' align="middle"><br>
 </a>
 
+# Intro
+
+One of the main goals of this package is to automate the extraction of color palettes from works of art for their future use in data visualization applications. In this first part, I will go through the core clustering functions in the package, as well as some of the decisions that went into them in laying the foundations for the rest of the code structure.
 
 # Code Dev
 
