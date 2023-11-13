@@ -6,8 +6,8 @@ article_header:
   theme: dark
   background_image:
     gradient: 'linear-gradient(135deg, rgba(0, 0, 0 , .4), rgba(0, 0, 0, .4))'
-    src: /media/artsci/thumb.png
-cover: /media/artsci/thumb.png
+    src: /media/artsci/thumb01.png
+cover: /media/artsci/thumb01.png
 ---
 
 Coding a python package to extract and share color palettes from artworks.
