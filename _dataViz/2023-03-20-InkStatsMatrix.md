@@ -20,7 +20,7 @@ Comparing [stat.ink](https://stat.ink/) Splatoon weapons' performance.
 
 Splatoon's community has clear preferences on some weapons to others in the competitive scene (with "Splash-o-matic", for example, being a favorite in most team compositions). Given that [Stat.ink](https://stat.ink/) provides the information of battles uploaded by players, and that I had already coded some routines to parse these data into manageable dataframes for further analysis (as described in my [previous post](https://chipdelmal.github.io/dataViz/2023-03-14-StatInkData.html)); I wanted to check how weapons rank against each other in terms if win/loss ratios. In this post I go through the generation of a "dominance matrix", where we can analyze and compare weapons' performance against each other.
 
-<center><img width="50%" src="/media/splatstats/MatrixRundown.png"></center>
+<center><img width="100%" src="/media/splatstats/MatrixRundown.png"></center>
 
 # Code Dev
 
