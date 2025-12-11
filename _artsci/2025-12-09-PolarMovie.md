@@ -18,7 +18,7 @@ Improving the dominant color visualizations and adding audio information.
 
 # Intro
 
-I was never completely happy with the way the [dominant color fingerprints](./artsci/2021-07-12-MoviesDominantColors.html) were displayed, as it made it too abstract and removed from the original. Initially I tried to add a couple of callouts on top of the original rectangular display but I did not quite like the way they looked, so I started thinking how to improve it. Additionally, I had the idea of incorporating the audio information somehow. With these components and requirements at hand I decided to launch myself into improving the [original implementation](./artsci/2021-07-12-MoviesDominantColors.html).
+I was never completely happy with the way the [dominant color fingerprints](./artsci/2021-07-12-MoviesDominantColors.html) were displayed, as it made it too abstract and removed from the original. Initially I tried to add a couple of callouts on top of the original rectangular display but I did not quite like the way they looked, so I started thinking how to improve it. Additionally, I had the idea of incorporating the audio information somehow. With these components and requirements at hand I decided to launch myself into improving the original implementation.
 
 # Code Dev
 
@@ -53,6 +53,8 @@ For some similar applications in the past, I had used the [pydub library](https:
 
 ## Dominant Color
 
+This task wasn't modified from the [original dominant color application](./artsci/2021-07-12-MoviesDominantColors.html). In a general sense, we want to cluster colors in a 3-dimensional space, so for each screencap we map the pixels to their RGB values, we then apply a clustering algorithm (K-Means in this demo), we get the sizes of the clusters, and grab the one with the most pixels included as part of it. The main snippet of code that performs this task is:
+
 ```python
 def dominantImage(
         img, domColNum, clustersNum, maxIter=100
@@ -79,9 +81,7 @@ def dominantImage(
 
 ## Strip Plot
 
-The first version of the visualization was relatively straightforward as it was just a set of line plots at set intervals on the x-axis with the height corresponding to the averages of the soundwaves with the color corresponding to the obtained dominant color at the same time point. The only trick in this one was to add round line ends to make them look nicer.
-
-The one last thing to add to this plot was the inclusion of the movie screencaps. This was achieved by adding an `AnnotationBbox` that holds the imported image corresponding to the frame in the soundwave. We wouldn't want to add all the corresponding frames, so we ad some conditional to plot every Nth one in two rows.
+Now, on to the fun part. The first version of the visualization was relatively straightforward as it was just a set of line plots at set intervals on the x-axis with the height corresponding to the averages of the soundwaves with the color corresponding to the obtained dominant color at the same time point. The only trick in this one was to add round line ends to make them look nicer and the inclusion of the movie screencaps. This was achieved by adding an `AnnotationBbox` that holds the imported image corresponding to the frame in the soundwave. We wouldn't want to add all the corresponding frames, so we add some conditional to plot every Nth one in two rows.
 
 ```python
 (fig, ax) = plt.subplots(figsize=(20, 4))
@@ -115,7 +115,7 @@ ax.set_ylim(YRANGE[0], np.max(sndFrames)+YRANGE[1])
 ax.set_axis_off()
 ```
 
-Some examples of this idea in action would be:
+Some examples of this idea in action would are:
 
 <div class="swiper my-3 swiper-demo swiper-demo--0">
   <div class="swiper__wrapper">
@@ -133,9 +133,28 @@ Some examples of this idea in action would be:
 
 I was still not entirely happy with the visualization as it was, as it made sharing complicated due to its extreme aspect ratio. I had the lingering idea of changing the representation into a circular version but had put it off for a while as I figured the screencaps would be a bit of a pain but I finally decided try to get it done. 
 
-The color-sound bars were not difficult to change, as it only took changing into polar coordinates and converting the x coordinates into degrees and the y coordinates into radial heights.
+The color-sound bars were not difficult to change, as it only took changing into polar coordinates and converting the x coordinates into degrees and the y coordinates into radial heights. The part that was slightly trickier was to have the screencaps assemble around this new representation. Getting them in the right positions was not different from the original bars at set angle intervals and a fixed radius but this time an additional rotation was needed to make the images turn along with the plot. For this, the [cv2 library ](https://pypi.org/project/opencv-python/) comes to the rescue again. The [warpAffine](https://docs.opencv.org/4.x/d4/d61/tutorial_warp_affine.html) function rotates the numpy array by an arbitrary number of degrees, which is what we need. It took a bit of playing around to figure out the right angles but it worked fine, although after some inspection I realized it was creating a white square background around the original image, so it needed a slight modification. On import, I needed to add an additional step to convert the loaded image from `RGB` to `RGBA` and then use “fill” the square border with a transparent color. The affine rotation function follows (slightly modified from [this post](https://stackoverflow.com/questions/48479656/how-can-i-rotate-an-ndarray-image-properly)):
 
-The part that was slightly trickier was to have the screencaps assemble around this new representation. Getting them in the right positions was not different from the original bars at set angle intervals and a fixed radius but this time an additional rotation was needed to make the images turn along with the plot. For this, the [cv2 library ](https://pypi.org/project/opencv-python/) comes to the rescue again with the warpAffine function which rotates the numpy array. It took a bit of playing around to figure out the right angles but it worked fine, although after some inspection I realized it was creating a white square background around the original image, so it needed a slight modification. On import, I needed to add an additional step to convert the loaded image from `RGB` to `RGBA` and then use “fill” the square border with a transparent color.
+```python
+def rotate(img, angle):
+    (height, width) = img.shape[:2]
+    (cent_x, cent_y) = (width//2, height//2)
+    mat = cv2.getRotationMatrix2D((cent_x, cent_y), -angle, 1.0)
+    cos = np.abs(mat[0, 0])
+    sin = np.abs(mat[0, 1])
+    n_width = int((height*sin) + (width*cos))
+    n_height = int((height*cos) + (width*sin))
+    mat[0, 2] += (n_width/2) - cent_x
+    mat[1, 2] += (n_height/2) - cent_y
+    warp = cv2.warpAffine(
+        img, mat, (n_width, n_height), 
+        borderMode=cv2.BORDER_CONSTANT,
+        borderValue=(1, 1, 1, 0)
+    )
+    return warp
+```
+
+Finally, I wanted to add a "flip" on the images when they hit the 12 o'clock position, so that they all read naturally and don't appear upside down when coming down on the "right side of the clock". That was relatively easy by adding a conditional once we hit half of our array. All put together, the code for the polar plot looks as follows:
 
 ```python
 THETA = np.linspace(0, 2*np.pi, sndFrames.shape[0])
@@ -180,13 +199,14 @@ for (ix, _) in enumerate(sndFrames):
     ax.text(
         0, 0, TITLE,
         ha='center', va='center',
-        # color=MCOLOR,
         color='#22222255',
         fontsize=40,
         fontfamily='Phosphate'
     )
 ax.set_axis_off()   
 ```
+
+With some examples being:
 
 <div class="swiper my-3 swiper-demo swiper-demo--0">
   <div class="swiper__wrapper">
@@ -199,3 +219,12 @@ ax.set_axis_off()
   <div class="swiper__button swiper__button--next fas fa-chevron-right"></div>
   <!-- <div class="swiper-scrollbar"></div> -->
 </div>
+
+# Wrapping Up
+
+I really liked this iteration of the dominant color idea. I might make some tweaks here and there to switch to a different clustering algorithm that auto-detects the number of main clusters but those are probably going to be slight improvements to the main idea and some code cleanup, as the codebase is a bit scattered as of now.
+
+# Code Repo
+
+* **Repository:** [Github repo](hhttps://github.com/Chipdelmal/moviesColorFingerprint)
+* **Dependencies:** [ffmpeg](https://www.ffmpeg.org/), [pydub](https://pypi.org/project/pydub/), [matplotlib](https://matplotlib.org/), [numpy](https://numpy.org/), [Pillow](https://pillow.readthedocs.io/en/stable/), [scikit-learn](https://scikit-learn.org/stable/)
