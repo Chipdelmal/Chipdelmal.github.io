@@ -147,7 +147,7 @@ Where the main folder structure would look like:
 
 Finally, we copy and paste our applications into the the User Script application and schedule its launches using traditional [cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/)) syntax:
 
-<center><img src="/media/userScripts/user.png" style="width:100%;"></center>
+<ref="https://www.webtoons.com/en/canvas/artifisouls/list?title_no=796350"><a himg src="/media/userScripts/user.png" style="width:100%;"></a>
 
 And that is pretty much it! We wait for the times to come and see our scripts get launched!
 
